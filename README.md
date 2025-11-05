@@ -7,7 +7,11 @@ docker compose up -d
 ```
 # Zatrzymywanie kontenerów
 Aby zatrzymać kontenery bez ich usuwania:
-```bash docker compose stop```
+```bash 
+docker compose stop
+```
 
 Aby zatrzymać i usunąć kontenery (wolumeny pozostają):
-```docker compose down```
+```bash
+docker compose down
+```
