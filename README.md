@@ -15,3 +15,12 @@ Aby zatrzymać i usunąć kontenery (wolumeny pozostają):
 ```bash
 docker compose down
 ```
+Po odpaleniu Prestashop w przeglądarce wpisać: 
+```bash 
+http://localhost:8080
+```
+
+Aby wejść na Prestashop od strony admina: 
+```bash
+http://localhost:8080/admin248vwf6eo
+```
