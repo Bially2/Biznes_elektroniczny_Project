@@ -1,33 +1,49 @@
+version: '2.1'
+
+volumes:
+  db-data:
+  vendor:
+  var:
+
 services:
-  db:
-    image: mysql:5.7
-    container_name: prestashop-db
-    restart: always
+  mysql:
+    image: mysql:5
+    ports:
+      - "3306"
+    volumes:
+      - db-data:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: prestashop
       MYSQL_DATABASE: prestashop
-      MYSQL_USER: prestashop
-      MYSQL_PASSWORD: prestashop
-    volumes:
-      - db_data:/var/lib/mysql
-
-  prestashop:
-    image: prestashop/prestashop:1.7.8
-    container_name: prestashop
     restart: always
-    ports:
-      - "8080:80"
+  prestashop-git:
+    build:
+      dockerfile: .docker/Dockerfile
+      context: .
+      args:
+        - VERSION=${VERSION:-7.4}
+        - USER_ID=${USER_ID:-1000}
+        - GROUP_ID=${GROUP_ID:-1000}
+        - NODE_VERSION=${NODE_VERSION:-14.21.3}
     environment:
-      PS_INSTALL_AUTO: 1
-      DB_SERVER: db
-      DB_NAME: prestashop
-      DB_USER: prestashop
-      DB_PASSWD: prestashop
-      PS_DEV_MODE: 1
-      PS_LANGUAGE: pl
-      PS_COUNTRY: PL
+      DISABLE_MAKE: ${DISABLE_MAKE:-0}
+      PS_INSTALL_AUTO: ${PS_INSTALL_AUTO:-1}
+      DB_PASSWD: ${DB_PASSWD:-prestashop}
+      DB_NAME: ${DB_NAME:-prestashop}
+      DB_SERVER: ${DB_SERVER:-mysql}
+      DB_PREFIX: ${DB_PREFIX:-ps_}
+      PS_DOMAIN: ${PS_DOMAIN:-localhost:8001}
+      PS_FOLDER_INSTALL: ${PS_FOLDER_INSTALL:-install-dev}
+      PS_FOLDER_ADMIN: ${PS_FOLDER_ADMIN:-admin-dev}
+      PS_COUNTRY: ${PS_COUNTRY:-fr}
+      PS_LANGUAGE: ${PS_LANGUAGE:-fr}
+      PS_DEV_MODE: ${PS_DEV_MODE:-0}
+      ADMIN_MAIL: ${ADMIN_MAIL:-demo@prestashop.com}
+      ADMIN_PASSWD: ${ADMIN_PASSWD:-prestashop_demo}
+    command: ["/tmp/wait-for-it.sh", "--timeout=60", "--strict", "mysql:3306", "--", "/tmp/docker_run_git.sh"]
+    ports:
+      - "8001:80"
+    depends_on:
+        - mysql
     volumes:
-      - ./src:/var/www/html
-
-volumes:
-  db_data:
+      - ./:/var/www/html/:delegated
