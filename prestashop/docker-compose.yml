@@ -11,6 +11,8 @@ services:
       MYSQL_ROOT_PASSWORD: prestashop
       MYSQL_DATABASE: prestashop
     restart: always
+    volumes:
+      - db-data:/var/lib/mysql
 
   prestashop-git:
     build:
