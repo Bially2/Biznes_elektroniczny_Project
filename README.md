@@ -3,83 +3,71 @@
 ## Start
 ```bash
 cd prestashop
+
+docker run --rm -v prestashop_nginx-certs:/root/certs alpine:3 sh -lc 'apk add --no-cache openssl >/dev/null; openssl req -x509 -nodes -newkey rsa:2048 -days 365 -keyout /root/certs/localhost.key -out /root/certs/localhost.crt -subj "/CN=localhost"'
 docker compose up -d
 ```
-Aplikacja (front):  
-http://localhost:8001
 
-Panel administracyjny:  
-http://localhost:8001/admin-dev
+Front (HTTPS tylko):
+- https://localhost/
 
-Domyślne dane logowania (jeśli nie zmienione podczas instalacji):
+Panel administracyjny:
+- https://localhost/admin-dev
+
+Domyślne loginy (jeśli nie zmieniono podczas instalacji):
 - E-mail: demo@prestashop.com
 - Hasło: prestashop_demo
 
-Jeżeli instalator nie uruchomił się automatycznie, wejdź na front i wykonaj instalację w przeglądarce.
 
-## Zatrzymywanie / usuwanie kontenerów
-- Zatrzymaj:
-```bash
-docker compose stop
-```
-- Usuń kontenery (dane bazy zostają dzięki wolumenowi db-data):
-```bash
-docker compose down
-```
-- Usuń kontenery i dane bazy (reset środowiska):
-```bash
-docker compose down -v
-```
+## Zatrzymywanie / usuwanie
+- Zatrzymaj: `docker compose stop`
+- Usuń kontenery (DB zostaje): `docker compose down`
+- Usuń kontenery i DB (reset): `docker compose down -v`
 
 ## Dostęp do kontenerów i logów
-- Lista usług:
-```bash
-docker compose ps
-```
-- Logi aplikacji:
-```bash
-docker logs -f prestashop
-```
-- Shell w kontenerze aplikacji:
-```bash
-docker exec -it prestashop bash
-```
+- Lista usług: `docker compose ps`
+- Logi aplikacji: `docker logs -f prestashop`
+- Shell www: `docker exec -it prestashop bash`
 
-## MySQL (wejście do bazy z kontenera)
-- Klient MySQL:
+## MySQL
+- Wejście do MySQL:
 ```bash
-docker exec -it prestashop-mysql mysql -u root -p
+docker exec -it prestashop-mysql mysql -uroot -pprestashop
 USE prestashop;
 ```
-haslo - prestashop
+- Backup: `docker exec -it prestashop-mysql mysqldump -uroot -pprestashop prestashop > backup.sql`
+- Restore: `docker exec -i prestashop-mysql mysql -uroot -pprestashop prestashop < backup.sql`
 
-- Przykład zapytania:
+
+## Instalacja bez danych demo
+- Jeśli masz już DB, zrób reset:
 ```bash
-SELECT * FROM ps_product;
-```
-- Backup:
-```bash
-docker exec -it prestashop-mysql mysqldump -uroot -pprestashop prestashop > backup.sql
-```
-- Restore:
-```bash
-docker exec -i prestashop-mysql mysql -uroot -pprestashop prestashop < backup.sql
+docker exec -it prestashop-mysql mysql -uroot -pprestashop -e "DROP DATABASE IF EXISTS prestashop; CREATE DATABASE prestashop CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;"
+docker exec -it prestashop bash -lc "rm -f config/settings.inc.php app/config/parameters.php"
+docker compose restart prestashop
+
+docker exec -it prestashop bash -lc "php install-dev/index_cli.php --domain=localhost --db_server=mysql --db_name=prestashop --db_user=root --db_password=prestashop --language=pl --country=pl --fixtures=0 --firstname=Admin --lastname=Admin --password=prestashop_demo --email=demo@prestashop.com"
+docker exec -it prestashop bash -lc "rm -rf install-dev && rm -rf var/cache/*"
 ```
 
-(Przypomnienie: wolumen db-data utrzymuje dane po stop/down; kasuje je tylko `docker compose down -v`.)
+## Import produktów (1000+)
+- BO: Międzynarodowy > Import > Produkty. Załaduj CSV ze sklepu źródłowego (nazwy, opisy, ceny, VAT, zdjęcia URL/plik).
+- Ustaw magazyn: maks. 10 szt./wariant (Import: Kolumna Quantity ≤ 10). Część produktów: Quantity = 0 (niedostępne).
+- Kategorie: utwórz min. 4 kategorie i ≥ 2 podkategorie każda (żadna niepusta). CSV Category i Category tree lub przez BO.
 
-## Najczęstsze problemy
-- Przekierowania na inny port/domenę: zaktualizuj domenę w DB
-```bash
-docker exec -it prestashop-mysql mysql -uroot -pprestashop -e "USE prestashop; UPDATE ps_shop_url SET domain='localhost:8001', domain_ssl='localhost:8001' WHERE id_shop_url=1; DELETE FROM ps_configuration WHERE name IN ('PS_SHOP_DOMAIN','PS_SHOP_DOMAIN_SSL');"
-```
-- Błędy cache: wyczyść cache w kontenerze
-```bash
-docker exec -it prestashop bash -lc "rm -rf var/cache/*"
-```
-- Ponowna instalacja (reset):
-  1) `docker compose down -v`  
-  2) Upewnij się, że katalog `install-dev` istnieje  
-  3) Usuń pliki konfiguracyjne jeśli są:  
-     `rm -f config/settings.inc.php app/config/parameters.php`  
-  4) `docker compose up -d` i przejdź instalator w przeglądarce
+
+## Płatności (PL)
+- Włącz: Przelew bankowy (ps_wirepayment), Płatność przy odbiorze (COD).
+- Wyłącz: Czeki, metody spoza PL.
+- Konfiguracja przelewu: dane rachunku, tytuł płatności. 
+
+## Przewoźnicy
+- Dodaj 2 przewoźników.
+- Darmowa dostawa > 2000 zł: Koszty wysyłki > Reguły przewozów lub w ustawieniach przewoźników (Reguła ceny: od 2000 zł = 0).
+- Produkty > 50 kg: dla wag > 50 kg brak zakresu wagi u przewoźnika (lub reguła wykluczenia).
+- Różne opłaty: zdefiniuj różne ceny w zależności od wagi/kwoty.
+
+
+## PL interfejs i brak domyślnych treści
+- Międzynarodowy > Lokalizacja: zaimportuj “Poland”, ustaw Domyślny język: Polski, “Set language from browser”: Nie.
+- Usuń/wyłącz demo moduły/banery (np. ps_imageslider) i treści demo (pscleaner lub ręcznie).

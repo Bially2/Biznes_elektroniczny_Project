@@ -2,6 +2,7 @@ version: '2.1'
 
 volumes:
   db-data:
+  nginx-certs:
 
 services:
   mysql:
@@ -26,13 +27,13 @@ services:
     container_name: prestashop
     environment:
       PS_INSTALL_AUTO: 1
-      PS_HANDLE_DYNAMIC_DOMAIN: 1
+      PS_HANDLE_DYNAMIC_DOMAIN: 0
       DB_USER: root
       DB_PASSWD: prestashop
       DB_NAME: prestashop
       DB_SERVER: mysql
       DB_PREFIX: ps_
-      PS_DOMAIN: localhost:8001
+      PS_DOMAIN: localhost
       PS_FOLDER_INSTALL: install-dev
       PS_FOLDER_ADMIN: admin-dev
       PS_COUNTRY: pl
@@ -41,9 +42,20 @@ services:
       ADMIN_MAIL: demo@prestashop.com
       ADMIN_PASSWD: prestashop_demo
     command: ["/tmp/wait-for-it.sh","--timeout=60","--strict","mysql:3306","--","/tmp/docker_run_git.sh"]
-    ports:
-      - "8001:80"
     depends_on:
       - mysql
     volumes:
       - ./:/var/www/html/:delegated
+
+  nginx:
+    image: nginx:alpine
+    container_name: prestashop-nginx
+    depends_on:
+      - prestashop-git
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+      - nginx-certs:/etc/nginx/certs
+    restart: always
