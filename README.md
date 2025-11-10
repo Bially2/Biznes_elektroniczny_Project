@@ -3,9 +3,7 @@
 ## Start
 ```bash
 cd prestashop
-
-docker run --rm -v prestashop_nginx-certs:/root/certs alpine:3 sh -lc 'apk add --no-cache openssl >/dev/null; openssl req -x509 -nodes -newkey rsa:2048 -days 365 -keyout /root/certs/localhost.key -out /root/certs/localhost.crt -subj "/CN=localhost"'
-docker compose up -d
+./up.sh   
 ```
 
 Front (HTTPS tylko):
@@ -19,10 +17,15 @@ Domyślne loginy (jeśli nie zmieniono podczas instalacji):
 - Hasło: prestashop_demo
 
 
+## USUWANIE COOCKIES 
+```bash
+docker exec -it prestashop bash -lc "rm -rf var/cache/*"
+```
 ## Zatrzymywanie / usuwanie
 - Zatrzymaj: `docker compose stop`
 - Usuń kontenery (DB zostaje): `docker compose down`
 - Usuń kontenery i DB (reset): `docker compose down -v`
+
 
 ## Dostęp do kontenerów i logów
 - Lista usług: `docker compose ps`
@@ -66,6 +69,7 @@ docker exec -it prestashop bash -lc "rm -rf install-dev && rm -rf var/cache/*"
 - Darmowa dostawa > 2000 zł: Koszty wysyłki > Reguły przewozów lub w ustawieniach przewoźników (Reguła ceny: od 2000 zł = 0).
 - Produkty > 50 kg: dla wag > 50 kg brak zakresu wagi u przewoźnika (lub reguła wykluczenia).
 - Różne opłaty: zdefiniuj różne ceny w zależności od wagi/kwoty.
+
 
 
 ## PL interfejs i brak domyślnych treści
