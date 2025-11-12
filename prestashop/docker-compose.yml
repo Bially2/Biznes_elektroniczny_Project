@@ -25,7 +25,7 @@ services:
     container_name: prestashop
     environment:
       PS_INSTALL_AUTO: 1
-      PS_HANDLE_DYNAMIC_DOMAIN: 1
+      PS_HANDLE_DYNAMIC_DOMAIN: 0
       DB_USER: root
       DB_PASSWD: prestashop
       DB_NAME: prestashop
