@@ -12,6 +12,8 @@ services:
     restart: always
     volumes:
       - db-data:/var/lib/mysql
+      # Optional: seed database on first run (put dump .sql or .sql.gz into ./db/init)
+      - ./db/init:/docker-entrypoint-initdb.d:ro
 
   prestashop-git:
     build:

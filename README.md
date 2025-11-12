@@ -3,7 +3,8 @@
 ## Start
 ```bash
 cd prestashop
-./up.sh   
+2. Optional: if you want everyone to have the same demo data, export your DB once into `prestashop/db/init/` as described below.
+3. Run `prestashop/up.sh` (Linux/macOS) or `prestashop/up.ps1` (Windows PowerShell).
 ```
 
 Front (HTTPS tylko):
@@ -23,6 +24,7 @@ docker exec -it prestashop bash -lc "rm -rf var/cache/*"
 ```
 ## Zatrzymywanie / usuwanie
 - Zatrzymaj: `docker compose stop`
+ - Behind the reverse proxy we disable canonical redirects to avoid loops: `PS_CANONICAL_REDIRECT=0`.
 - Usuń kontenery (DB zostaje): `docker compose down`
 - Usuń kontenery i DB (reset): `docker compose down -v`
 

@@ -359,3 +359,6 @@ tools/build/releases/*
 
 ## Docker configuration
 install.lock
+
+# Local MySQL data directory (avoid committing host data)
+/db/data/
