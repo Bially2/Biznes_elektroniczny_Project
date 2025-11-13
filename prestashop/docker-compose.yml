@@ -10,6 +10,8 @@ services:
       MYSQL_ROOT_PASSWORD: prestashop
       MYSQL_DATABASE: prestashop
     restart: always
+    ports:
+      - "3306:3306"
     volumes:
       - db-data:/var/lib/mysql
       # Optional: seed database on first run (put dump .sql or .sql.gz into ./db/init)

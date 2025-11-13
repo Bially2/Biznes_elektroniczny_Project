@@ -155,3 +155,24 @@ Thank you for downloading and using the PrestaShop Open Source e-commerce soluti
 [reporting-issues]: https://devdocs.prestashop.com/1.7/contribute/contribute-reporting-issues/
 [modules-devdocs]: https://devdocs.prestashop.com/1.7/modules/
 [themes-devdocs]: https://devdocs.prestashop.com/1.7/themes/
+
+DB dump/restore (Docker)
+--------
+
+Quick helpers are provided to export/import the MySQL database with Docker Compose:
+
+- Dump current DB to `dump.sql`:
+
+```
+make dump
+```
+
+- Recreate local MySQL data from `dump.sql` (destroys `./db/data`):
+
+```
+make reset-from-dump
+```
+
+Notes:
+- `dump.sql` is mounted into the MySQL container and will be imported only on the very first initialization (when `./db/data` is empty).
+- The raw data directory `./db/data/` is ignored by git.
