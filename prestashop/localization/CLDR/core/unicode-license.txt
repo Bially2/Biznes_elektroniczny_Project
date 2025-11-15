@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 ﻿UNICODE, INC. LICENSE AGREEMENT - DATA FILES AND SOFTWARE
+=======
+UNICODE, INC. LICENSE AGREEMENT - DATA FILES AND SOFTWARE
+>>>>>>> fdba62e4347ae382c8190f7f402d1ade3542b675
 
 See Terms of Use for definitions of Unicode Inc.'s
 Data Files and Software.

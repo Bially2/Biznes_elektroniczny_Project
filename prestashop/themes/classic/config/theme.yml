@@ -28,7 +28,11 @@ meta:
 assets:
   # If you're using this theme as child and you want to load
   # the parent theme assets, uncomment this line.
+<<<<<<< HEAD
 #  use_parent_assets: true
+=======
+  use_parent_assets: true
+>>>>>>> fdba62e4347ae382c8190f7f402d1ade3542b675
 
   # The following lines are showing how to load assets in your page
   # Uncomment and change value to start loading css or js files
