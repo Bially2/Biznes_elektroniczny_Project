@@ -46,18 +46,13 @@ services:
     command: ["/tmp/wait-for-it.sh","--timeout=60","--strict","mysql:3306","--","/tmp/docker_run_git.sh"]
     depends_on:
       - mysql
+    ports:
+      - "8080:80"
+      - "8443:443"
     volumes:
       - ./:/var/www/html/:delegated
-
-  nginx:
-    image: nginx:alpine
-    container_name: prestashop-nginx
-    depends_on:
-      - prestashop-git
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - ./nginx/conf.d:/etc/nginx/conf.d:ro
-      - nginx-certs:/etc/nginx/certs
-    restart: always
+      - ./apache-conf/000-default.conf:/etc/apache2/sites-available/000-default.conf
+      - ./apache-conf/ssl:/etc/ssl/certs
+      - ./apache-conf/mods/ssl.load:/etc/apache2/mods-enabled/ssl.load:ro
+      - ./apache-conf/mods/socache_shmcb.load:/etc/apache2/mods-enabled/socache_shmcb.load:ro
+      - ./apache-conf/mods/rewrite.load:/etc/apache2/mods-enabled/rewrite.load:ro

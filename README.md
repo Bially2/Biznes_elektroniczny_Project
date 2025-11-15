@@ -2,13 +2,14 @@
 
 Wersja sklepu: 1.7.8.11
 
-## Szybki start (z katalogu repozytorium)
+## Szybki start (Apache + SSL, bez Nginx) – z katalogu repozytorium
 ```bash
-make up
+make up   # wygeneruje self-signed certy w prestashop/apache-conf/ssl i uruchomi kontenery
 ```
 Po starcie:
-- Front (HTTPS): https://localhost/
-- Panel admina: https://localhost/admin-dev
+- Front (HTTP):  http://localhost:8080/
+- Front (HTTPS): https://localhost:8443/
+- Panel admina: https://localhost:8443/admin-dev
 - Domyślne loginy (jeśli nie zmieniono podczas instalacji):
 	- E-mail: demo@prestashop.com
 	- Hasło: prestashop_demo
@@ -16,20 +17,24 @@ Po starcie:
 Uwaga: pierwszy start instaluje sklep automatycznie. Jeśli w `prestashop/db/init/` jest plik `dump.sql`, MySQL zaimportuje go przy pierwszym uruchomieniu pustej bazy.
 
 ## Przydatne komendy (z katalogu repozytorium)
-- `make up`: uruchamia kontenery (z generacją certyfikatu dla HTTPS).
+- `make up`: uruchamia kontenery (generuje cert self-signed w `prestashop/apache-conf/ssl`).
 - `make down`: zatrzymuje i usuwa kontenery (dane DB zostają).
 - `make dump`: eksportuje aktualną bazę do `prestashop/db/init/dump.sql`.
-- `make reset`: czyści lokalne dane i przygotowuje import; wykonaj potem make up.
+- `make reset`: czyści lokalne dane i przygotowuje import z dumpa; wykonaj potem make up.
 - `make install`: `composer install` + budowa assetów.
 - `make composer`: same zależności PHP.
 - `make assets`: budowa assetów (frontend).
 
 ## Kontenery, logi i shell
-Uwaga: poniższe komendy `docker compose ...` uruchamiaj z katalogu `prestashop/`.
+Uwaga: komendy `docker compose ...` uruchamiaj z katalogu `prestashop/`.
 - Lista usług: `docker compose ps`
-- Logi aplikacji (Nginx): `docker compose logs -f nginx`
-- Logi PHP (kontener `prestashop`): `docker logs -f prestashop`
+- Logi Apache/PrestaShop: `docker logs -f prestashop`
+- Logi MySQL: `docker logs -f prestashop-mysql`
 - Shell w kontenerze www: `docker exec -it prestashop bash`
+## Certyfikaty SSL
+Self-signed certy znajdują się w `prestashop/apache-conf/ssl/localhost.crt` i `localhost.key`.
+Możesz je podmienić własnymi (np. Let’s Encrypt) kopiując pliki do tego katalogu przed `make up`.
+
 
 ## MySQL: dostęp, backup i restore
 - Wejście do MySQL:
@@ -50,7 +55,7 @@ docker exec -it prestashop bash -lc "rm -rf var/cache/*"
 ```bash
 docker exec -it prestashop-mysql mysql -uroot -pprestashop -e "DROP DATABASE IF EXISTS prestashop; CREATE DATABASE prestashop CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;"
 docker exec -it prestashop bash -lc "rm -f config/settings.inc.php app/config/parameters.php"
-docker compose -f prestashop/docker-compose.yml restart prestashop
+docker restart prestashop
 
 docker exec -it prestashop bash -lc "php install-dev/index_cli.php --domain=localhost --db_server=mysql --db_name=prestashop --db_user=root --db_password=prestashop --language=pl --country=pl --fixtures=0 --firstname=Admin --lastname=Admin --password=prestashop_demo --email=demo@prestashop.com"
 docker exec -it prestashop bash -lc "rm -rf install-dev && rm -rf var/cache/*"
