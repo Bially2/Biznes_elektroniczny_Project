@@ -14,11 +14,14 @@ help:
 
 
 up:
-	@echo "Uruchamianie PrestaShop..."
-	cd prestashop && docker compose up -d
-	@echo "PrestaShop dostępny na: https://localhost:8443/"
-	@echo "PrestaShop Admin dostępny na: https://localhost:8443/admin048kywnor"
-	@echo "Login i hasło do admina : demo@prestashop.com / prestashop_demo"
+    @echo "Uruchamianie PrestaShop..."
+    cd prestashop && docker compose up -d
+    @echo "Nadawanie uprawnień katalogom PrestaShop..."
+    cd prestashop && docker exec -it prestashop bash -c "chmod -R 777 /var/www/html/var && chmod -R 777 /var/www/html/modules && chmod -R 777 /var/www/html/img && chmod -R 777 /var/www/html/translations && chmod -R 777 /var/www/html/download && chmod -R 777 /var/www/html/themes"
+    cd prestashop && docker restart prestashop
+    @echo "PrestaShop dostępny na: https://localhost:8443/"
+    @echo "PrestaShop Admin dostępny na: https://localhost:8443/admin-dev"
+    @echo "Login i hasło do admina : demo@prestashop.com / prestashop_demo"
 
 
 down:
