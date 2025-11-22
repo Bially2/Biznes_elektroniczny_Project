@@ -1,0 +1,152 @@
+/*
+ * Custom code goes here.
+ * A template should always ship with an empty custom.css
+ */
+#header {
+    background: rgb(255, 255, 255) !important;
+}
+
+
+
+#wrapper,
+#content-wrapper,
+#main,
+section {
+    background: #ffffff !important;
+}
+
+
+#header .header-nav {
+    min-height: 90px;
+}
+
+header .header-top {
+    background: #011638 !important;
+    min-height: 20px;
+}
+
+.header-nav .col-md-5 {
+    display: flex;
+    padding-top: 25px;
+
+}
+
+
+#search_widget {
+    width: 600px;
+    max-width: 100%;
+    margin-left: 200px;
+    background-color: #ffffff;
+    border: 0.5px solid #aba8a8;
+    box-sizing: border-box;
+}
+
+
+#search_widget i.search {
+    color: #aba8a8;
+    margin-left: 200px;
+}
+
+
+#search_widget input[type="text"] {
+    background: transparent;
+    border: none;
+    width: 100%;
+    padding-left: 5px;
+    color: #000;
+}
+
+.header-nav .col-md-7.right-nav {
+    gap: 5px;
+    padding-top: 25px;
+
+}
+
+#_desktop_top_menu ul.top-menu li.category a.dropdown-item {
+    color: #ffffff;
+    background-color: #011638;
+    display: flex;
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+
+}
+
+/* ============================
+   6 produktów w jednej linii
+============================ */
+.products.row {
+    display: flex;
+    flex-wrap: nowrap;
+    background: white;
+    gap: 10px;
+
+}
+
+.products .product {
+    width: calc(100% / 6);
+    max-width: calc(100% / 6);
+    background: white;
+    border: 1px solid #dcdcdc;
+    border-radius: 10px;
+    padding: 10px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    min-height: 420px;
+
+}
+
+
+.product-flags {
+    display: none !important;
+}
+
+
+.product-miniature {
+    display: flex;
+    flex-direction: column;
+
+
+}
+
+
+.product-miniature .thumbnail-top {
+    order: 1;
+}
+
+
+.product-miniature .product-description {
+    order: 2;
+}
+
+
+.product-miniature .highlighted-informations {
+    order: 3 !important;
+    position: static !important;
+    margin-top: 10px;
+}
+
+
+.product-miniature .thumbnail-container:hover .highlighted-informations {
+    opacity: 1 !important;
+    text-decoration: none;
+}
+
+.all-product-link {
+    display: none !important;
+}
+
+h2.products-section-title {
+    font-weight: 300 !important;
+    /* wymusza cienki font */
+    text-align: left !important;
+    margin-top: 0;
+    padding-top: 5px;
+    padding-left: 0;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #ccc;
+    width: 100%;
+    box-sizing: border-box;
+}
