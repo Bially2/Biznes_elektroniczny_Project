@@ -364,3 +364,4 @@ install.lock
 /mysql/
 
 projekt-prestashop.tar.gz
+!themes/child_classic

@@ -87,7 +87,15 @@ section {
 header .header-top {
     background: #011638 !important;
     min-height: 20px;
+    /* minimalna wysokość */
+    display: flex;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    /* przyklejenie do góry */
+    z-index: 9999;
 }
+
 
 /* ===============================
    Navigation menu items
@@ -97,45 +105,10 @@ header .header-top {
     padding-top: 10px;
 }
 
-#_desktop_top_menu ul.top-menu li.category {
-    display: inline-flex;
-    align-items: center;
-    height: 20px;
-}
-
-/* Mniejsze napisy + mniejsze odstępy */
-#_desktop_top_menu ul.top-menu li.category a.dropdown-item {
-    color: #ffffff !important;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 14px;
-    /* mniejsza czcionka */
-    font-weight: 600;
-
-    display: flex;
-    align-items: center;
-
-    padding: 10px 20px;
-    /* mniejsze odstępy = więcej miejsca */
-    height: 15px;
-
-    background-color: #011638;
-    text-decoration: none;
-}
-
-#_desktop_top_menu ul.top-menu li.category a.dropdown-item:hover {
-    background-color: #023366;
-    /* tylko zmiana tła */
-
-    color: #ffffff;
-    /* zachowanie koloru tekstu */
-    text-decoration: none;
-    /* brak podkreślenia */
-}
-
 
 /* Szerokość submenu */
 #_desktop_top_menu .sub-menu {
-    width: 260px !important;
+    width: 350px !important;
 }
 
 /* ===============================
@@ -203,4 +176,102 @@ header .header-top {
     display: block;
     margin: 20px auto;
     /* wyśrodkowanie i odstęp od góry/dół */
+}
+
+/* ===============================
+   Pasek top menu - wyśrodkowany i szerszy
+================================= */
+.header-top .container {
+    max-width: 1600px;
+
+    /* większy niż domyślny */
+    margin: 0 auto;
+    /* wyśrodkowanie */
+    padding-left: 15px;
+    /* minimalny padding po bokach */
+    padding-right: 15px;
+}
+
+/* Pasek menu jako flex */
+#_desktop_top_menu {
+    display: flex;
+    justify-content: center;
+    overflow: visible;
+    position: fixed;
+    top: 0;
+    /* przyklejenie do góry */
+    z-index: 9999;
+    /* wyśrodkowanie całego menu */
+}
+
+#_desktop_top_menu ul.top-menu {
+    display: flex;
+    gap: 50px;
+    /* odstępy między linkami */
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+/* Każdy link */
+#_desktop_top_menu ul.top-menu li {
+    flex: unset;
+    display: inline-block;
+    /* zakładam, że menu w poziomie */
+    position: relative;
+}
+
+#_desktop_top_menu ul.top-menu li a.dropdown-item {
+    position: relative;
+    /* dla pseudo-elementu */
+    display: block;
+    color: #ffffff !important;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    text-align: center;
+    padding: 0 5px;
+    /* mały padding */
+    background-color: #011638;
+    transition: color 0.3s;
+    overflow: visible;
+    z-index: 100;
+    /* link nad pseudo-elementem */
+}
+
+#_desktop_top_menu ul.top-menu li:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    top: -20px;
+    /* przesunięcie w górę (wydłużenie) */
+    bottom: -20px;
+    /* przesunięcie w dół (wydłużenie) */
+    right: -30px;
+    /* przesunięcie w prawo o 15px */
+    width: 0.5px;
+    background-color: #023366;
+    z-index: 100;
+    /* nad tłem hover */
+}
+
+
+/* pseudo-element jako tło */
+#_desktop_top_menu ul.top-menu li a.dropdown-item::before {
+    content: '';
+    position: absolute;
+    top: -21px;
+    left: -20px;
+    right: -30px;
+    bottom: -20px;
+    background-color: #023366;
+    z-index: -1;
+    /* pod tekstem */
+    opacity: 0;
+
+    border-radius: 1px;
+}
+
+/* hover - pokazuje pseudo-element */
+#_desktop_top_menu ul.top-menu li a.dropdown-item:hover::before {
+    opacity: 1;
 }
