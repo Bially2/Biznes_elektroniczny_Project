@@ -20,7 +20,7 @@
         </div>
 
         <!-- Pasek wyszukiwania -->
-        <div id="desktop_searchbar" style="flex: 1; width:400px">
+        <div id="desktop_searchbar" style="flex: 1; ">
           <input type="text" 
                  name="s" 
                  value="" 
