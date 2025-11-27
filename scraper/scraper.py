@@ -41,8 +41,8 @@ logger = logging.getLogger(__name__)
 # ========================================
 # KONFIGURACJA ŚCIEŻEK
 # ========================================
-#CHROMEDRIVER_PATH = None  # Ustaw ścieżkę do ChromeDriver, jeśli nie jest w PATH
-CHROMEDRIVER_PATH = "/usr/bin/chromedriver"
+CHROMEDRIVER_PATH = None  # Ustaw ścieżkę do ChromeDriver, jeśli nie jest w PATH
+
 
 class KFDScraper:
     def __init__(self, base_url="https://sklep.kfd.pl/", output_dir="data_kfd", max_workers=3):
@@ -76,26 +76,18 @@ class KFDScraper:
         chrome_options.add_argument("--disable-blink-features=AutomationControlled")
         chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
         chrome_options.add_experimental_option('useAutomationExtension', False)
-        chrome_options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36")
+        chrome_options.add_argument(
+            "user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36")
 
         prefs = {"profile.default_content_setting_values.notifications": 2}
         chrome_options.add_experimental_option("prefs", prefs)
 
-        # --- NOWY FIX: WZMOCNIONE ARGUMENTY SERWISU ---
-        service_args = [
-            '--start-maximized', 
-            '--disable-dev-shm-usage',
-            '--verbose',
-            '--start-server-timeout=180' # Dajemy 3 minuty na start drivera
-        ]
-
         if CHROMEDRIVER_PATH:
-            service = Service(CHROMEDRIVER_PATH, service_args=service_args)
+            service = Service(CHROMEDRIVER_PATH)
         else:
-            service = Service(service_args=service_args)
+            service = Service()
 
         try:
-            # Używamy tylko standardowych argumentów konstruktora, ponieważ service_start_timeout nie działa
             driver = webdriver.Chrome(service=service, options=chrome_options)
             driver.set_page_load_timeout(60)
             driver.implicitly_wait(10)
@@ -138,106 +130,44 @@ class KFDScraper:
 
         return cleaned_url
 
-    def scrape_all_categories_from_menu(self):
+    def extract_categories_from_jsonld(self, driver):
+        """Pobiera hierarchię kategorii z danych JSON-LD, wymuszając pobranie zawartości tagu script."""
+
+        # Używamy JavaScriptu do znalezienia i pobrania wszystkich tagów script typu application/ld+json
+        js_script = """
+        const scripts = document.querySelectorAll('script[type="application/ld+json"]');
+        if (scripts.length === 0) return null;
+
+        // Przechodzimy przez wszystkie skrypty i szukamy BreadcrumbList
+        for (let i = 0; i < scripts.length; i++) {
+            try {
+                const content = JSON.parse(scripts[i].textContent);
+                if (content['@type'] === 'BreadcrumbList') {
+                    return JSON.stringify(content.itemListElement);
+                }
+            } catch (e) {
+                // Ignore parsing errors
+            }
+        }
+        return null;
         """
-        Pobiera linki do wszystkich kategorii i podkategorii (P1, P2, P3) ze strony głównej,
-        używając wzorca URL do ustalania hierarchii (Parent ID).
-        """
-        logger.info("📂 Pobieranie hierarchii kategorii z URL Heuristics...")
-        driver = self.create_driver()
 
         try:
-            driver.get(self.base_url)
+            json_array_str = driver.execute_script(js_script)
 
-            # 1. Jawne oczekiwanie na pojawienie się JAKIEGOKOLWIEK linku kategorii
-            WebDriverWait(driver, 20).until(
-                EC.presence_of_element_located((By.CSS_SELECTOR, "a[href*='/kategoria-'], a[href*='-c-']"))
-            )
-            logger.info("✓ Strona i linki kategorii załadowane.")
-
-            # Szukamy WSZYSTKICH linków pasujących do wzorca kategorii z CAŁEGO DOM
-            all_category_link_elements = driver.find_elements(
-                By.CSS_SELECTOR,
-                "a[href*='/kategoria-'], a[href*='-c-']"
-            )
-
-            if not all_category_link_elements:
-                logger.error("❌ Nie znaleziono żadnych linków pasujących do wzorca URL kategorii.")
-                return
-
-            # --- KROK 1: WSTĘPNE ZBIERANIE I FILTROWANIE ---
-
-            # Mapowanie URL -> Dane kategorii
-            categories_map = {}
-            # Definicja 4 głównych kategorii L1 (na podstawie Twojego zrzutu)
-            main_names = ["ODŻYWKI I SUPLEMENTY", "ZDROWE I KONDYCJA", "ŻYWNOŚĆ DIETETYCZNA", "ODZIEŻ I AKCESORIA"]
-
-            for link_elem in all_category_link_elements:
-                try:
-                    name = link_elem.text.strip()
-                    url = self.clean_url(link_elem.get_attribute('href'))
-
-                    if url and len(name) > 3 and url not in categories_map:
-                        is_l1 = (name.upper() in main_names)  # Sprawdzamy, czy to jedna z 4 głównych
-
-                        cat_data = {
-                            "id": 0,
-                            "name": name,
-                            "url": url,
-                            "parent_id": 0 if is_l1 else -1,  # -1 = Rodzic nieznany (jest podkategorią)
-                            "active": 1
-                        }
-                        categories_map[url] = cat_data
-
-                except Exception:
-                    continue
-
-            # --- KROK 2: ALGORYTM USTALANIA RODZIC-DZIECKO ---
-
-            # Sortujemy według długości URL, aby najpierw przetwarzać główne (krótsze URL)
-            sorted_categories = sorted(categories_map.values(), key=lambda x: len(x['url']))
-
-            self.categories = []  # Resetujemy, aby budować ostateczną listę
-            current_id = 1
-
-            for cat in sorted_categories:
-                # 1. Przydziel ID
-                cat['id'] = current_id
-
-                # 2. Ustalanie rodzica dla podkategorii (Parent ID = -1)
-                if cat['parent_id'] == -1:
-                    best_parent_id = 0
-
-                    # Szukamy najlepiej pasującego rodzica (najdłuższy pasujący URL)
-                    for potential_parent in self.categories:
-                        # Warunki: URL obecnej kategorii zaczyna się od URL rodzica ORAZ nie jest tą samą kategorią
-                        if cat['url'].startswith(potential_parent['url']) and cat['url'] != potential_parent['url']:
-
-                            # Logika: Bierzemy najdłuższego pasującego URL (czyli najbliższego rodzica)
-                            current_parent_url_len = len(
-                                self.categories[best_parent_id - 1]['url'] if best_parent_id else "")
-                            if len(potential_parent['url']) > current_parent_url_len:
-                                best_parent_id = potential_parent['id']
-
-                    cat['parent_id'] = best_parent_id
-
-                # Finalna weryfikacja (Poziom 1 zostaje z Parent ID = 0)
-                if cat['parent_id'] == -1: cat['parent_id'] = 0
-
-                # Dodajemy do listy finalnej
-                self.categories.append(cat)
-                current_id += 1
-
-                logger.info(f"  ✓ ID {cat['id']} (P:{cat['parent_id']}): {cat['name']}")
+            if json_array_str:
+                data = json.loads(json_array_str)
+                logger.info("  ✓ Dane JSON-LD (Breadcrumbs) pobrane pomyślnie przez JS.")
+                return data
 
         except Exception as e:
-            logger.error(f"❌ Błąd krytyczny podczas pobierania menu: {e}")
-            import traceback
-            traceback.print_exc()
-        finally:
-            driver.quit()
+            logger.error(f"  ❌ Błąd wykonania skryptu JS do pobrania JSON-LD: {e}")
 
-        logger.info(f"✅ Pobrano {len(self.categories)} kategorii i podkategorii z URL.")
+        logger.warning("  ⚠️ Brak JSON-LD BreadcrumbList na stronie produktu.")
+        return None
+
+
+
 
     def get_product_urls_from_category(self, category_url, category_name, limit=None):
         """Pobiera listę URL produktów z kategorii KFD, obsługując paginację i filtrowanie."""
@@ -364,8 +294,24 @@ class KFDScraper:
                 "price": "",
                 "reference": f"KFD_{hashlib.sha256(product_url.encode()).hexdigest()[:8]}",
                 "attributes": {},
-                "images": []
+                "images": [],
+                "usage": ""  # Dodajemy pole usage, którego brakowało w poprzednim kodzie
             }
+
+            # --- KROK 0: POBIERANIE HIERARCHII Z BREADCRUMBÓW ---
+            breadcrumb_elements = self.extract_categories_from_jsonld(driver)
+
+            if breadcrumb_elements:
+                self.lock.acquire()  # Zabezpieczamy dostęp do listy kategorii
+                try:
+                    # Używamy nowej, bezpiecznej metody do aktualizacji kategorii:
+                    self.update_categories_from_breadcrumbs(breadcrumb_elements)
+                finally:
+                    self.lock.release()
+
+                # Zmieniamy kategorię produktu na ostatnią z breadcrumbów
+                if self.categories:
+                    product_data['category'] = self.categories[-1]['name']
 
             # --- KLUCZOWY KROK 1: POBIERANIE DANYCH Z JSON ---
             try:
@@ -382,32 +328,26 @@ class KFDScraper:
 
             # 1. NAZWA, CENA, REFERENCJA
             product_data["name"] = product_json.get("name", "").strip()
-            # Cena zawiera walutę i jest w formacie "55,55 zł"
             price_text = product_json.get("price", "0.00").replace(u'\xa0zł', '').replace(',', '.')
             product_data["price"] = re.sub(r'[^\d.]', '', price_text)
             product_data["reference"] = product_json.get("reference", product_data["reference"]).strip()
 
             # 2. OPIS
-            # Opis jest w HTML. Używamy Beautiful Soup do usunięcia tagów (jeśli nie jest zbyt skomplikowany)
             raw_description = product_json.get("description", "")
             product_data["description"] = BeautifulSoup(raw_description, 'html.parser').get_text(separator=' ',
                                                                                                  strip=True)[:2000]
 
-            # 3. SPOSÓB UŻYCIA (FIXED z extraContent)
-            product_data["usage"] = ""
+            # 3. SPOSÓB UŻYCIA (EXTRA CONTENT)
             extra_content = product_json.get("extraContent", [])
             for item in extra_content:
                 if item.get("title", "").lower() == "sposób użycia":
-                    # Treść też jest w HTML, parsujemy BS4
                     usage_html = item.get("content", "")
                     product_data["usage"] = BeautifulSoup(usage_html, 'html.parser').get_text(separator=' ',
                                                                                               strip=True)[:1000]
                     logger.info("  ✓ Sposób użycia pobrany z JSON.")
                     break
 
-            # 4. ATRYBUTY (Specyfikacja)
-            # Te dane najczęściej nie są w data-product, więc wciąż musimy użyć selektorów dla specyfikacji,
-            # ALE usuwamy wszystkie poprzednie selektory dla Nazwy/Ceny/Opisu.
+            # 4. ATRYBUTY (Specyfikacja - nadal z HTML jako backup)
             try:
                 spec_table = driver.find_elements(By.CSS_SELECTOR,
                                                   "#product_attributes_list li, .product_attributes_table li")
@@ -419,9 +359,8 @@ class KFDScraper:
             except:
                 pass
 
-            # 5. ZDJĘCIA (Link HR jest w JSON'ie, ale dla bezpieczeństwa używamy obecnej logiki)
+            # 5. ZDJĘCIA (Link HR z JSON)
             try:
-                # W JSON mamy cover/large_default. Używamy dużego zdjęcia z cover:
                 cover_image_url = product_json['cover']['bySize']['large_default']['url']
                 product_data["images"] = [self.clean_url(cover_image_url)]
             except:
@@ -431,8 +370,9 @@ class KFDScraper:
 
             product_data["images"] = list(set(product_data["images"]))[:2]
 
+            # --- ZAKOŃCZENIE FUNKCJI (Z POPRAWNYM WYJŚCIEM) ---
             if not product_data["name"]:
-                logger.warning("  ⚠️ Produkt odrzucony: Nazwa pusta po parsowaniu JSON.")
+                logger.warning("  ⚠️ Produkt odrzucony: Nazwa pusta.")
                 return None
 
             return product_data
@@ -444,6 +384,48 @@ class KFDScraper:
             return None
         finally:
             driver.quit()
+
+    def update_categories_from_breadcrumbs(self, breadcrumb_elements):
+        """
+        Aktualizuje self.categories na podstawie danych z BreadcrumbList,
+        tworząc hierarchię.
+        """
+        last_parent_id = 0
+
+        # Tworzymy mapowanie URL -> ID dla szybkiego sprawdzania duplikatów
+        url_to_id = {c['url']: c['id'] for c in self.categories}
+
+        for element in breadcrumb_elements:
+            # Pomijamy 'Strona główna' i sam produkt (zawsze ostatni element)
+            if element.get('name', '').lower() == 'strona główna' or element.get('position', 0) == len(
+                    breadcrumb_elements):
+                continue
+
+            name = element.get('name', '').strip()
+            url = self.clean_url(element.get('item', ''))
+
+            if url and name and url not in url_to_id:
+                # To jest nowa kategoria, dodajemy ją
+                new_id = len(self.categories) + 1
+
+                cat_data = {
+                    "id": new_id,
+                    "name": name,
+                    "url": url,
+                    "parent_id": last_parent_id,
+                    "active": 1
+                }
+
+                self.categories.append(cat_data)
+                url_to_id[url] = new_id
+                logger.info(f"  + Nowa kategoria z Breadcrumb (ID:{new_id}, P:{last_parent_id}): {name}")
+
+                # Ustawiamy nową kategorię jako rodzica dla kolejnych elementów
+                last_parent_id = new_id
+
+            elif url and url in url_to_id:
+                # Jeśli kategoria już istnieje, aktualizujemy ID rodzica dla kolejnego elementu
+                last_parent_id = url_to_id[url]
 
     def download_image(self, url, product_name, index, referer_url):
         """Pobiera zdjęcie z wykorzystaniem Referer Header (URL strony detali)."""
@@ -629,7 +611,10 @@ class KFDScraper:
         logger.info(f"  ✓ {json_file}\n")
 
     def run(self, categories_limit=None, products_per_category=None, batch_size=10):
-        """Uruchamia scraping"""
+        """
+        Uruchamia scraping, bazując na wcześniej zainicjowanej liście self.categories
+        i pomija funkcję scrape_all_categories_from_menu.
+        """
         start_time = time.time()
 
         logger.info("=" * 60)
@@ -637,18 +622,22 @@ class KFDScraper:
         logger.info("=" * 60)
 
         try:
-            # 1. Kategorie
-            self.scrape_all_categories_from_menu()
+            # 1. KATEGORIE (Ten krok był wcześniej self.scrape_all_categories_from_menu())
+            # Ponieważ lista self.categories jest inicjowana ręcznie w __main__,
+            # pomijamy ten krok, ale sprawdzamy, czy została zainicjowana.
 
             if not self.categories:
-                logger.error("❌ Brak kategorii - kończę")
+                logger.error("❌ Brak zainicjowanej kategorii startowej. Kończę.")
                 return
 
             categories_to_process = self.categories[:categories_limit] if categories_limit else self.categories
 
-            # 2. Produkty
+            # 2. PRODUKTY (Zaczynamy od skanowania linków)
             all_product_urls = []
             for category in categories_to_process:
+                # W tym miejscu uruchamia się get_product_urls_from_category,
+                # która następnie wywoła scrape_product_details, a ta z kolei
+                # zbuduje pełną listę self.categories z Breadcrumbów.
                 urls = self.get_product_urls_from_category(
                     category['url'],
                     category['name'],
@@ -658,7 +647,7 @@ class KFDScraper:
                 time.sleep(1)
 
             if not all_product_urls:
-                logger.error("❌ Brak produktów - kończę")
+                logger.error("❌ Brak produktów do przetworzenia.")
                 return
 
             logger.info(f"\n📊 {len(all_product_urls)} produktów do przetworzenia")
@@ -750,16 +739,16 @@ class KFDScraper:
 
 
 if __name__ == "__main__":
-    # --- PARAMETRY DOCELOWE ---
-    TARGET_URL = "https://sklep.kfd.pl/bialko-serwatkowe-c-64.html"
-    CATEGORY_NAME = "Białko Serwatkowe"
-
     scraper = KFDScraper(
-        max_workers=5  # Użyjemy 5 wątków do szybkiego testu wydajności
+        max_workers=5  # Przetwarzanie wielowątkowe
     )
 
-    # 1. RĘCZNE USTAWIENIE KATEGORII STARTOWEJ
-    # Omijamy problematyczne pobieranie hierarchii, podając tylko URL docelowy
+    # --- RĘCZNA DEFINICJA KATEGORII STARTOWEJ ---
+    # Musimy zainicjować listę kategorii jedną pozycją (aby rozpocząć pętlę w run)
+    TARGET_URL = "https://sklep.kfd.pl/sklep-kfd-c-2.html"
+    CATEGORY_NAME = "Strona główna"
+
+    # Wstawiamy fałszywą kategorię, która reprezentuje stronę wejściową
     scraper.categories = [{
         "id": 1,
         "name": CATEGORY_NAME,
@@ -768,13 +757,15 @@ if __name__ == "__main__":
         "active": 1
     }]
 
-    logger.info("--- START PEŁNEGO SKANOWANIA Z PAGINACJĄ ---")
+    logger.info("--- START PEŁNEGO SKANOWANIA Z WYDOBYCIEM HIERARCHII Z PRODUKTÓW ---")
 
-    # 2. Uruchamiamy główną funkcję run()
+    # 1. Pomiń Krok 1 (pobieranie menu), przejdź bezpośrednio do Kroków 2/3/4
+    # Używamy ręcznie zainicjowanej listy kategorii.
+
     scraper.run(
         categories_limit=1,  # Przetwarzamy tylko tę jedną, ręcznie dodaną kategorię
-        products_per_category=None,  # !!! BRAK LIMITU produktów (pobieramy WSZYSTKIE) !!!
+        products_per_category=None,  # Pobieramy WSZYSTKIE produkty
         batch_size=5
     )
 
-    logger.info("--- TEST ZAKOŃCZONY. Sprawdź pliki CSV i folder images ---")
+    logger.info(f"--- ZAKOŃCZONO. Pobrano {len(scraper.categories)} kategorii z Breadcrumbs. ---")
