@@ -1,0 +1,108 @@
+﻿ID;Active;Name;Parent ID;Parent Name
+1;1;Strona główna;0;ROOT
+2;1;Zdrowie i kondycja;0;ROOT
+3;1;Witaminy i minerały;2;Zdrowie i kondycja
+4;1;Elektrolity;3;Witaminy i minerały
+5;1;Odżywki i suplementy;0;ROOT
+6;1;Białko;5;Odżywki i suplementy
+7;1;Białko serwatkowe;6;Białko
+8;1;Zestaw witamin i minerałów;3;Witaminy i minerały
+9;1;Zdrowie;2;Zdrowie i kondycja
+10;1;Odporność i wzmocnienie;9;Zdrowie
+11;1;Witaminy;3;Witaminy i minerały
+12;1;Kreatyna;5;Odżywki i suplementy
+13;1;Monohydrat kreatyny;12;Kreatyna
+14;1;Zdrowa Żywność;0;ROOT
+15;1;Napoje;14;Zdrowa Żywność
+16;1;Napoje do przygotowania;15;Napoje
+17;1;Odżywki Przedtreningowe;5;Odżywki i suplementy
+18;1;Cytrulina;17;Odżywki Przedtreningowe
+19;1;Redukcja stresu i sen;9;Zdrowie
+20;1;Kuchnia i dieta;14;Zdrowa Żywność
+21;1;Przyprawy i aromaty;20;Kuchnia i dieta
+22;1;Ochrona stawów;5;Odżywki i suplementy
+23;1;Kolagen;22;Ochrona stawów
+24;1;Adaptogeny;9;Zdrowie
+25;1;Zamienniki cukru;20;Kuchnia i dieta
+26;1;Minerały;3;Witaminy i minerały
+27;1;Masła i kremy;20;Kuchnia i dieta
+28;1;Izolat białka;6;Białko
+29;1;Galaretki i kisiele;20;Kuchnia i dieta
+30;1;Akcesoria i ubrania;0;ROOT
+31;1;Akcesoria treningowe;30;Akcesoria i ubrania
+32;1;Shakery i kanistry;31;Akcesoria treningowe
+33;1;Pozostałe akcesoria;31;Akcesoria treningowe
+34;1;Kazeina micelarna;6;Białko
+35;1;Antyoksydanty;9;Zdrowie
+36;1;Odżywki na masę;5;Odżywki i suplementy
+37;1;Gainery - Odżywki na masę;36;Odżywki na masę
+38;1;Beta Alanina;17;Odżywki Przedtreningowe
+39;1;Mieszanki białek;6;Białko
+40;1;Shoty;5;Odżywki i suplementy
+41;1;Shoty przed treningiem;40;Shoty
+42;1;Słodycze i przekąski;14;Zdrowa Żywność
+43;1;Pozostałe słodycze i przekąski;42;Słodycze i przekąski
+44;1;Arginina i cytrulina;17;Odżywki Przedtreningowe
+45;1;Budynie i kaszki;20;Kuchnia i dieta
+46;1;Sosy i syropy;20;Kuchnia i dieta
+47;1;Danie gotowe;14;Zdrowa Żywność
+48;1;Obiady;47;Danie gotowe
+49;1;Aminokwasy;5;Odżywki i suplementy
+50;1;EAA;49;Aminokwasy
+51;1;Energia i koncentracja;2;Zdrowie i kondycja
+52;1;Pobudzenie;51;Energia i koncentracja
+53;1;Odzież treningowa;30;Akcesoria i ubrania
+54;1;Bokserki i koszulki;53;Odzież treningowa
+55;1;Odżywki Potreningowe;5;Odżywki i suplementy
+56;1;Carbo / Węglowodany / Izotoniki;55;Odżywki Potreningowe
+57;1;Batony;42;Słodycze i przekąski
+58;1;Glutamina;49;Aminokwasy
+59;1;Dżemy i frużeliny;20;Kuchnia i dieta
+60;1;Przedtreningówka;17;Odżywki Przedtreningowe
+61;1;Kawy i herbaty;15;Napoje
+62;1;Batony energetyczne;42;Słodycze i przekąski
+63;1;Czekolady;42;Słodycze i przekąski
+64;1;Rękawiczki treningowe;31;Akcesoria treningowe
+65;1;Dla mężczyzn;5;Odżywki i suplementy
+66;1;Boostery testosteronu;65;Dla mężczyzn
+67;1;Żele energetyczne;55;Odżywki Potreningowe
+68;1;Oleje i tłuszcze;20;Kuchnia i dieta
+69;1;Musli i granole;20;Kuchnia i dieta
+70;1;Naleśniki proteinowe;20;Kuchnia i dieta
+71;1;Odchudzanie i trawienie;2;Zdrowie i kondycja
+72;1;Wątroba;71;Odchudzanie i trawienie
+73;1;Trawienie;71;Odchudzanie i trawienie
+74;1;Białko wegańskie/ roślinne;6;Białko
+75;1;Nerki;53;Odzież treningowa
+76;1;MSM;22;Ochrona stawów
+77;1;Koncentracja;51;Energia i koncentracja
+78;1;Skóra, włosy, paznokcie;9;Zdrowie
+79;1;Pozostałe kreatyny;12;Kreatyna
+80;1;Orzechy;42;Słodycze i przekąski
+81;1;Czapki;53;Odzież treningowa
+82;1;Probiotyki;71;Odchudzanie i trawienie
+83;1;TCM - jabłczan kreatyny;12;Kreatyna
+84;1;Shoty pozostałe;40;Shoty
+85;1;Pozostałe produkty;20;Kuchnia i dieta
+86;1;Ciastka;42;Słodycze i przekąski
+87;1;Gumy do ćwiczeń;31;Akcesoria treningowe
+88;1;Spalacze tłuszczu;5;Odżywki i suplementy
+89;1;Ze stymulantami;88;Spalacze tłuszczu
+90;1;Pozostałe produkty;65;Dla mężczyzn
+91;1;Bez stymulantów;88;Spalacze tłuszczu
+92;1;Superfoods;20;Kuchnia i dieta
+93;1;Owoce liofilizowane i suszone;42;Słodycze i przekąski
+94;1;Aminokwasy BCAA;49;Aminokwasy
+95;1;Wzrok i oczy;9;Zdrowie
+96;1;Izotoniki;55;Odżywki Potreningowe
+97;1;Miksy składnikowe;22;Ochrona stawów
+98;1;Pozostałe aminokwasy;49;Aminokwasy
+99;1;Prozdrowotne;0;ROOT
+100;1;Glukozamina;22;Ochrona stawów
+101;1;Mąki;20;Kuchnia i dieta
+102;1;Lody proteinowe;20;Kuchnia i dieta
+103;1;Miksy składnikowe;55;Odżywki Potreningowe
+104;1;Pozostałe napoje;15;Napoje
+105;1;Zdrowie i kondycja;0;ROOT
+106;1;Aminokwasy;0;ROOT
+107;1;BCAA;106;Aminokwasy

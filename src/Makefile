@@ -18,14 +18,17 @@ help:
 
 up:
 	@echo "Uruchamianie PrestaShop..."
-	@cd prestashop && docker compose up -d
+	sudo docker compose -f prestashop/docker-compose.yml up -d
 	@echo "Nadawanie uprawnień katalogom PrestaShop..."
-	@chmod 777 prestashop/
-	@cd prestashop && docker exec -it prestashop bash -c "chmod -R 777 /var/www/html/var && chmod -R 777 /var/www/html/modules && chmod -R 777 /var/www/html/img && chmod -R 777 /var/www/html/translations && chmod -R 777 /var/www/html/download && chmod -R 777 /var/www/html/themes"
-	@cd prestashop && docker restart prestashop
+	@sudo chmod 777 prestashop/
+	sudo docker compose -f prestashop/docker-compose.yml exec -T prestashop bash -c "chmod -R 777 /var/www/html/var && chmod -R 777 /var/www/html/modules && chmod -R 777 /var/www/html/img && chmod -R 777 /var/www/html/translations && chmod -R 777 /var/www/html/download && chmod -R 777 /var/www/html/themes"
+	# DODANA LINIA: Nadanie uprawnień rekurencyjnych dla całego katalogu img/ (wymagane do importu!)
+	sudo docker compose -f prestashop/docker-compose.yml exec -T prestashop bash -c "chmod -R 777 /var/www/html/img"
+	# NOWY FIX: Zmiana właściciela katalogu img/ na użytkownika kontenera
+	sudo docker compose -f prestashop/docker-compose.yml exec -T prestashop bash -c "chown -R www-data:www-data /var/www/html/img"
+	sudo docker compose -f prestashop/docker-compose.yml restart prestashop
 	@echo "PrestaShop dostępny na: https://localhost:8443/"
 	@echo "PrestaShop Admin dostępny na: https://localhost:8443/admin-dev"
-	@echo "MailHog dostępny na: http://localhost:8025/"
 	@echo "Login i hasło do admina : demo@prestashop.com / prestashop_demo"
 
 
