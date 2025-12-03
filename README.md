@@ -32,3 +32,9 @@ Aby zatrzymać i usunąć wszystkie kontenery, wpisz:
 ```bash
 make down
 ```
+
+# Autorzy 
+Szymon Czerny
+Filip Matusiak
+Hanna Augustyniak
+Ksenia Volchenko
