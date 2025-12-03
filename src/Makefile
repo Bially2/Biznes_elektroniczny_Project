@@ -18,13 +18,14 @@ help:
 
 up:
 	@echo "Uruchamianie PrestaShop..."
-	sudo docker compose -f prestashop/docker-compose.yml up -d
+	@cd prestashop && docker compose up -d
 	@echo "Nadawanie uprawnień katalogom PrestaShop..."
 	@sudo chmod 777 prestashop/
 	@cd prestashop && docker exec -it prestashop bash -c "chmod -R 777 /var/www/html/var && chmod -R 777 /var/www/html/modules && chmod -R 777 /var/www/html/img && chmod -R 777 /var/www/html/translations && chmod -R 777 /var/www/html/download && chmod -R 777 /var/www/html/themes"
 	@cd prestashop && docker restart prestashop
 	@echo "PrestaShop dostępny na: https://localhost:8443/"
 	@echo "PrestaShop Admin dostępny na: https://localhost:8443/admin-dev"
+	@echo "MailHog dostępny na: http://localhost:8025/"
 	@echo "Login i hasło do admina : demo@prestashop.com / prestashop_demo"
 
 
@@ -109,16 +110,16 @@ restore:
 	@if [ ! -f dump.sql ]; then echo " Brak dump.sql!"; exit 1; fi
 	@echo "Import pełnego dump.sql..."
 	cat dump.sql | docker compose -f prestashop/docker-compose.yml exec -T db mysql -u root -proot prestashop
-	@echo "✔ Pełna baza przywrócona."
+	@echo "Pełna baza przywrócona."
 
 restore-backend:
 	@if [ ! -f dump-backend.sql ]; then echo " Brak dump-backend.sql!"; exit 1; fi
 	@echo "Przywracanie tylko BACKEND..."
 	cat dump-backend.sql | docker compose -f prestashop/docker-compose.yml exec -T db mysql -u root -proot prestashop
-	@echo "✔ Backend przywrócony."
+	@echo " Backend przywrócony."
 
 restore-ui:
 	@if [ ! -f dump-ui.sql ]; then echo " Brak dump-ui.sql!"; exit 1; fi
 	@echo "Przywracanie tylko UI..."
 	cat dump-ui.sql | docker compose -f prestashop/docker-compose.yml exec -T db mysql -u root -proot prestashop
-	@echo "✔ UI przywrócone."
+	@echo "UI przywrócone."
