@@ -102,7 +102,7 @@ class KFDScraper:
             WebDriverWait(driver, timeout).until(
                 lambda d: d.execute_script("return document.readyState") == "complete"
             )
-            time.sleep(2)
+            time.sleep(1)
         except TimeoutException:
             logger.warning("⚠️  Timeout - kontynuuję mimo to")
 
@@ -176,10 +176,14 @@ class KFDScraper:
         product_urls = []
         page_url = category_url
         page_count = 1
-        last_product_count = -1  # Nowa zmienna do śledzenia liczby produktów z poprzedniej strony
+
 
         try:
             while page_url:
+                if limit and len(product_urls) >= limit:
+                    logger.info(f"✅ Osiągnięto limit {limit} produktów. Przerywanie skanowania linków.")
+                    break
+
                 logger.info(f"🌐 Ładowanie strony {page_count}: {page_url}")
                 driver.get(page_url)
                 self.wait_for_page_load(driver)
@@ -205,10 +209,7 @@ class KFDScraper:
                 if not product_cards:
                     logger.warning(f"  ⚠️ Brak produktów na stronie {page_count}.")
 
-                    # WARUNEK ZAKOŃCZENIA 1: Jeśli to nie jest pierwsza strona i nie ma produktów, to jest koniec.
-                    if page_count > 1 and last_product_count > 0:
-                        logger.info("  ⚠️ Poprzednia strona miała produkty, a ta nie. Koniec paginacji.")
-                        break
+
 
                     break  # W przypadku braku produktów na pierwszej stronie
 
@@ -238,13 +239,7 @@ class KFDScraper:
 
                 # --- PORÓWNANIE PRZECIWKO NIESKOŃCZONEJ PĘTLI ---
 
-                # WARUNEK ZAKOŃCZENIA 2: Jeśli liczba produktów jest taka sama jak na poprzedniej stronie,
-                # a my próbujemy iść dalej (np. Strona 6 -> Strona 7)
-                if page_count > 1 and len(current_page_products) == last_product_count and last_product_count > 0:
-                    logger.warning("  ⚠️ Wykryto powtarzanie ostatniej strony. Koniec pętli.")
-                    break
 
-                last_product_count = len(current_page_products)
 
                 # --- OBSŁUGA PAGINACJI ---
                 next_page_link = None
@@ -740,7 +735,7 @@ class KFDScraper:
 
 if __name__ == "__main__":
     scraper = KFDScraper(
-        max_workers=5  # Przetwarzanie wielowątkowe
+        max_workers=8  # Przetwarzanie wielowątkowe
     )
 
     # --- RĘCZNA DEFINICJA KATEGORII STARTOWEJ ---
@@ -764,8 +759,8 @@ if __name__ == "__main__":
 
     scraper.run(
         categories_limit=1,  # Przetwarzamy tylko tę jedną, ręcznie dodaną kategorię
-        products_per_category=None,  # Pobieramy WSZYSTKIE produkty
-        batch_size=5
+        products_per_category=1100,  # Pobieramy WSZYSTKIE produkty
+        batch_size=8
     )
 
     logger.info(f"--- ZAKOŃCZONO. Pobrano {len(scraper.categories)} kategorii z Breadcrumbs. ---")
