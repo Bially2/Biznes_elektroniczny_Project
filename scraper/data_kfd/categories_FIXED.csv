@@ -1,0 +1,106 @@
+ID;Active;Name;Parent ID
+5;1;Odżywki i suplementy;2
+14;1;Zdrowa Żywność;2
+30;1;Akcesoria i ubrania;2
+99;1;Prozdrowotne;2
+106;1;Aminokwasy;2
+200;1;Zdrowie i kondycja;2
+3;1;Witaminy i minerały;200
+9;1;Zdrowie;200
+51;1;Energia i koncentracja;200
+71;1;Odchudzanie i trawienie;200
+4;1;Elektrolity;3
+6;1;Białko;5
+7;1;Białko serwatkowe;6
+8;1;Zestaw witamin i minerałów;3
+10;1;Odporność i wzmocnienie;9
+11;1;Witaminy;3
+12;1;Kreatyna;5
+13;1;Monohydrat kreatyny;12
+15;1;Napoje;14
+16;1;Napoje do przygotowania;15
+17;1;Odżywki Przedtreningowe;5
+18;1;Cytrulina;17
+19;1;Redukcja stresu i sen;9
+20;1;Kuchnia i dieta;14
+21;1;Przyprawy i aromaty;20
+22;1;Ochrona stawów;5
+23;1;Kolagen;22
+24;1;Adaptogeny;9
+25;1;Zamienniki cukru;20
+26;1;Minerały;3
+27;1;Masła i kremy;20
+28;1;Izolat białka;6
+29;1;Galaretki i kisiele;20
+31;1;Akcesoria treningowe;30
+32;1;Shakery i kanistry;31
+33;1;Pozostałe akcesoria;31
+34;1;Kazeina micelarna;6
+35;1;Antyoksydanty;9
+36;1;Odżywki na masę;5
+37;1;Gainery - Odżywki na masę;36
+38;1;Beta Alanina;17
+39;1;Mieszanki białek;6
+40;1;Shoty;5
+41;1;Shoty przed treningiem;40
+42;1;Słodycze i przekąski;14
+43;1;Pozostałe słodycze i przekąski;42
+44;1;Arginina i cytrulina;17
+45;1;Budynie i kaszki;20
+46;1;Sosy i syropy;20
+47;1;Danie gotowe;14
+48;1;Obiady;47
+49;1;Aminokwasy;5
+50;1;EAA;49
+52;1;Pobudzenie;51
+53;1;Odzież treningowa;30
+54;1;Bokserki i koszulki;53
+55;1;Odżywki Potreningowe;5
+56;1;Carbo / Węglowodany / Izotoniki;55
+57;1;Batony;42
+58;1;Glutamina;49
+59;1;Dżemy i frużeliny;20
+60;1;Przedtreningówka;17
+61;1;Kawy i herbaty;15
+62;1;Batony energetyczne;42
+63;1;Czekolady;42
+64;1;Rękawiczki treningowe;31
+65;1;Dla mężczyzn;5
+66;1;Boostery testosteronu;65
+67;1;Żele energetyczne;55
+68;1;Oleje i tłuszcze;20
+69;1;Musli i granole;20
+70;1;Naleśniki proteinowe;20
+72;1;Wątroba;71
+73;1;Trawienie;71
+74;1;Białko wegańskie/ roślinne;6
+75;1;Nerki;53
+76;1;MSM;22
+77;1;Koncentracja;51
+78;1;Skóra, włosy, paznokcie;9
+79;1;Pozostałe kreatyny;12
+80;1;Orzechy;42
+81;1;Czapki;53
+82;1;Probiotyki;71
+83;1;TCM - jabłczan kreatyny;12
+84;1;Shoty pozostałe;40
+85;1;Pozostałe produkty;20
+86;1;Ciastka;42
+87;1;Gumy do ćwiczeń;31
+88;1;Spalacze tłuszczu;5
+89;1;Ze stymulantami;88
+90;1;Pozostałe produkty;65
+91;1;Bez stymulantów;88
+92;1;Superfoods;20
+93;1;Owoce liofilizowane i suszone;42
+94;1;Aminokwasy BCAA;49
+95;1;Wzrok i oczy;9
+96;1;Izotoniki;55
+97;1;Miksy składnikowe;22
+98;1;Pozostałe aminokwasy;49
+100;1;Glukozamina;22
+101;1;Mąki;20
+102;1;Lody proteinowe;20
+103;1;Miksy składnikowe;55
+104;1;Pozostałe napoje;15
+107;1;BCAA;106
