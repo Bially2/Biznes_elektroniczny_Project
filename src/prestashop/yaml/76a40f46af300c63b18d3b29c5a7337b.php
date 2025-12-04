@@ -39,7 +39,20 @@
       ),
     ),
   ),
-  'assets' => NULL,
+  'assets' => 
+  array (
+    'js' => 
+    array (
+      'all' => 
+      array (
+        0 => 
+        array (
+          'id' => 'custom-js',
+          'path' => 'assets/js/custom.js',
+        ),
+      ),
+    ),
+  ),
   'global_settings' => 
   array (
     'configuration' => 
