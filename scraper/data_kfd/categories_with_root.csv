@@ -1,0 +1,107 @@
+ID;Active;Name;Parent ID;Parent Name;Root Category
+3;1;KATEGORIE;2;;1
+4;1;Zdrowie i kondycja;2;KATEGORIE;0
+5;1;Witaminy i minerały;4;Zdrowie i kondycja;0
+6;1;Elektrolity;5;Witaminy i minerały;0
+7;1;Odżywki i suplementy;2;KATEGORIE;0
+8;1;Białko;7;Odżywki i suplementy;0
+9;1;Białko serwatkowe;8;Białko;0
+10;1;Zestaw witamin i minerałów;5;Witaminy i minerały;0
+11;1;Zdrowie;4;Zdrowie i kondycja;0
+12;1;Odporność i wzmocnienie;11;Zdrowie;0
+13;1;Witaminy;5;Witaminy i minerały;0
+14;1;Kreatyna;7;Odżywki i suplementy;0
+15;1;Monohydrat kreatyny;14;Kreatyna;0
+16;1;Zdrowa Żywność;2;KATEGORIE;0
+17;1;Napoje;16;Zdrowa Żywność;0
+18;1;Napoje do przygotowania;17;Napoje;0
+19;1;Odżywki Przedtreningowe;7;Odżywki i suplementy;0
+20;1;Cytrulina;19;Odżywki Przedtreningowe;0
+21;1;Redukcja stresu i sen;11;Zdrowie;0
+22;1;Kuchnia i dieta;16;Zdrowa Żywność;0
+23;1;Przyprawy i aromaty;22;Kuchnia i dieta;0
+24;1;Ochrona stawów;7;Odżywki i suplementy;0
+25;1;Kolagen;24;Ochrona stawów;0
+26;1;Adaptogeny;11;Zdrowie;0
+27;1;Zamienniki cukru;22;Kuchnia i dieta;0
+28;1;Minerały;5;Witaminy i minerały;0
+29;1;Masła i kremy;22;Kuchnia i dieta;0
+30;1;Izolat białka;8;Białko;0
+31;1;Galaretki i kisiele;22;Kuchnia i dieta;0
+32;1;Akcesoria i ubrania;2;KATEGORIE;0
+33;1;Akcesoria treningowe;32;Akcesoria i ubrania;0
+34;1;Shakery i kanistry;33;Akcesoria treningowe;0
+35;1;Pozostałe akcesoria;33;Akcesoria treningowe;0
+36;1;Kazeina micelarna;8;Białko;0
+37;1;Antyoksydanty;11;Zdrowie;0
+38;1;Odżywki na masę;7;Odżywki i suplementy;0
+39;1;Gainery - Odżywki na masę;38;Odżywki na masę;0
+40;1;Beta Alanina;19;Odżywki Przedtreningowe;0
+41;1;Mieszanki białek;8;Białko;0
+42;1;Shoty;7;Odżywki i suplementy;0
+43;1;Shoty przed treningiem;42;Shoty;0
+44;1;Słodycze i przekąski;16;Zdrowa Żywność;0
+45;1;Pozostałe słodycze i przekąski;44;Słodycze i przekąski;0
+46;1;Arginina i cytrulina;19;Odżywki Przedtreningowe;0
+47;1;Budynie i kaszki;22;Kuchnia i dieta;0
+48;1;Sosy i syropy;22;Kuchnia i dieta;0
+49;1;Danie gotowe;16;Zdrowa Żywność;0
+50;1;Obiady;49;Danie gotowe;0
+51;1;Aminokwasy;7;Odżywki i suplementy;0
+52;1;EAA;51;Aminokwasy;0
+53;1;Energia i koncentracja;4;Zdrowie i kondycja;0
+54;1;Pobudzenie;53;Energia i koncentracja;0
+55;1;Odzież treningowa;32;Akcesoria i ubrania;0
+56;1;Bokserki i koszulki;55;Odzież treningowa;0
+57;1;Odżywki Potreningowe;7;Odżywki i suplementy;0
+58;1;Carbo / Węglowodany / Izotoniki;57;Odżywki Potreningowe;0
+59;1;Batony;44;Słodycze i przekąski;0
+60;1;Glutamina;51;Aminokwasy;0
+61;1;Dżemy i frużeliny;22;Kuchnia i dieta;0
+62;1;Przedtreningówka;19;Odżywki Przedtreningowe;0
+63;1;Kawy i herbaty;17;Napoje;0
+64;1;Batony energetyczne;44;Słodycze i przekąski;0
+65;1;Czekolady;44;Słodycze i przekąski;0
+66;1;Rękawiczki treningowe;33;Akcesoria treningowe;0
+67;1;Dla mężczyzn;7;Odżywki i suplementy;0
+68;1;Boostery testosteronu;67;Dla mężczyzn;0
+69;1;Żele energetyczne;57;Odżywki Potreningowe;0
+70;1;Oleje i tłuszcze;22;Kuchnia i dieta;0
+71;1;Musli i granole;22;Kuchnia i dieta;0
+72;1;Naleśniki proteinowe;22;Kuchnia i dieta;0
+73;1;Odchudzanie i trawienie;4;Zdrowie i kondycja;0
+74;1;Wątroba;73;Odchudzanie i trawienie;0
+75;1;Trawienie;73;Odchudzanie i trawienie;0
+76;1;Białko wegańskie/ roślinne;8;Białko;0
+77;1;Nerki;55;Odzież treningowa;0
+78;1;MSM;24;Ochrona stawów;0
+79;1;Koncentracja;53;Energia i koncentracja;0
+80;1;Skóra, włosy, paznokcie;11;Zdrowie;0
+81;1;Pozostałe kreatyny;14;Kreatyna;0
+82;1;Orzechy;44;Słodycze i przekąski;0
+83;1;Czapki;55;Odzież treningowa;0
+84;1;Probiotyki;73;Odchudzanie i trawienie;0
+85;1;TCM - jabłczan kreatyny;14;Kreatyna;0
+86;1;Shoty pozostałe;42;Shoty;0
+87;1;Pozostałe produkty;22;Kuchnia i dieta;0
+88;1;Ciastka;44;Słodycze i przekąski;0
+89;1;Gumy do ćwiczeń;33;Akcesoria treningowe;0
+90;1;Spalacze tłuszczu;7;Odżywki i suplementy;0
+91;1;Ze stymulantami;90;Spalacze tłuszczu;0
+92;1;Pozostałe produkty;67;Dla mężczyzn;0
+93;1;Bez stymulantów;90;Spalacze tłuszczu;0
+94;1;Superfoods;22;Kuchnia i dieta;0
+95;1;Owoce liofilizowane i suszone;44;Słodycze i przekąski;0
+96;1;Aminokwasy BCAA;51;Aminokwasy;0
+97;1;Wzrok i oczy;11;Zdrowie;0
+98;1;Izotoniki;57;Odżywki Potreningowe;0
+99;1;Miksy składnikowe;24;Ochrona stawów;0
+100;1;Pozostałe aminokwasy;51;Aminokwasy;0
+101;1;Prozdrowotne;2;Zdrowie i kondycja;0
+102;1;Glukozamina;24;Zdrowie;0
+103;1;Mąki;22;Kuchnia i dieta;0
+104;1;Lody proteinowe;22;Kuchnia i dieta;0
+105;1;Miksy składnikowe;57;Odżywki Potreningowe;0
+106;1;Pozostałe napoje;17;Napoje;0
+107;1;Aminokwasy;2;Odżywki i suplementy;0
+108;1;BCAA;108;Aminokwasy;0

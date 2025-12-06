@@ -78,11 +78,69 @@ header .header-top {
 .header-nav .col-md-7.right-nav {
     padding-top: 10px;
 }
-
-#_desktop_top_menu .sub-menu {
-    width: 350px !important;
+#_desktop_top_menu > ul > li > a {
+    color: #ffffff !important; /* Biały tekst */
+    background: transparent !important; /* Brak tła pod tekstem */
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    display: flex;
+    align-items: center;
 }
 
+/* 2. ROZWIJANE MENU (SUB-MENU) - MA BYĆ CZYSTĄ LISTĄ */
+/* Stylujemy kontener, żeby miał białe tło i ramkę */
+#_desktop_top_menu .sub-menu {
+    background-color: #ffffff !important;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1); /* Mocniejszy cień dla lepszej widoczności */
+    border: 1px solid #eeeeee;
+    border-top: none; /* Usunięcie górnej ramki, żeby ładnie się łączyło */
+    padding: 25px !important; /* Większy odstęp w środku - powiększa optycznie */
+    border-radius: 0 0 8px 8px;
+
+    /* --- TO NAPRAWIA POZYCJĘ I ROZMIAR --- */
+    top: 100% !important; /* Przesuwa menu idealnie pod niebieski pasek */
+    margin-top: 0px !important; /* Kasuje ewentualne odstępy */
+    
+    min-width: 450px !important; /* Zwiększona szerokość (wcześniej pewnie było mniej lub auto) */
+    z-index: 9999; /* Żeby na pewno było na wierzchu */
+}
+
+/* Dodatkowo upewnijmy się, że linki w środku mają miejsce */
+#_desktop_top_menu .sub-menu ul {
+    width: 100% !important;
+}
+#_desktop_top_menu ul.top-menu li:hover > a {
+    background-color: #3D52D5 !important; /* Twój kolor wiodący (jasny granat/niebieski) */
+    color: #ffffff !important; /* Tekst pozostaje biały */
+    text-decoration: none !important;
+    box-shadow: inset 0 0 5px rgba(0,0,0,0.2); /* Lekki cień wewnętrzny dla głębi */
+}
+/* Stylujemy linki WEWNĄTRZ rozwijanego menu (Elektrolity, Witaminy itp.) */
+#_desktop_top_menu .sub-menu a,
+#_desktop_top_menu .sub-menu li a {
+    color: #333333 !important; /* Ciemnoszary tekst */
+    background: transparent !important; /* USUWAMY tło przycisku */
+    border: none !important; /* USUWAMY ramkę */
+    font-weight: 400 !important; /* Zwykła czcionka, nie pogrubiona */
+    text-transform: none !important; /* Normalna pisownia (nie same wielkie) */
+    padding: 6px 0 !important;
+    margin: 0 !important;
+    display: block !important;
+    width: 100%;
+    text-align: left;
+}
+
+/* Efekt najechania myszką w sub-menu */
+#_desktop_top_menu .sub-menu a:hover {
+    color: #3D52D5 !important; /* Twój kolor niebieski po najechaniu */
+    background: transparent !important;
+    text-decoration: underline;
+}
+
+/* Ukrycie ewentualnych obrazków w menu, jeśli psują układ */
+#_desktop_top_menu .sub-menu .top-menu li[data-depth="1"] {
+    margin-bottom: 5px;
+}
 .products.row {
     display: flex;
     flex-wrap: wrap;
@@ -169,7 +227,7 @@ header .header-top {
     position: relative;
 }
 
-#_desktop_top_menu ul.top-menu li a.dropdown-item {
+/* #_desktop_top_menu ul.top-menu li a.dropdown-item {
     position: relative;
     display: inline-block;
     color: #ffffff !important;
@@ -182,7 +240,7 @@ header .header-top {
     background-color: #011638;
     transition: color 0.3s;
     z-index: 100;
-}
+} */
 
 #_desktop_top_menu ul.top-menu li:not(:last-child)::after {
     content: '';
@@ -194,7 +252,7 @@ header .header-top {
     border-radius: 6px;
 }
 
-#_desktop_top_menu ul.top-menu li a.dropdown-item::before {
+/* #_desktop_top_menu ul.top-menu li a.dropdown-item::before {
     content: '';
     position: absolute;
     top: -18px;
@@ -205,11 +263,11 @@ header .header-top {
     z-index: -1;
     opacity: 0;
     border-radius: 8px;
-}
+} */
 
-#_desktop_top_menu ul.top-menu li a.dropdown-item:hover::before {
+/* #_desktop_top_menu ul.top-menu li a.dropdown-item:hover::before {
     opacity: 1;
-}
+} */
 
 .current-price-value {
     font-size: 32px;
