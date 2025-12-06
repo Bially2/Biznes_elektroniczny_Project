@@ -41,10 +41,10 @@ assets:
 #        path: assets/css/product.css
 #        media: all
 #        priority: 200
-#  js:
-#    cart:
-#      - id: cat-extra-lib
-#        path: assets/js/cart-lib.js
+  js:
+    all:
+      - id: custom-js
+        path: assets/js/custom.js
 
 
 global_settings:
