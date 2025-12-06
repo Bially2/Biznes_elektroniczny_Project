@@ -103,10 +103,6 @@ header .header-top {
     min-height: 420px;
 }
 
-.product-flags {
-    display: none !important;
-}
-
 .product-miniature {
     display: flex;
     flex-direction: column;
@@ -561,4 +557,8 @@ ul li a:hover {
 
 .login-form .forgot-password a:hover {
     color: #3D52D5 !important;
+}
+
+.contact-rich .block:nth-of-type(4) {
+    display: none !important;
 }
