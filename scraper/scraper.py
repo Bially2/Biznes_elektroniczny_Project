@@ -166,9 +166,6 @@ class KFDScraper:
         logger.warning("  ⚠️ Brak JSON-LD BreadcrumbList na stronie produktu.")
         return None
 
-
-
-
     def get_product_urls_from_category(self, category_url, category_name, limit=None):
         """Pobiera listę URL produktów z kategorii KFD, obsługując paginację i filtrowanie."""
         logger.info(f"🔍 Skanowanie: {category_name} ({category_url})")
@@ -176,7 +173,6 @@ class KFDScraper:
         product_urls = []
         page_url = category_url
         page_count = 1
-
 
         try:
             while page_url:
@@ -209,8 +205,6 @@ class KFDScraper:
                 if not product_cards:
                     logger.warning(f"  ⚠️ Brak produktów na stronie {page_count}.")
 
-
-
                     break  # W przypadku braku produktów na pierwszej stronie
 
                 current_page_products = []
@@ -238,8 +232,6 @@ class KFDScraper:
                 if not page_url: break  # Limit osiągnięty
 
                 # --- PORÓWNANIE PRZECIWKO NIESKOŃCZONEJ PĘTLI ---
-
-
 
                 # --- OBSŁUGA PAGINACJI ---
                 next_page_link = None
@@ -273,8 +265,35 @@ class KFDScraper:
         logger.info(f"  ✅ Znaleziono {len(product_urls)} unikalnych URL produktów.")
         return product_urls
 
+    def extract_full_jsonld(self, driver):
+        """Pobiera wszystkie dane z JSON-LD, szukając głównego bloku Product."""
+        js_script = """
+        const scripts = document.querySelectorAll('script[type="application/ld+json"]');
+        if (scripts.length === 0) return null;
+
+        for (let i = 0; i < scripts.length; i++) {
+            try {
+                const content = JSON.parse(scripts[i].textContent);
+                // Szukamy głównego bloku typu Product
+                if (content['@type'] === 'Product') {
+                    return JSON.stringify(content);
+                }
+            } catch (e) {
+                // Ignore parsing errors
+            }
+        }
+        return null;
+        """
+        try:
+            json_str = driver.execute_script(js_script)
+            if json_str:
+                return json.loads(json_str)
+        except Exception as e:
+            logger.error(f"  ❌ Błąd wykonania skryptu JS do pobrania pełnego JSON-LD: {e}")
+        return None
+
     def scrape_product_details(self, product_url, category_name):
-        """Pobiera szczegóły produktu, wykorzystując osadzone dane JSON (data-product)."""
+        """Pobiera szczegóły produktu, używając JSON-LD jako backup dla wagi/marki."""
         driver = self.create_driver()
 
         try:
@@ -290,36 +309,64 @@ class KFDScraper:
                 "reference": f"KFD_{hashlib.sha256(product_url.encode()).hexdigest()[:8]}",
                 "attributes": {},
                 "images": [],
-                "usage": ""  # Dodajemy pole usage, którego brakowało w poprzednim kodzie
+                "usage": "",
+                "weight": "",  # Inicjalizacja: Waga
+                "brand": ""  # Inicjalizacja: Marka
             }
 
-            # --- KROK 0: POBIERANIE HIERARCHII Z BREADCRUMBÓW ---
+            # --- KROK 0a: POBIERANIE WAGI I MARKI Z PEŁNEGO JSON-LD (Jako priorytetowe źródło) ---
+            jsonld_data = self.extract_full_jsonld(driver)
+
+            if jsonld_data:
+                # Waga z JSON-LD
+                weight_data = jsonld_data.get("weight", {})
+                if weight_data and weight_data.get('value') and weight_data.get('unitCode'):
+                    product_data["weight"] = f"{weight_data['value']} {weight_data['unitCode']}".strip()
+                    logger.info("  ✓ Waga produktu pobrana z JSON-LD.")
+
+                # Producent z JSON-LD
+                brand_data = jsonld_data.get("brand", {})
+                if brand_data and brand_data.get('name'):
+                    product_data["brand"] = brand_data["name"].strip()
+                    logger.info("  ✓ Producent produktu pobrany z JSON-LD.")
+
+            # --- KROK 0b: POBIERANIE HIERARCHII Z BREADCRUMBÓW ---
             breadcrumb_elements = self.extract_categories_from_jsonld(driver)
 
             if breadcrumb_elements:
-                self.lock.acquire()  # Zabezpieczamy dostęp do listy kategorii
+                self.lock.acquire()
                 try:
-                    # Używamy nowej, bezpiecznej metody do aktualizacji kategorii:
                     self.update_categories_from_breadcrumbs(breadcrumb_elements)
                 finally:
                     self.lock.release()
 
-                # Zmieniamy kategorię produktu na ostatnią z breadcrumbów
-                if self.categories:
-                    product_data['category'] = self.categories[-1]['name']
+                category_path_names = []
+                for element in breadcrumb_elements:
+                    # Pomijamy 'Strona główna' i sam produkt (zawsze ostatni element)
+                    name = element.get('name', '').strip()
+                    if name and name.lower() != 'strona główna' and element.get('position', 0) < len(
+                            breadcrumb_elements):
+                        category_path_names.append(name)
 
-            # --- KLUCZOWY KROK 1: POBIERANIE DANYCH Z JSON ---
+                # Tworzymy ścieżkę w formacie wymaganym przez Prestashop (np. Kategoria A > Kategoria B)
+                # Użyjemy separatora, który jest bezpieczny (np. > lub |)
+                product_data['category'] = ",".join(category_path_names)
+
+                if not product_data['category']:
+                    # Używamy pierwotnej kategorii, jeśli Breadcrumb nie zadziałał
+                    product_data['category'] = category_name
+
+            # --- KLUCZOWY KROK 1: POBIERANIE DANYCH Z JSON (data-product) ---
             try:
-                # Szukamy kontenera danych Prestashop (zgodnie z załączonym kodem)
                 data_element = driver.find_element(By.CSS_SELECTOR, "div.js-product-details")
                 json_data_str = data_element.get_attribute('data-product')
                 product_json = json.loads(json_data_str)
-                logger.info("  ✓ Dane JSON produktu pobrane pomyślnie.")
+                logger.info("  ✓ Dane JSON produktu pobrane pomyślnie z data-product.")
             except Exception as e:
                 logger.error(f"  ❌ Błąd krytyczny: Nie można pobrać/sparsować JSON (data-product): {e}")
                 return None
 
-            # --- KROK 2: EKSTRAKCJA DANYCH Z JSON ---
+            # --- KROK 2: EKSTRAKCJA DANYCH Z JSON (data-product) ---
 
             # 1. NAZWA, CENA, REFERENCJA
             product_data["name"] = product_json.get("name", "").strip()
@@ -339,33 +386,42 @@ class KFDScraper:
                     usage_html = item.get("content", "")
                     product_data["usage"] = BeautifulSoup(usage_html, 'html.parser').get_text(separator=' ',
                                                                                               strip=True)[:1000]
-                    logger.info("  ✓ Sposób użycia pobrany z JSON.")
+                    logger.info("  ✓ Sposób użycia pobrany z data-product.")
                     break
 
-            # 4. ATRYBUTY (Specyfikacja - nadal z HTML jako backup)
+            # 4. WAGA (Nadpisanie tylko jeśli data-product ma kompletną wagę)
+            weight_data_product = product_json.get("weight", {})
+            if weight_data_product and weight_data_product.get('value') and weight_data_product.get('unitCode'):
+                product_data["weight"] = weight_data['value']
+                logger.info(f"  ✓ Waga produktu: {product_data['weight']} (z data-product, nadpisano)")
+            # ELSE: Zostawiamy wartość z JSON-LD
+
+            # 5. PRODUCENT (Nadpisanie tylko jeśli data-product ma kompletną markę)
+            brand_data_product = product_json.get("brand", {})
+            if brand_data_product and brand_data_product.get("name"):
+                product_data["brand"] = brand_data_product["name"].strip()
+                logger.info(f"  ✓ Producent produktu: {product_data['brand']} (z data-product, nadpisano)")
+            # ELSE: Zostawiamy wartość z JSON-LD
+
+            # 6. ZDJĘCIA (Link HR z JSON)
             try:
-                spec_table = driver.find_elements(By.CSS_SELECTOR,
-                                                  "#product_attributes_list li, .product_attributes_table li")
-                for item in spec_table:
-                    text = item.text.strip()
-                    if ":" in text:
-                        key, value = text.split(":", 1)
-                        product_data["attributes"][key.strip()] = value.strip()
-            except:
-                pass
+                images = []
+                # Pobierz zdjęcie home_default
+                if 'home_default' in product_json['cover']['bySize']:
+                    home_default_url = self.clean_url(product_json['cover']['bySize']['home_default']['url'])
+                    images.append(home_default_url)
 
-            # 5. ZDJĘCIA (Link HR z JSON)
-            try:
-                cover_image_url = product_json['cover']['bySize']['home_default']['url']
-                product_data["images"] = [self.clean_url(cover_image_url)]
-            except:
-                # W przypadku błędu JSON, wracamy do logiki Selenium
-                main_image_elem = driver.find_element(By.CSS_SELECTOR, "img.js-qv-product-cover")
-                product_data["images"] = [self.clean_url(main_image_elem.get_attribute("src"))]
+                # Pobierz zdjęcie large_default
+                if 'large_default' in product_json['cover']['bySize']:
+                    large_default_url = self.clean_url(product_json['cover']['bySize']['large_default']['url'])
+                    images.append(large_default_url)
 
-            product_data["images"] = list(set(product_data["images"]))[:2]
+                product_data["images"] = images
+                logger.info(f"  ✓ Zdjęcia produktu: {product_data['images']}")
+            except Exception as e:
+                logger.warning(f"  ⚠️ Nie udało się pobrać zdjęć: {e}")
 
-            # --- ZAKOŃCZENIE FUNKCJI (Z POPRAWNYM WYJŚCIEM) ---
+            # --- ZAKOŃCZENIE FUNKCJI ---
             if not product_data["name"]:
                 logger.warning("  ⚠️ Produkt odrzucony: Nazwa pusta.")
                 return None
@@ -401,7 +457,7 @@ class KFDScraper:
 
             if url and name and url not in url_to_id:
                 # To jest nowa kategoria, dodajemy ją
-                new_id = len(self.categories) + 1
+                new_id = len(self.categories) + 3
 
                 cat_data = {
                     "id": new_id,
@@ -425,7 +481,8 @@ class KFDScraper:
         # Sprawdzamy, czy wszystkie kategorie mają rodzica
         for category in self.categories:
             if category['parent_id'] == 0:
-                logger.warning(f"⚠️ Kategoria '{category['name']}' nie miała rodzica. Ustawiono 'KATEGORIE' jako rodzica.")
+                logger.warning(
+                    f"⚠️ Kategoria '{category['name']}' nie miała rodzica. Ustawiono 'KATEGORIE' jako rodzica.")
                 category['parent_id'] = 1
 
     def download_image(self, url, product_name, index, referer_url):
@@ -457,8 +514,6 @@ class KFDScraper:
             # Zmiana limitu wymiarów na 300px
             img = Image.open(BytesIO(response.content))
             width, height = img.size
-
-
 
             # --- ZAPIS PLIKU ---
             safe_name = "".join(c for c in product_name if c.isalnum() or c in (' ', '-', '_'))
@@ -570,9 +625,9 @@ class KFDScraper:
             writer.writerow(['ID', 'Active', 'Name', 'Parent Name', 'Root Category'])
 
             for cat in self.categories:
-                parent_name = id_to_name.get(cat['parent_id'], 'Nieznany')
+                parent_name = '' if cat['name'] == 'KATEGORIE' else id_to_name.get(cat['parent_id'], 'KATEGORIE')
 
-                is_root = 1 if cat['parent_id'] == 0 else 0
+                is_root = 1 if cat['id'] == 3 else 0
 
                 # Zapisujemy tylko 5 wymaganych pól
                 writer.writerow([
@@ -593,23 +648,34 @@ class KFDScraper:
             # ZMIANA 1: DODANIE 'Usage' do nagłówka
             writer.writerow([
                 'ID', 'Name', 'Categories', 'Price',
-                'Reference', 'Description', 'Usage', 'Image URLs', 'Feature'  # Dodano 'Sposób Użycia'
+                'Reference', 'Description', 'Usage', 'Weight', 'Brand', 'Image URLs', 'Feature'
             ])
 
-            for idx, product in enumerate(self.products, 1):
+            for idx, product in enumerate(self.products, 3):
                 attributes_text = "; ".join(
                     [f"{k}:{v}:0" for k, v in product['attributes'].items()])
 
+                weight = product.get('weight', '')
+                if weight:
+                    weight = re.sub(r'[^\d.]', '', weight)  # Zachowaj tylko cyfry i kropki
+
+                attributes_text = "; ".join(
+                    [f"{k}:{v}:0" for k, v in product['attributes'].items()]
+                )
+
                 image_urls = ";".join([img_data['url'] for img_data in product.get('local_images', [])])
+                final_category_export = product['category'].replace(';', ',')
 
                 writer.writerow([
                     idx,
                     product['name'],
-                    product['category'],
+                    final_category_export,
                     product['price'],
                     product['reference'],
                     product['description'],
                     product.get('usage', ''),  # ZMIANA 2: Dodanie wartości z nowego pola 'usage'
+                    product.get('weight', ''),  # Dodanie pola 'weight'
+                    product.get('brand', ''),  # Dodanie pola 'brand'
                     image_urls,
                     attributes_text
                 ])
@@ -766,11 +832,12 @@ if __name__ == "__main__":
 
     # Wstawiamy fałszywą kategorię, która reprezentuje stronę wejściową
     scraper.categories = [{
-        "id": 1,
+        "id": 3,
         "name": CATEGORY_NAME,
         "url": TARGET_URL,
         "parent_id": 0,
-        "active": 1
+        "active": 1,
+        "root_category": 1
     }]
 
     logger.info("--- START PEŁNEGO SKANOWANIA Z WYDOBYCIEM HIERARCHII Z PRODUKTÓW ---")
@@ -780,7 +847,7 @@ if __name__ == "__main__":
 
     scraper.run(
         categories_limit=1,  # Przetwarzamy tylko tę jedną, ręcznie dodaną kategorię
-        products_per_category=64,  # Pobieramy WSZYSTKIE produkty
+        products_per_category=8,  # Pobieramy WSZYSTKIE produkty
         batch_size=8
     )
 
