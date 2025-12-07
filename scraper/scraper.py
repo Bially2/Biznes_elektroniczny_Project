@@ -422,6 +422,12 @@ class KFDScraper:
                 # Jeśli kategoria już istnieje, aktualizujemy ID rodzica dla kolejnego elementu
                 last_parent_id = url_to_id[url]
 
+        # Sprawdzamy, czy wszystkie kategorie mają rodzica
+        for category in self.categories:
+            if category['parent_id'] == 0:
+                logger.warning(f"⚠️ Kategoria '{category['name']}' nie miała rodzica. Ustawiono 'KATEGORIE' jako rodzica.")
+                category['parent_id'] = 1
+
     def download_image(self, url, product_name, index, referer_url):
         """Pobiera zdjęcie i zwraca (Oryginalny URL, Nazwa Pliku)."""
         # --- FIX: AGRESYWNE NAGŁÓWKI DO POBIERANIA OBRAZÓW ---
@@ -554,25 +560,27 @@ class KFDScraper:
         # Kategorie
         # Mapowanie ID na Nazwę dla łatwego znalezienia nazwy rodzica
         id_to_name = {cat['id']: cat['name'] for cat in self.categories}
-        id_to_name[0] = 'ROOT'  # Domyślna nazwa dla braku rodzica
+        id_to_name[0] = ''  # Domyślna nazwa dla braku rodzica
 
         # Kategorie
         categories_file = os.path.join(self.output_dir, "categories.csv")
         with open(categories_file, 'w', encoding='utf-8-sig', newline='') as f:
             writer = csv.writer(f, delimiter=';')
             # UPROSZCZONY NAGŁÓWEK:
-            writer.writerow(['ID', 'Active', 'Name', 'Parent ID', 'Parent Name'])
+            writer.writerow(['ID', 'Active', 'Name', 'Parent Name', 'Root Category'])
 
             for cat in self.categories:
                 parent_name = id_to_name.get(cat['parent_id'], 'Nieznany')
+
+                is_root = 1 if cat['parent_id'] == 0 else 0
 
                 # Zapisujemy tylko 5 wymaganych pól
                 writer.writerow([
                     cat['id'],
                     cat['active'],
                     cat['name'],
-                    cat['parent_id'],
-                    parent_name
+                    parent_name,
+                    is_root
                 ])
 
         logger.info(f"  ✓ Zapisano uproszczoną strukturę kategorii: {categories_file}")
@@ -754,7 +762,7 @@ if __name__ == "__main__":
     # --- RĘCZNA DEFINICJA KATEGORII STARTOWEJ ---
     # Musimy zainicjować listę kategorii jedną pozycją (aby rozpocząć pętlę w run)
     TARGET_URL = "https://sklep.kfd.pl/sklep-kfd-c-2.html"
-    CATEGORY_NAME = "Strona główna"
+    CATEGORY_NAME = "KATEGORIE"
 
     # Wstawiamy fałszywą kategorię, która reprezentuje stronę wejściową
     scraper.categories = [{
