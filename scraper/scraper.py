@@ -356,7 +356,7 @@ class KFDScraper:
 
             # 5. ZDJĘCIA (Link HR z JSON)
             try:
-                cover_image_url = product_json['cover']['bySize']['large_default']['url']
+                cover_image_url = product_json['cover']['bySize']['home_default']['url']
                 product_data["images"] = [self.clean_url(cover_image_url)]
             except:
                 # W przypadku błędu JSON, wracamy do logiki Selenium
@@ -423,8 +423,7 @@ class KFDScraper:
                 last_parent_id = url_to_id[url]
 
     def download_image(self, url, product_name, index, referer_url):
-        """Pobiera zdjęcie z wykorzystaniem Referer Header (URL strony detali)."""
-
+        """Pobiera zdjęcie i zwraca (Oryginalny URL, Nazwa Pliku)."""
         # --- FIX: AGRESYWNE NAGŁÓWKI DO POBIERANIA OBRAZÓW ---
         HEADERS_IMG = {
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36',
@@ -434,28 +433,33 @@ class KFDScraper:
             'Referer': referer_url
         }
 
+        cleaned_url = self.clean_url(url)  # Używamy wyczyszczonego URL
+
+        if not cleaned_url:
+            logger.warning(f"    ⚠️ URL do zdjęcia jest pusty po czyszczeniu: {url[:60]}")
+            return None
+
         try:
             # Używamy ulepszonych nagłówków
-            response = requests.get(url, headers=HEADERS_IMG, timeout=10)
+            response = requests.get(cleaned_url, headers=HEADERS_IMG, timeout=10)
 
             if response.status_code != 200:
-                logger.warning(f"    ⚠️ BŁĄD HTTP ({response.status_code}): Serwer odrzucił żądanie dla {url[:60]}")
+                logger.warning(
+                    f"    ⚠️ BŁĄD HTTP ({response.status_code}): Serwer odrzucił żądanie dla {cleaned_url[:60]}")
                 return None
 
             # Zmiana limitu wymiarów na 300px
             img = Image.open(BytesIO(response.content))
             width, height = img.size
 
-            if min(width, height) < 300:  # Ostateczne minimum
-                logger.warning(f"    ⚠️  Zdjęcie za małe: {width}x{height}px (wymagane >300px)")
-                return None
+
 
             # --- ZAPIS PLIKU ---
             safe_name = "".join(c for c in product_name if c.isalnum() or c in (' ', '-', '_'))
             safe_name = safe_name.strip().replace(' ', '_')[:50]
-            img_hash = hashlib.md5(url.encode()).hexdigest()[:8]
+            img_hash = hashlib.md5(cleaned_url.encode()).hexdigest()[:8]
 
-            extension = url.split('.')[-1].split('?')[0][:4]
+            extension = cleaned_url.split('.')[-1].split('?')[0][:4]
             if extension not in ['jpg', 'jpeg', 'png', 'webp']:
                 extension = 'jpg'
 
@@ -466,7 +470,9 @@ class KFDScraper:
                 f.write(response.content)
 
             logger.info(f"    📷 {filename} ({width}x{height}px) - Zapisano.")
-            return filename
+
+            # ZWRACAMY TERAZ KROTKĘ (ORYGINALNY_URL, LOKALNA_NAZWA_PLIKU)
+            return (cleaned_url, filename)
 
         except Exception as e:
             logger.error(f"    ❌ Błąd krytyczny podczas zapisywania/pobierania: {e}")
@@ -517,20 +523,27 @@ class KFDScraper:
             }
 
             for future in as_completed(future_to_task):
-                # Odpakowujemy argumenty
                 url, name, idx, referer_url_arg = future_to_task[future]
-
-                # Odszukujemy obiekt produktu po jego URL (referer_url_arg)
                 product = next((p for p in products if p['url'] == referer_url_arg), None)
 
                 if not product: continue
 
                 try:
-                    filename = future.result()
-                    if filename:
+                    # Oczekujemy teraz krotki (original_url, filename)
+                    result_tuple = future.result()
+
+                    if result_tuple:
+                        original_url, filename = result_tuple
+
                         if 'local_images' not in product:
+                            # Zmieniamy to na listę przechowującą słowniki
                             product['local_images'] = []
-                        product['local_images'].append(filename)
+
+                            # Zapisujemy OBA elementy
+                        product['local_images'].append({
+                            'url': original_url,
+                            'filename': filename
+                        })
                 except Exception:
                     pass
 
@@ -579,7 +592,7 @@ class KFDScraper:
                 attributes_text = "; ".join(
                     [f"{k}:{v}:0" for k, v in product['attributes'].items()])
 
-                image_urls = ";".join([f"images/{img}" for img in product.get('local_images', [])])
+                image_urls = ";".join([img_data['url'] for img_data in product.get('local_images', [])])
 
                 writer.writerow([
                     idx,
@@ -759,7 +772,7 @@ if __name__ == "__main__":
 
     scraper.run(
         categories_limit=1,  # Przetwarzamy tylko tę jedną, ręcznie dodaną kategorię
-        products_per_category=1100,  # Pobieramy WSZYSTKIE produkty
+        products_per_category=64,  # Pobieramy WSZYSTKIE produkty
         batch_size=8
     )
 
