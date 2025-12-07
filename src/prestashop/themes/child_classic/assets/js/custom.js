@@ -1,37 +1,4 @@
-document.addEventListener("DOMContentLoaded", function () {
 
-    const headers = [
-        { text: "Wyróżnione", url: "/bialko" },
-        { text: "Białko", url: "/kawa" },
-        { text: "Kreatyna", url: "/przekaski" },
-        { text: "Zdrowie i kondycja", url: "/kreatyna" },
-        { text: "Zdrowa żywność", url: "/aminokwasy" },
-        { text: "Nowości", url: "/witaminy" }
-
-    ];
-
-    const productsContainer = document.querySelector(".products");
-
-    if (!productsContainer) return;
-
-    const products = productsContainer.querySelectorAll(".product");
-
-    headers.forEach((header, index) => {
-
-        let position = index * 6;
-
-        if (products[position]) {
-            const titleDiv = document.createElement("div");
-            titleDiv.className = "category-header";
-            titleDiv.innerHTML = `
-                <a href="${header.url}">
-                    ${header.text}
-                </a>
-            `;
-            products[position].before(titleDiv);
-        }
-    });
-});
 document.addEventListener("DOMContentLoaded", function () {
     // Pobieramy wszystkie produkty
     const products = document.querySelectorAll(".product-miniature");
