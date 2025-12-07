@@ -90,8 +90,9 @@ header .header-top {
 }
 
 .products .product {
-    width: calc(16.66% - 15px);
-    max-width: calc(16.66% - 15px);
+    width: calc(25% - 15px) !important;
+    max-width: calc(25% - 15px) !important;
+    flex: 0 0 calc(25% - 15px) !important;
     background: white;
     border: 1px solid #dcdcdc;
     border-radius: 10px;
@@ -701,3 +702,12 @@ ul li a:hover {
 .register-form p a {
     color: #3D52D5;
 }
+#subcategories {
+    display: none !important;
+}
+.block-category.card.card-block h1.h1 {
+    font-size: 0 !important; 
+}
+
+
+
