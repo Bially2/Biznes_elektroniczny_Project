@@ -22,6 +22,7 @@ services:
       - ./:/var/www/html/:delegated
       - ../apache-conf/000-default.conf:/etc/apache2/sites-available/000-default.conf
       - ../apache-conf/ssl:/etc/ssl/certs
+      - ./php.ini:/usr/local/etc/php/conf.d/custom.ini
     restart: unless-stopped
 
   db:
