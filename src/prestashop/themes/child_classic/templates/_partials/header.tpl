@@ -20,18 +20,7 @@
         </div>
 
         <!-- Pasek wyszukiwania -->
-        <div id="desktop_searchbar" style="flex: 1; ">
-          <input type="text" 
-                 name="s" 
-                 value="" 
-                 placeholder="Czego szukasz?" 
-                 class="ui-autocomplete-input form-control" 
-                 autocomplete="off">
-                     
-        <span class="search-icon">
-            <i class="material-icons">&#xE8B6;</i> <!-- lupa -->
-        </span>
-        </div>
+       
 
         <!-- Hook logowanie i koszyk -->
         <div class="header-right" style="display: flex; gap: 15px; align-items: center;">
