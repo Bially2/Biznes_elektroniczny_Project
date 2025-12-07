@@ -20,7 +20,7 @@
         </div>
 
         <!-- Pasek wyszukiwania -->
-       
+        
 
         <!-- Hook logowanie i koszyk -->
         <div class="header-right" style="display: flex; gap: 15px; align-items: center;">
