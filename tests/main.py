@@ -76,15 +76,14 @@ def delete_products():
         cart_btn = wait.until(EC.element_to_be_clickable((By.XPATH, "//span[contains(text(), 'Koszyk')]")))
         cart_btn.click()
         time.sleep(2)
-        product_id = 24
+
+        product_id = 33
         xpath = f"//a[contains(@href, 'id_product={product_id}')]/ancestor::li//button[contains(@class, 'js-decrease-product-quantity')]"
-        decrease_btn = wait.until(EC.element_to_be_clickable((By.XPATH, xpath)))
-        time.sleep(1)
-        decrease_btn.click()
-        time.sleep(1)
-        decrease_btn.click()
-        time.sleep(1)
-        decrease_btn.click()
+        for i in range(3):
+            decrease_btn = wait.until(EC.element_to_be_clickable((By.XPATH, xpath)))
+            decrease_btn.click()
+            logging.info(f"Usunięecie produktu {i + 1}")
+            wait.until(EC.staleness_of(decrease_btn))
         time.sleep(2)
         logging.info("Produkt został usunięty!")
     except Exception as e:
@@ -142,14 +141,17 @@ def category1():
     category_btn = wait.until(EC.element_to_be_clickable((By.ID, "category-3")))
     hover = ActionChains(driver).move_to_element(category_btn)  # Hover
     hover.perform()
-    category_btn.click()
+    #category_btn.click()
     time.sleep(1)
-    category_heath_btn = wait.until(EC.element_to_be_clickable((By.LINK_TEXT, "Zdrowie i kondycja")))
+    category_heath_btn = wait.until(EC.element_to_be_clickable((By.XPATH, "//a[contains(normalize-space(), 'Zdrowie i kondycja')]")))
     category_heath_btn.click()
     time.sleep(2)
 
-    product1 = wait.until(EC.element_to_be_clickable((By.LINK_TEXT, "Now Foods Omega 3 1000mg -...")))
-    product1.click()
+    product_id = "2"
+    selector = f"article[data-id-product='{product_id}'] a.product-thumbnail"
+    product_link = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, selector)))
+    product_link.click()
+
     logging.info("Przejscie do strony produktu udane")
     time.sleep(2)
     count1 = wait.until(EC.presence_of_element_located((By.ID, "quantity_wanted")))
@@ -157,6 +159,7 @@ def category1():
     time.sleep(1)
     count1.send_keys(Keys.DELETE)
     count1.send_keys("4")
+    time.sleep(2)
     add_to_cart = driver.find_element(By.CSS_SELECTOR, "button.add-to-cart")
     time.sleep(1)
     add_to_cart.click()
@@ -166,14 +169,22 @@ def category1():
     continue_btn.click()
     time.sleep(3)
 def category2():
-    category1_btn = wait.until(EC.element_to_be_clickable((By.ID, "category-3")))
-    category1_btn.click()
+    category2_btn = wait.until(EC.element_to_be_clickable((By.ID, "category-3")))
+    hover = ActionChains(driver).move_to_element(category2_btn)  # Hover
+    hover.perform()
+    #category2_btn.click()
     time.sleep(1)
-    category_clothes_btn = wait.until(EC.element_to_be_clickable((By.LINK_TEXT, "Akcesoria i ubrania")))
+    time.sleep(1)
+
+    category_clothes_btn = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "#category-30 > a")))
     category_clothes_btn.click()
     time.sleep(2)
-    product2 = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "a[href*='id_product=245']")))
-    product2.click()
+
+    product_id = "33"
+    selector = f"article[data-id-product='{product_id}'] a.product-thumbnail"
+    product_link = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, selector)))
+    product_link.click()
+
     logging.info("Przejscie do strony produktu udane")
     time.sleep(2)
     count2 = wait.until(EC.presence_of_element_located((By.ID, "quantity_wanted")))
@@ -181,10 +192,12 @@ def category2():
     time.sleep(1)
     count2.send_keys(Keys.DELETE)
     count2.send_keys("6")
+    time.sleep(2)
     add_to_cart2 = driver.find_element(By.CSS_SELECTOR, "button.add-to-cart")
     time.sleep(1)
     add_to_cart2.click()
     logging.info("Produkty zostały dodane do koszyka")
+    time.sleep(1)
     continue1_btn = wait.until(EC.element_to_be_clickable((By.XPATH, "//button[contains(text(), 'Kontynuuj zakupy')]")))
     time.sleep(1)
     continue1_btn.click()
@@ -211,7 +224,7 @@ def order():
     confirm_addresses.click()
     logging.info("adres jest wpisany")
     time.sleep(1)
-    radio_wrapper = wait.until(EC.element_to_be_clickable((By.XPATH, "//input[@id='delivery_option_9']/..")))
+    radio_wrapper = wait.until(EC.element_to_be_clickable((By.XPATH, "//input[@id='delivery_option_10']/..")))
     time.sleep(1)
     radio_wrapper.click()
     time.sleep(0.5)
@@ -252,16 +265,16 @@ try:
     logging.info(f"Tytuł strony: {driver.title}")
 
     # ------- produkt z kategorii 1 dodajemy 4 sztuki
-    #category1()
+    category1()
 
     # -------- produkt z kategorii 2 dodajemy 6 sztuk
-    #category2()
+    category2()
 
     # ------- Wyszukanie produktu po nazwie i dodanie do koszyka losowego produktu spośród znalezionych
     add_random_product()
 
     # ------- przechodzimy do koszyka i usuwamy produkt
-    #delete_products()
+    delete_products()
 
     # ------- logowanie i rejestracja
     firstname, lastname = registration()
