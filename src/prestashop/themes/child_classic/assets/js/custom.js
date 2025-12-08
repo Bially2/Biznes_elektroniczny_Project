@@ -36,3 +36,41 @@ window.addEventListener('scroll', function () {
         placeholder.style.display = 'none';
     }
 });
+
+// ===== NAVBAR SUBMENU HOVER FIX - Opóźnienie znikania submenu =====
+document.addEventListener('DOMContentLoaded', function() {
+    const menuItems = document.querySelectorAll('#_desktop_top_menu.menu.js-top-menu.position-static>ul.top-menu>li');
+    
+    menuItems.forEach(item => {
+        let hideTimeout;
+        const submenu = item.querySelector('.sub-menu');
+        
+        if (!submenu) return;
+        
+        // Najazd na element menu
+        item.addEventListener('mouseenter', function() {
+            clearTimeout(hideTimeout);
+            submenu.style.display = 'block';
+        });
+        
+        // Zjazd z elementu menu
+        item.addEventListener('mouseleave', function() {
+            hideTimeout = setTimeout(() => {
+                submenu.style.display = 'none';
+            }, 800); // 800ms opóźnienia przed zniknięciem
+        });
+        
+        // Najazd na submenu
+        submenu.addEventListener('mouseenter', function() {
+            clearTimeout(hideTimeout);
+            submenu.style.display = 'block';
+        });
+        
+        // Zjazd z submenu
+        submenu.addEventListener('mouseleave', function() {
+            hideTimeout = setTimeout(() => {
+                submenu.style.display = 'none';
+            }, 800);
+        });
+    });
+});
