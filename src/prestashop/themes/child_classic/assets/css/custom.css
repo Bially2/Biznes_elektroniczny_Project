@@ -232,7 +232,9 @@ header .header-top {
     color: #3D52D5 !important;
     font-size: 18px;
     font-weight: 700;
-    margin-top: 15px;
+    margin-top: 20px;
+    text-align: center;
+    display: block;
 }
 
 .product-title a {
@@ -524,6 +526,7 @@ ul li a:hover {
 }
 
 
+/* Główny kontener menu */
 #_desktop_top_menu.menu.js-top-menu.position-static>ul.top-menu {
     display: flex !important;
     flex-wrap: nowrap !important;
@@ -533,7 +536,7 @@ ul li a:hover {
     align-items: center !important;
 }
 
-
+/* Wszystkie linki w menu górnym - jednolity styl */
 #_desktop_top_menu.menu.js-top-menu.position-static>ul.top-menu>li>a {
     color: white !important;
     font-size: 12px !important;
@@ -543,34 +546,28 @@ ul li a:hover {
     padding: 5px 10px !important;
     text-transform: uppercase !important;
     white-space: nowrap !important;
-
-}
-
-
-
-
-
-#_desktop_top_menu.menu.js-top-menu.position-static>ul.top-menu>li>a {
     position: relative;
     z-index: 1;
-    padding: 0 10px;
     line-height: 20px;
-
 }
 
 #_desktop_top_menu.menu.js-top-menu.position-static>ul.top-menu>li>a::before {
     content: '';
     position: absolute;
     top: -14px;
-    left: -18px;
-    right: -28px;
+    left: -15px;
+    right: -15px;
     bottom: -14px;
-    background-color: #023366;
+    background-color: #04205c;
     z-index: -1;
     opacity: 0;
     border-radius: 4px;
 }
-
+.home-section-title {
+    font-size: 20px!important; /* zmniejszony rozmiar tekstu */
+    font-weight: 600!important; /* pogrubienie, jeśli chcesz zachować */
+transform: scale(1.1); 
+}
 
 
 #_desktop_top_menu.menu.js-top-menu.position-static>ul.top-menu>li>a:hover::before {
@@ -729,10 +726,6 @@ ul li a:hover {
 #subcategories {
     display: none !important;
 }
-.block-category.card.card-block h1.h1 {
-    font-size: 0 !important; 
-}
-
 
 
 #_desktop_top_menu.menu.js-top-menu.position-static>ul.top-menu>li>a:hover::before {
@@ -891,10 +884,6 @@ ul li a:hover {
 #subcategories {
     display: none !important;
 }
-.block-category.card.card-block h1.h1 {
-    font-size: 0 !important; 
-}
-
 
 
 #_desktop_top_menu.menu.js-top-menu.position-static>ul.top-menu>li>a:hover::before {
@@ -1053,18 +1042,32 @@ ul li a:hover {
 #subcategories {
     display: none !important;
 }
-.block-category.card.card-block h1.h1 {
-    font-size: 0 !important; 
-}
 
-.block-categories {
-    display: none !important;
+#js-product-list-header .block-category.card.card-block  {
+    display: none !important;  /* ukrywa wszystko oprócz h1 */
 }
-
 #search_filters_brands {
     display: none !important;
 }
 
+.product-title {
+    font-size: 14px !important;  /* zmniejsza czcionkę nazwy */
+    line-height: 1.2 !important; /* dopasowuje wysokość linii */
+}
+
+/* Cena produktu */
+.price {
+
+     
+    font-size: 16px !important;  /* mniejsza czcionka ceny */
+    line-height: 1.2 !important;
+}
+
+/* Szybki podgląd (quick view) */
+.quick-view {
+    font-size: 14px !important;  /* zmniejsza przycisk szybkiego podglądu */
+    padding: 2px 5px !important; /* zmniejsza odstępy w przycisku */
+}
 
 .home-section {
     margin: 40px 0;
@@ -1083,14 +1086,28 @@ ul li a:hover {
     gap: 15px;
     padding-bottom: 10px;
 }
+#custom-text p,
+#custom-text h1 {
+    margin-bottom: 1px!important; /* zmniejsza odstęp między elementami w bloku tekstu */
+}
+
+.text-uppercase.h6.hidden-sm-down {
+    font-weight: 700!important;   /* pogrubienie */
+    font-size: 22px!important;    /* lekko większy rozmiar */
+    letter-spacing: 1px; /* opcjonalnie, lekko rozsunięte litery */
+}
+
+.products-section {
+    margin-top: 1px!important; /* zmniejsza przerwę nad sekcją produktów */
+}
 
 .product-card {
-    border: 1px solid #eee;
+    border: 1px solid #e9e8e8;
     border-radius: 10px;
     padding: 10px;
     text-align: center;
     background: white;
-    box-shadow: 0 3px 8px rgba(0,0,0,0.05);
+   
     position: relative;
 }
 
@@ -1104,19 +1121,89 @@ ul li a:hover {
     font-weight: 600;
     margin: 10px 0;
 }
+.product-prices {
+    display: flex;           
+    justify-content: center;  
+    align-items: flex-start;  /* wyrównanie do góry flex itemów */
+    gap: 5px;                 /* odstęp między cenami */
+    width: 100%;
+}
 
-.product-card .price {
-    font-size: 16px;
+.product-prices .price,
+.product-prices .regular-price {
+    margin-top: 30px;         /* oba elementy przesunięte w pionie */
+}
+
+.product-prices .price {
+    font-size: 14px;
     color: #3D52D5;
-    font-weight: 700;
+    font-weight: 1000!important;
+}
+
+.product-prices .regular-price {
+    text-decoration: line-through;
+    color: #999;
+    font-size: 13px;
 }
 
 .quick-view {
     display: block;
     font-size: 13px;
     color: #666;
-    margin-top: 10px;
+    margin-top: 30px;
+    font-weight: 200 !important;
 }
+
+.quick-view:hover {
+    color: #3D52D5!important; /* zmień na wybrany kolor */
+     font-weight: 400 !important;
+}
+.home-section-title {
+    position: relative;
+    display: inline-block; /* żeby linia dopasowała się do szerokości nagłówka */
+    margin-bottom: 50px;   /* odstęp pod linią */
+    font-size: 24px;       /* możesz dopasować rozmiar tekstu */
+}
+
+.home-section-title::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -20px;           /* 20px pod tekstem */
+    width: 1110px!important;             /* szerokie na całą szerokość nagłówka */
+    height: 1px;             /* grubość linii */
+    background-color: #e7e4e4;  /* szary kolor */
+}
+
+.discount-badge {
+    font-size: 12px;       /* rozmiar czcionki */
+    background-color: #f39d72!important; /* kolor tła */
+    color: #fff;           /* kolor tekstu */
+    padding: 1px 10px;     /* mniejszy padding pionowy, większy poziomy */
+    border-radius: 3px;    /* zaokrąglone rogi */
+    display: inline-block;
+     font-weight: 900 !important;
+    line-height: 1.2;      /* zmniejszenie wysokości linii */
+    text-align: center;  
+ 
+}
+.new-badge {
+    font-size: 12px;       /* rozmiar czcionki */
+    padding: 1px 10px;     /* smuklejsza wysokość, szersza szerokość */
+    border-radius: 3px;    /* zaokrąglone rogi */
+    display: inline-block;
+    font-weight: 600 !important; /* grubsza czcionka */
+    line-height: 1.2;      /* mniejsza wysokość linii */
+    text-align: center;  
+    background-color: #2542b6!important;  /* wyśrodkowanie tekstu */
+}
+a[href*="id_product"] {
+    color: #666;        /* szary kolor tekstu */
+    font-size: 13px;    /* mniejszy rozmiar czcionki */
+    text-decoration: none; /* opcjonalnie, usuwa podkreślenie */
+   font-weight: 800 !important;
+}
+
 
 .product-card .new-badge,
 .product-card .discount-badge {
@@ -1142,13 +1229,26 @@ ul li a:hover {
 
 .product-card .product-prices {
     margin: 8px 0;
+    text-align: center;
 }
+#custom-text {
+    margin-bottom: 10px; /* zmniejsza odstęp pod całym blokiem */
+    padding-bottom: 0;   /* usuwa ewentualny padding dolny */
+}
+
+/* Jeśli ostatni paragraf lub nagłówek ma dodatkowy margines */
+#custom-text p:last-child,
+#custom-text h1:last-child {
+    margin-bottom: 0;    /* usuwa dodatkową przerwę pod ostatnim elementem */
+}
+
 
 .product-card .regular-price {
     text-decoration: line-through;
     color: #999;
     font-size: 13px;
     margin-right: 5px;
+    font-weight:900!important;
 }
 
 @media (max-width: 768px) {
@@ -1649,4 +1749,37 @@ section#wrapper {
     /* usuwa podkreślenie */
     color: #3D52D5;
     /* niebieski kolor */
+}
+.current-price-value {
+    font-size: 32px;
+    font-weight: 700;
+    display: inline-block;
+    padding-bottom: 12px;
+    /* linia niżej */
+    border-bottom: 1px solid #ccc !important;
+    width: 550px;
+
+}
+
+.under-add-to-cart p {
+    font-size: 11px !important;
+    line-height: 1.1 !important;
+    margin: 2px 0 !important;
+    max-width: unset !important;
+    transform: none !important;
+}
+
+/* Ukrywa cały blok kategorii "Napoje do przygotowania" */
+.block-categories {
+    display: none !important;
+}
+#_desktop_user_info {
+    margin-right: -20px !important;
+    /* dopasuj wartość w px w zależności od potrzeby */
+}
+
+/* Przesunięcie koszyka w prawo */
+#_desktop_cart {
+    margin-right: -80px !important;
+    /* dopasuj wartość w px w zależności od potrzeby */
 }
