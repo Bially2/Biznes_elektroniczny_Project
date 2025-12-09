@@ -1278,9 +1278,28 @@ a[href*="id_product"] {
     transition-delay: 0s, 0s !important;
 }
 
+/* Ukryj submenu Producentów przy hover - nie pokazuj wcale */
+#_desktop_top_menu.menu.js-top-menu.position-static>ul.top-menu>li:hover > a[href*="producenci"] ~ .sub-menu,
+#_desktop_top_menu.menu.js-top-menu.position-static>ul.top-menu>li:hover > a[href*="manufacturers"] ~ .sub-menu,
+#_desktop_top_menu.menu.js-top-menu.position-static>ul.top-menu>li:hover > a[href*="supplier"] ~ .sub-menu {
+    display: none !important;
+}
+
+/* Ukryj submenu dla elementu li który zawiera link do producentów */
+#_desktop_top_menu.menu.js-top-menu.position-static>ul.top-menu>li:has(> a[href*="producenci"]):hover .sub-menu,
+#_desktop_top_menu.menu.js-top-menu.position-static>ul.top-menu>li:has(> a[href*="manufacturers"]):hover .sub-menu,
+#_desktop_top_menu.menu.js-top-menu.position-static>ul.top-menu>li:has(> a[href*="supplier"]):hover .sub-menu {
+    display: none !important;
+}
+
+/* Ukryj submenu dla drugiego elementu menu (Producenci) przy hover */
+#_desktop_top_menu.menu.js-top-menu.position-static>ul.top-menu>li:nth-child(2):hover .sub-menu {
+    display: none !important;
+}
+
 /* Zmniejsz margin-top submenu żeby był bliżej */
 #_desktop_top_menu.menu.js-top-menu.position-static>ul.top-menu>li .sub-menu {
-    margin-top: 10px !important;
+    margin-top: 20px !important;
 }
 
 /* Dodaj niewidzialny pseudo-element jako most między linkiem a submenu */
@@ -1635,6 +1654,11 @@ section#wrapper {
     line-height: 1.2 !important; 
    
 }
+.tabs {
+
+    transform: translateY(80px);
+
+}
 .nav-tabs {
     width: auto !important;       /* dopasowuje szerokość do zawartości lub rodzica */
     max-width: 100% !important;   /* nie wykracza poza ekran */
@@ -1782,4 +1806,117 @@ section#wrapper {
 #_desktop_cart {
     margin-right: -80px !important;
     /* dopasuj wartość w px w zależności od potrzeby */
+}
+
+.register-form input[name="optin"],
+.register-form input[name="customer_privacy"],
+.register-form label[for="optin"],
+.register-form label[for="customer_privacy"] {
+    display: none !important;
+}
+
+/* Ukryj całe grupy formularzy z tymi checkboxami */
+.register-form .form-group:has(input[name="optin"]),
+.register-form .form-group:has(input[name="customer_privacy"]) {
+    display: none !important;
+}
+
+#search_filters_wrapper,
+#search_filters_wrapper * {
+    color: #000000 !important;
+    text-align: left !important;
+}
+
+#search_filters_wrapper li,
+#search_filters_wrapper .facet-label,
+#search_filters_wrapper a.select-list,
+#search_filters_wrapper p,
+#search_filters_wrapper label {
+    margin-top: 5px !important;
+}
+
+
+#search_filters_wrapper ul {
+    list-style: none !important;
+    padding-left: 0 !important;
+}
+
+#search_filters_wrapper .facet-title,
+#search_filters_wrapper p.h6 {
+    font-weight: bold !important;
+    margin: 2px 0 6px !important;
+    color: #000 !important;
+}
+
+#search_filters_wrapper a {
+    color: #000 !important;
+    text-decoration: none;
+}
+
+#search_filters_wrapper .facet-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+#search_filters_wrapper i.material-icons {
+    color: #000 !important;
+}
+
+#search_filters_wrapper p,
+#search_filters_wrapper a,
+#search_filters_wrapper label,
+#search_filters_wrapper .facet-title,
+#search_filters_wrapper .title {
+    padding-left: 10px !important;
+}
+
+
+#search_filters_wrapper [id^="facetlabel"] {
+    display: block !important;
+    padding-left: 10px !important;
+    margin-bottom: 10px !important;
+    color: #000000 !important;
+}
+
+#search_filters_wrapper p.text-uppercase.h6.hidden-sm-down {
+    display: block !important;
+    width: 100% !important;
+    font-size: 22px !important;
+    font-weight: 400 !important;
+    padding-left: 9px !important;
+    margin-bottom: 10px !important;
+    color: #000 !important;
+}
+#blockEmailSubscription_displayFooterBefore form>.row>.col-xs-12>p {
+    font-size: 10px !important;
+    margin-left: 22px;
+
+}
+
+#blockEmailSubscription_displayFooterBefore input[name="email"] {
+    border-radius: 4px;
+
+
+}
+
+.gdpr_consent span a {
+    color: #3D52D5;
+
+}
+
+.links .h3,
+.links .myaccount-title,
+.block-contact-title {
+    white-space: nowrap;
+    font-weight: 1000 !important;
+    font-size: 15px;
+    overflow: hidden;
+    letter-spacing: 0.4px;
+    text-overflow: ellipsis;
+}
+
+form[action*="controller=search"] .material-icons.search {
+    margin-left: 350px;
+    margin-top: 3px;
 }
