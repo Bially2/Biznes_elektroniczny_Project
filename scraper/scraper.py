@@ -320,9 +320,10 @@ class KFDScraper:
             if jsonld_data:
                 # Waga z JSON-LD
                 weight_data = jsonld_data.get("weight", {})
-                if weight_data and weight_data.get('value') and weight_data.get('unitCode'):
-                    product_data["weight"] = f"{weight_data['value']} {weight_data['unitCode']}".strip()
-                    logger.info("  ✓ Waga produktu pobrana z JSON-LD.")
+                if weight_data and weight_data.get('value'):
+                    # Zachowaj tylko wartość liczbową wagi
+                    product_data["weight"] = re.sub(r'[^\d.]', '', str(weight_data['value']))
+                    logger.info(f"  ✓ Waga produktu: {product_data['weight']} (bez jednostek)")
 
                 # Producent z JSON-LD
                 brand_data = jsonld_data.get("brand", {})
@@ -645,7 +646,7 @@ class KFDScraper:
         with open(products_file, 'w', encoding='utf-8-sig', newline='') as f:
             writer = csv.writer(f, delimiter=';')
 
-            # ZMIANA 1: DODANIE 'Usage' do nagłówka
+            # Nagłówki
             writer.writerow([
                 'ID', 'Name', 'Categories', 'Price',
                 'Reference', 'Description', 'Usage', 'Weight', 'Brand', 'Image URLs', 'Feature'
@@ -653,18 +654,26 @@ class KFDScraper:
 
             for idx, product in enumerate(self.products, 3):
                 attributes_text = "; ".join(
-                    [f"{k}:{v}:0" for k, v in product['attributes'].items()])
+                    [f"{k}:{v}:0" for k, v in product['attributes'].items()]
+                )
+
+                # Dodanie "sposobu użycia" jako cechy
+                usage_feature = ""
+                if product.get('usage'):
+                    usage_feature = f"Sposób użycia:{product['usage']}:0:1"
+
+                # Połączenie cech z innymi atrybutami
+                if attributes_text:
+                    attributes_text = f"{attributes_text}; {usage_feature}"
+                else:
+                    attributes_text = usage_feature
 
                 weight = product.get('weight', '')
                 if weight:
                     weight = re.sub(r'[^\d.]', '', weight)  # Zachowaj tylko cyfry i kropki
 
-                attributes_text = "; ".join(
-                    [f"{k}:{v}:0" for k, v in product['attributes'].items()]
-                )
-
-                image_urls = ";".join([img_data['url'] for img_data in product.get('local_images', [])])
-                final_category_export = product['category'].replace(';', ',')
+                image_urls = ",".join(product.get('images', []))
+                final_category_export = product['category'].replace(';', '^')
 
                 writer.writerow([
                     idx,
@@ -673,14 +682,25 @@ class KFDScraper:
                     product['price'],
                     product['reference'],
                     product['description'],
-                    product.get('usage', ''),  # ZMIANA 2: Dodanie wartości z nowego pola 'usage'
-                    product.get('weight', ''),  # Dodanie pola 'weight'
-                    product.get('brand', ''),  # Dodanie pola 'brand'
+                    product.get('usage', ''),  # Nadal zapisujemy "sposób użycia" w osobnej kolumnie
+                    weight,
+                    product.get('brand', ''),
                     image_urls,
-                    attributes_text
+                    attributes_text  # Zaktualizowane cechy
                 ])
 
         logger.info(f"  ✓ {products_file}")
+
+        # Producenci
+        brands_file = os.path.join(self.output_dir, "producenci.csv")
+        unique_brands = set(product.get('brand', '').strip() for product in self.products if product.get('brand'))
+        with open(brands_file, 'w', encoding='utf-8-sig', newline='') as f:
+            writer = csv.writer(f, delimiter=';')
+            writer.writerow(['ID', 'Name', 'Active'])  # Nagłówki pliku CSV
+            for idx, brand in enumerate(sorted(unique_brands), 1):
+                writer.writerow([idx, brand, 1])
+
+        logger.info(f"  ✓ {brands_file}")
 
         # JSON
         json_file = os.path.join(self.output_dir, "all_data.json")

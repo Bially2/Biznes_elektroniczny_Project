@@ -295,7 +295,8 @@ class ImageManagerCore
         }
 
         $srcImage = ImageManager::create($type, $sourceFile);
-        if ($rotate) {
+
+	if ($rotate) {
             $srcImage = imagerotate($srcImage, $rotate, 0);
         }
 
@@ -310,7 +311,7 @@ class ImageManagerCore
 
         file_put_contents(
             dirname($destinationFile) . DIRECTORY_SEPARATOR . 'fileType',
-            $fileType
+            'png'
         );
 
         return $writeFile;
@@ -584,9 +585,15 @@ class ImageManagerCore
                 break;
 
             case IMAGETYPE_JPEG:
-            default:
-                return imagecreatefromjpeg($filename);
+                $src = @imagecreatefromjpeg($filename);
 
+                // fallback dla niestandardowych JPG
+                if (!$src) {
+                    $raw = @file_get_contents($filename);
+                    if ($raw) {
+                        $src = @imagecreatefromstring($raw);
+                    }
+                }
                 break;
         }
     }
@@ -637,8 +644,33 @@ class ImageManagerCore
                 break;
 
             case 'png':
+                // Ustalenie nazwy pliku z rozszerzeniem .png
+                $real_filename = $filename;
+                $suffix = '.png';
+                
+                // Sprawdzenie, czy nazwa pliku NIE kończy się na .png
+                // Użycie substr jest bezpieczne dla starszych wersji PHP
+                if (!(substr($filename, -strlen($suffix)) === $suffix)) {
+                    // Odcięcie starego rozszerzenia i dodanie .png
+                    $real_filename = dirname($filename) . '/' . basename($filename, '.' . pathinfo($filename, PATHINFO_EXTENSION)) . $suffix;
+                }
+
                 $quality = ($psPngQuality === false ? 7 : $psPngQuality);
-                $success = imagepng($resource, $filename, (int) $quality);
+                
+                // Zapisz zasób GD jako PNG z poprawną nazwą
+                $success = imagepng($resource, $real_filename, (int) $quality);
+                
+                // Jeśli zapisano z inną nazwą, usuń plik tymczasowy / oryginalny plik JPG
+                if ($real_filename !== $filename && file_exists($filename)) {
+                    @unlink($filename);
+                }
+
+                // Dodajemy kluczowy element: zapis formatu do pliku tymczasowego
+                // (Prestashop używa go do regeneracji miniatur, musi tam być 'png')
+                file_put_contents(
+                    dirname($real_filename) . DIRECTORY_SEPARATOR . 'fileType',
+                    'png'
+                );
 
                 break;
 
