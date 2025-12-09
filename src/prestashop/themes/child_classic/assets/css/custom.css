@@ -1,4 +1,3 @@
-
 #header {
     background: rgb(255, 255, 255) !important;
 }
@@ -23,31 +22,32 @@ section {
 #_desktop_logo img {
     max-height: 100px;
     width: auto;
-}/* NOWA NAZWA WRAPPERA — zamiast #desktop_searchbar */
-.ui-autocomplete-wrapper {
-    flex: 0 0 200px;
-    position: relative;
-    margin-left: 20px!important;
-     width: 400px!important;
 }
 
 
-/* Input */
+.ui-autocomplete-wrapper {
+    flex: 0 0 200px;
+    position: relative;
+    margin-left: 20px !important;
+    width: 400px !important;
+}
+
+
+
 .ui-autocomplete-input {
-    width: 400px!important;
+    width: 400px !important;
     padding: 10px 12px;
     font-size: 14px;
     font-weight: 100;
     display: inline-block;
- 
+
     box-sizing: border-box;
-     border: 1px solid #b1b1b1 !important;
-    background-color: #ffffff!important;
+    border: 1px solid #b1b1b1 !important;
+    background-color: #ffffff !important;
     border-radius: 6px;
     height: 42px;
 }
 
-/* Ikona lupy */
 .ui-autocomplete-wrapper .search-icon {
     position: absolute;
     left: 440px;
@@ -83,8 +83,8 @@ header .header-top {
     align-items: center !important;
 }
 
-/* Kontener z search zostaje po lewej, user i cart idą do prawej */
-.header-nav .right-nav > div:last-child {
+
+.header-nav .right-nav>div:last-child {
     display: flex !important;
     gap: 20px !important;
     margin-left: auto !important;
@@ -161,9 +161,9 @@ header .header-top {
 
 
 .current-price-value {
-    font-size: 32px;
-    font-weight: 500;
-    color:#3D52D5!important;
+    font-size: 27px !important;
+    font-weight: 500 !important;
+    color: #3D52D5 !important;
 }
 
 .category-header {
@@ -318,7 +318,7 @@ header .header-top {
     width: 100%;
 }
 
-/* Przesunięcie sekcji user i cart do prawej */
+
 #_desktop_user_info,
 #_desktop_cart {
     margin-left: auto !important;
@@ -526,7 +526,6 @@ ul li a:hover {
 }
 
 
-/* Główny kontener menu */
 #_desktop_top_menu.menu.js-top-menu.position-static>ul.top-menu {
     display: flex !important;
     flex-wrap: nowrap !important;
@@ -536,7 +535,6 @@ ul li a:hover {
     align-items: center !important;
 }
 
-/* Wszystkie linki w menu górnym - jednolity styl */
 #_desktop_top_menu.menu.js-top-menu.position-static>ul.top-menu>li>a {
     color: white !important;
     font-size: 12px !important;
@@ -563,10 +561,11 @@ ul li a:hover {
     opacity: 0;
     border-radius: 4px;
 }
+
 .home-section-title {
-    font-size: 20px!important; /* zmniejszony rozmiar tekstu */
-    font-weight: 600!important; /* pogrubienie, jeśli chcesz zachować */
-transform: scale(1.1); 
+    font-size: 20px !important;
+    font-weight: 600 !important;
+    transform: scale(1.1);
 }
 
 
@@ -592,13 +591,6 @@ transform: scale(1.1);
     display: block;
 }
 
-
-
-
-
-
-
-
 #footer .links a {
     color: #011638 !important;
 }
@@ -621,8 +613,6 @@ transform: scale(1.1);
     color: #011638 !important;
     font-weight: 600 !important;
 }
-
-/* Removed: .text-sm-center a { display: none; } - it was hiding pagination links */
 
 .register-form input.form-control,
 .register-form select.form-control,
@@ -723,6 +713,7 @@ transform: scale(1.1);
 .register-form p a {
     color: #3D52D5;
 }
+
 #subcategories {
     display: none !important;
 }
@@ -750,13 +741,6 @@ transform: scale(1.1);
     display: block;
 }
 
-
-
-
-
-
-
-
 #footer .links a {
     color: #011638 !important;
 }
@@ -779,8 +763,6 @@ transform: scale(1.1);
     color: #011638 !important;
     font-weight: 600 !important;
 }
-
-/* Removed: .text-sm-center a { display: none; } - it was hiding pagination links */
 
 .register-form input.form-control,
 .register-form select.form-control,
@@ -881,10 +863,10 @@ transform: scale(1.1);
 .register-form p a {
     color: #3D52D5;
 }
+
 #subcategories {
     display: none !important;
 }
-
 
 #_desktop_top_menu.menu.js-top-menu.position-static>ul.top-menu>li>a:hover::before {
     opacity: 1;
@@ -908,13 +890,6 @@ transform: scale(1.1);
     display: block;
 }
 
-
-
-
-
-
-
-
 #footer .links a {
     color: #011638 !important;
 }
@@ -937,8 +912,6 @@ transform: scale(1.1);
     color: #011638 !important;
     font-weight: 600 !important;
 }
-
-/* Removed: .text-sm-center a { display: none; } - it was hiding pagination links */
 
 .register-form input.form-control,
 .register-form select.form-control,
@@ -1039,34 +1012,32 @@ transform: scale(1.1);
 .register-form p a {
     color: #3D52D5;
 }
+
 #subcategories {
     display: none !important;
 }
 
-#js-product-list-header .block-category.card.card-block  {
-    display: none !important;  /* ukrywa wszystko oprócz h1 */
-}
-#search_filters_brands {
+#js-product-list-header .block-category.card.card-block {
     display: none !important;
+
 }
+
 
 .product-title {
-    font-size: 14px !important;  /* zmniejsza czcionkę nazwy */
-    line-height: 1.2 !important; /* dopasowuje wysokość linii */
-}
-
-/* Cena produktu */
-.price {
-
-     
-    font-size: 16px !important;  /* mniejsza czcionka ceny */
+    font-size: 14px !important;
     line-height: 1.2 !important;
 }
 
-/* Szybki podgląd (quick view) */
+.price {
+
+
+    font-size: 16px !important;
+    line-height: 1.2 !important;
+}
+
 .quick-view {
-    font-size: 14px !important;  /* zmniejsza przycisk szybkiego podglądu */
-    padding: 2px 5px !important; /* zmniejsza odstępy w przycisku */
+    font-size: 14px !important;
+    padding: 2px 5px !important;
 }
 
 .home-section {
@@ -1086,19 +1057,20 @@ transform: scale(1.1);
     gap: 15px;
     padding-bottom: 10px;
 }
+
 #custom-text p,
 #custom-text h1 {
-    margin-bottom: 1px!important; /* zmniejsza odstęp między elementami w bloku tekstu */
+    margin-bottom: 1px !important;
 }
 
 .text-uppercase.h6.hidden-sm-down {
-    font-weight: 700!important;   /* pogrubienie */
-    font-size: 22px!important;    /* lekko większy rozmiar */
-    letter-spacing: 1px; /* opcjonalnie, lekko rozsunięte litery */
+    font-weight: 700 !important;
+    font-size: 22px !important;
+    letter-spacing: 1px;
 }
 
 .products-section {
-    margin-top: 1px!important; /* zmniejsza przerwę nad sekcją produktów */
+    margin-top: 1px !important;
 }
 
 .product-card {
@@ -1107,7 +1079,7 @@ transform: scale(1.1);
     padding: 10px;
     text-align: center;
     background: white;
-   
+
     position: relative;
 }
 
@@ -1121,23 +1093,24 @@ transform: scale(1.1);
     font-weight: 600;
     margin: 10px 0;
 }
+
 .product-prices {
-    display: flex;           
-    justify-content: center;  
-    align-items: flex-start;  /* wyrównanie do góry flex itemów */
-    gap: 5px;                 /* odstęp między cenami */
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 5px;
     width: 100%;
 }
 
 .product-prices .price,
 .product-prices .regular-price {
-    margin-top: 30px;         /* oba elementy przesunięte w pionie */
+    margin-top: 30px;
 }
 
 .product-prices .price {
     font-size: 14px;
     color: #3D52D5;
-    font-weight: 1000!important;
+    font-weight: 1000 !important;
 }
 
 .product-prices .regular-price {
@@ -1155,53 +1128,56 @@ transform: scale(1.1);
 }
 
 .quick-view:hover {
-    color: #3D52D5!important; /* zmień na wybrany kolor */
-     font-weight: 400 !important;
+    color: #3D52D5 !important;
+    font-weight: 400 !important;
 }
+
 .home-section-title {
     position: relative;
-    display: inline-block; /* żeby linia dopasowała się do szerokości nagłówka */
-    margin-bottom: 50px;   /* odstęp pod linią */
-    font-size: 24px;       /* możesz dopasować rozmiar tekstu */
+    display: inline-block;
+    margin-bottom: 50px;
+    font-size: 24px;
 }
 
 .home-section-title::after {
     content: "";
     position: absolute;
     left: 0;
-    bottom: -20px;           /* 20px pod tekstem */
-    width: 1110px!important;             /* szerokie na całą szerokość nagłówka */
-    height: 1px;             /* grubość linii */
-    background-color: #e7e4e4;  /* szary kolor */
+    bottom: -20px;
+    width: 1110px !important;
+    height: 1px;
+    background-color: #e7e4e4;
 }
 
 .discount-badge {
-    font-size: 12px;       /* rozmiar czcionki */
-    background-color: #f39d72!important; /* kolor tła */
-    color: #fff;           /* kolor tekstu */
-    padding: 1px 10px;     /* mniejszy padding pionowy, większy poziomy */
-    border-radius: 3px;    /* zaokrąglone rogi */
+    font-size: 12px;
+    background-color: #f39d72 !important;
+    color: #fff;
+    padding: 1px 10px;
+    border-radius: 3px;
     display: inline-block;
-     font-weight: 900 !important;
-    line-height: 1.2;      /* zmniejszenie wysokości linii */
-    text-align: center;  
- 
+    font-weight: 900 !important;
+    line-height: 1.2;
+    text-align: center;
+
 }
+
 .new-badge {
-    font-size: 12px;       /* rozmiar czcionki */
-    padding: 1px 10px;     /* smuklejsza wysokość, szersza szerokość */
-    border-radius: 3px;    /* zaokrąglone rogi */
+    font-size: 12px;
+    padding: 1px 10px;
+    border-radius: 3px;
     display: inline-block;
-    font-weight: 600 !important; /* grubsza czcionka */
-    line-height: 1.2;      /* mniejsza wysokość linii */
-    text-align: center;  
-    background-color: #2542b6!important;  /* wyśrodkowanie tekstu */
+    font-weight: 600 !important;
+    line-height: 1.2;
+    text-align: center;
+    background-color: #2542b6 !important;
 }
+
 a[href*="id_product"] {
-    color: #666;        /* szary kolor tekstu */
-    font-size: 13px;    /* mniejszy rozmiar czcionki */
-    text-decoration: none; /* opcjonalnie, usuwa podkreślenie */
-   font-weight: 800 !important;
+    color: #666;
+    font-size: 13px;
+    text-decoration: none;
+    font-weight: 800 !important;
 }
 
 
@@ -1231,15 +1207,15 @@ a[href*="id_product"] {
     margin: 8px 0;
     text-align: center;
 }
+
 #custom-text {
-    margin-bottom: 10px; /* zmniejsza odstęp pod całym blokiem */
-    padding-bottom: 0;   /* usuwa ewentualny padding dolny */
+    margin-bottom: 10px;
+    padding-bottom: 0;
 }
 
-/* Jeśli ostatni paragraf lub nagłówek ma dodatkowy margines */
 #custom-text p:last-child,
 #custom-text h1:last-child {
-    margin-bottom: 0;    /* usuwa dodatkową przerwę pod ostatnim elementem */
+    margin-bottom: 0;
 }
 
 
@@ -1248,7 +1224,7 @@ a[href*="id_product"] {
     color: #999;
     font-size: 13px;
     margin-right: 5px;
-    font-weight:900!important;
+    font-weight: 900 !important;
 }
 
 @media (max-width: 768px) {
@@ -1258,51 +1234,25 @@ a[href*="id_product"] {
     }
 }
 
-/* ===== NAVBAR SUBMENU HOVER FIX - Łatwiejsze najazdy na kategorie ===== */
-
-/* Dodaj padding-bottom do głównego elementu menu dla większego obszaru hover */
 #_desktop_top_menu.menu.js-top-menu.position-static>ul.top-menu>li {
     position: relative;
     padding-bottom: 30px !important;
     margin-bottom: -30px !important;
 }
 
-/* Submenu z opóźnieniem znikania */
 #_desktop_top_menu.menu.js-top-menu.position-static>ul.top-menu>li .sub-menu {
     transition-delay: 0s, 0s !important;
 }
 
-/* Gdy hover na parent LI lub na submenu - pokaż submenu */
 #_desktop_top_menu.menu.js-top-menu.position-static>ul.top-menu>li:hover .sub-menu {
     display: block !important;
     transition-delay: 0s, 0s !important;
 }
 
-/* Ukryj submenu Producentów przy hover - nie pokazuj wcale */
-#_desktop_top_menu.menu.js-top-menu.position-static>ul.top-menu>li:hover > a[href*="producenci"] ~ .sub-menu,
-#_desktop_top_menu.menu.js-top-menu.position-static>ul.top-menu>li:hover > a[href*="manufacturers"] ~ .sub-menu,
-#_desktop_top_menu.menu.js-top-menu.position-static>ul.top-menu>li:hover > a[href*="supplier"] ~ .sub-menu {
-    display: none !important;
-}
-
-/* Ukryj submenu dla elementu li który zawiera link do producentów */
-#_desktop_top_menu.menu.js-top-menu.position-static>ul.top-menu>li:has(> a[href*="producenci"]):hover .sub-menu,
-#_desktop_top_menu.menu.js-top-menu.position-static>ul.top-menu>li:has(> a[href*="manufacturers"]):hover .sub-menu,
-#_desktop_top_menu.menu.js-top-menu.position-static>ul.top-menu>li:has(> a[href*="supplier"]):hover .sub-menu {
-    display: none !important;
-}
-
-/* Ukryj submenu dla drugiego elementu menu (Producenci) przy hover */
-#_desktop_top_menu.menu.js-top-menu.position-static>ul.top-menu>li:nth-child(2):hover .sub-menu {
-    display: none !important;
-}
-
-/* Zmniejsz margin-top submenu żeby był bliżej */
 #_desktop_top_menu.menu.js-top-menu.position-static>ul.top-menu>li .sub-menu {
     margin-top: 20px !important;
 }
 
-/* Dodaj niewidzialny pseudo-element jako most między linkiem a submenu */
 #_desktop_top_menu.menu.js-top-menu.position-static>ul.top-menu>li>a::after {
     content: '';
     position: absolute;
@@ -1314,20 +1264,16 @@ a[href*="id_product"] {
     z-index: 998;
 }
 
-/* ===== STYLOWANIE SUBMENU - LAYOUT W 3 KOLUMNACH ===== */
-
-/* Główny kontener submenu - rozszerz i dodaj padding */
 .popover.sub-menu {
     padding: 30px 35px !important;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.15) !important;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15) !important;
     border: none !important;
     border-radius: 0 !important;
     min-width: 750px !important;
     background: #f5f5f5 !important;
 }
 
-/* Główna lista pierwszego poziomu - display w kolumnach */
-.popover.sub-menu > ul[data-depth="0"] {
+.popover.sub-menu>ul[data-depth="0"] {
     display: flex !important;
     flex-wrap: nowrap !important;
     gap: 40px !important;
@@ -1336,14 +1282,12 @@ a[href*="id_product"] {
     margin: 0 !important;
 }
 
-/* Każdy element pierwszego poziomu (kolumna) */
-.popover.sub-menu > ul[data-depth="0"] > li {
+.popover.sub-menu>ul[data-depth="0"]>li {
     flex: 1 !important;
     min-width: 200px !important;
 }
 
-/* Linki pierwszego poziomu - nagłówki kategorii */
-.popover.sub-menu > ul[data-depth="0"] > li > a {
+.popover.sub-menu>ul[data-depth="0"]>li>a {
     font-size: 12px !important;
     font-weight: 700 !important;
     color: #1a1a1a !important;
@@ -1357,8 +1301,7 @@ a[href*="id_product"] {
     position: relative !important;
 }
 
-/* Strzałka przy nagłówkach */
-.popover.sub-menu > ul[data-depth="0"] > li > a::before {
+.popover.sub-menu>ul[data-depth="0"]>li>a::before {
     content: '›' !important;
     position: absolute !important;
     right: 0 !important;
@@ -1367,23 +1310,20 @@ a[href*="id_product"] {
     color: #666 !important;
 }
 
-/* Hover na nagłówkach */
-.popover.sub-menu > ul[data-depth="0"] > li > a:hover {
+.popover.sub-menu>ul[data-depth="0"]>li>a:hover {
     color: #023366 !important;
 }
 
-.popover.sub-menu > ul[data-depth="0"] > li > a:hover::before {
+.popover.sub-menu>ul[data-depth="0"]>li>a:hover::before {
     color: #023366 !important;
 }
 
-/* Listy drugiego poziomu (podkategorie) */
 .popover.sub-menu ul[data-depth="1"] {
     list-style: none !important;
     padding: 0 !important;
     margin: 0 !important;
 }
 
-/* Linki drugiego poziomu - podkategorie */
 .popover.sub-menu ul[data-depth="1"] li a {
     font-size: 13px !important;
     font-weight: 400 !important;
@@ -1395,7 +1335,6 @@ a[href*="id_product"] {
     line-height: 1.5 !important;
 }
 
-/* Hover na podkategoriach */
 .popover.sub-menu ul[data-depth="1"] li a:hover {
     color: #023366 !important;
     padding-left: 8px !important;
@@ -1403,64 +1342,46 @@ a[href*="id_product"] {
     border-radius: 3px !important;
 }
 
-/* Ukryj collapse icons w desktop */
 .popover.sub-menu .collapse-icons {
     display: none !important;
 }
 
-
-/* Ustawienie układu: ilość nad przyciskiem */
 .product-quantity {
     display: flex;
     flex-direction: column;
-    /* ustawienie elementów w kolumnie */
     align-items: flex-start;
-    /* wyrównanie do lewej */
     gap: 10px;
-    /* odstęp między ilością a przyciskiem */
 }
 
-/* Styl pola ilości */
 .product-quantity .qty .form-control {
     border-radius: 10px !important;
-    /* zaokrąglone rogi */
     width: 130px !important;
-    /* szerokość pola, możesz zmienić */
     padding: 8px 12px;
     border: 1px solid #ccc;
     font-size: 16px;
 }
 
-/* Styl przycisku "Dodaj do koszyka" */
 .product-quantity .add-to-cart {
     width: 540px !important;
-    /* przycisk zajmuje całą szerokość kontenera */
     background-color: #3D52D5;
-    /* nowy kolor tła */
     color: #ffffff;
-    /* kolor tekstu */
     font-size: 16px;
     font-weight: 700;
     border-radius: 6px;
-    /* zaokrąglone rogi przycisku */
     padding: 12px 20px;
     border: none;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
-/* Efekt hover dla przycisku */
 .product-quantity .add-to-cart:hover {
     background-color: #2a3ab3;
-    /* ciemniejszy odcień przy hover */
 }
 
 .product-quantity input[type="number"] {
     text-align: center;
-    /* Wyśrodkowuje liczbę w polu */
 }
 
-/* Stylowanie całego kontenera input-group z przyciskami */
 .product-add-to-cart .qty .input-group,
 .qty .input-group.bootstrap-touchspin {
     display: inline-flex !important;
@@ -1473,18 +1394,15 @@ a[href*="id_product"] {
     background: white !important;
 }
 
-/* Ukrycie prefix/postfix */
 .bootstrap-touchspin-prefix,
 .bootstrap-touchspin-postfix {
     display: none !important;
 }
 
-/* Kontener z przyciskami */
 .input-group-btn-vertical {
     display: contents !important;
 }
 
-/* Zmiana kolejności - minus po lewej, input w środku, plus po prawej */
 .btn-touchspin.bootstrap-touchspin-down {
     order: -1 !important;
 }
@@ -1497,7 +1415,6 @@ a[href*="id_product"] {
     order: 1 !important;
 }
 
-/* Przyciski + i - */
 .btn-touchspin.bootstrap-touchspin-up,
 .btn-touchspin.bootstrap-touchspin-down {
     background: white !important;
@@ -1515,7 +1432,6 @@ a[href*="id_product"] {
     flex-shrink: 0 !important;
 }
 
-/* Separator między przyciskami a inputem */
 .btn-touchspin.bootstrap-touchspin-down {
     border-right: none !important;
 }
@@ -1528,14 +1444,12 @@ a[href*="id_product"] {
     background: #f5f5f5 !important;
 }
 
-/* Ukrycie ikon Material Icons */
 .btn-touchspin .material-icons {
     font-size: 0 !important;
     width: 0 !important;
     height: 0 !important;
 }
 
-/* Dodanie znaków + i - jako content */
 .btn-touchspin.bootstrap-touchspin-up::after {
     content: "+" !important;
     font-family: Arial, sans-serif !important;
@@ -1554,7 +1468,6 @@ a[href*="id_product"] {
     line-height: 1 !important;
 }
 
-/* Input ilości - środek */
 .qty input#quantity_wanted.form-control {
     background: white !important;
     border: none !important;
@@ -1571,7 +1484,6 @@ a[href*="id_product"] {
     order: 0 !important;
 }
 
-/* Ukrycie strzałek w input type=number */
 #quantity_wanted::-webkit-outer-spin-button,
 #quantity_wanted::-webkit-inner-spin-button {
     -webkit-appearance: none !important;
@@ -1579,17 +1491,13 @@ a[href*="id_product"] {
 }
 
 
-/* 2. Kolumny obrazu i opisu */
 .product-container>.col-md-6 {
     width: 50% !important;
-    /* lub 100%, jeśli chcesz żeby obraz i opis były pod sobą */
     padding-left: 0 !important;
     padding-right: 0 !important;
     float: left;
-    /* wymusza ustawienie przy lewej krawędzi */
 }
 
-/* 3. Zakładki, opisy i wszystkie teksty */
 .tab-content,
 .tab-pane,
 .product-description,
@@ -1601,7 +1509,6 @@ h1.h1 {
     text-align: left !important;
 }
 
-/* 4. Usuń marginesy wszystkich dodatkowych wrapperów */
 #main,
 section#main,
 section#wrapper {
@@ -1611,24 +1518,23 @@ section#wrapper {
     margin-right: 0 !important;
 }
 
-/* 5. Na wypadek obrazków */
 .images-container img,
 .product-cover img {
     display: block;
     margin-left: 0 !important;
 }
+
 .product-container .tabs {
-    margin: 0 !important;      /* usuwa wszystkie marginesy */
-    padding: 0 !important;     
-    width: 800px;               /* zajmuje całą szerokość kolumny */
-    float: none !important; 
-    margin-left:-600px !important; 
-    margin-top:10px !important;  /* nie używamy float, żeby nie psuć przepływu */
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 800px;
+    float: none !important;
+    margin-left: -600px !important;
+    margin-top: 10px !important;
 }
 
 .product-container .tab-content {
     margin: 0 !important;
-        /* odstęp od zakładek */
     padding-left: 0 !important;
 }
 
@@ -1641,57 +1547,54 @@ section#wrapper {
     clear: both !important;
 }
 
-
-/* Standardowy kolor wszystkich zakładek */
 .nav-tabs .nav-link {
     color: #000 !important;
     font-weight: 400;
     border: none !important;
     background-color: transparent !important;
     position: relative;
-   margin-top: 100px !important;
-   padding: 5px 10px !important;
-    line-height: 1.2 !important; 
-   
+    margin-top: 10px !important;
+    padding: 5px 10px !important;
+    line-height: 1.2 !important;
+
+
 }
+
 .tabs {
 
-    transform: translateY(80px);
+    transform: translateY(150px);
 
 }
+
 .nav-tabs {
-    width: auto !important;       /* dopasowuje szerokość do zawartości lub rodzica */
-    max-width: 100% !important;   /* nie wykracza poza ekran */
-    height: auto !important;      /* dopasowuje wysokość do linków */
-    padding: 0 !important;        /* usuwa nadmiarowe paddingi */
-    margin: 0 !important;         /* usuwa nadmiarowe marginesy */
-    display: flex !important;     /* ułatwia wyrównanie zakładek */
-    flex-wrap: nowrap;             /* wszystkie zakładki w jednej linii */
+    width: auto !important;
+    max-width: 100% !important;
+    height: auto !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    display: flex !important;
+    flex-wrap: nowrap;
 }
-/* Aktywna zakładka */
+
 .nav-tabs .nav-link.active {
     font-weight: 900;
-    /* pogrubiony tekst */
     color: #000 !important;
-    margin-top: 100px !important;
-       padding: 5px 10px !important;  
+    margin-top: 10px !important;
+    padding: 5px 10px !important;
+
 }
 
-/* Pseudo-element do podkreślenia */
 .nav-tabs .nav-link.active::after {
     content: "";
     position: absolute;
     left: 0;
-     height: 1.5px;   
+    height: 1.5px;
     right: 0;
-  bottom: 0;
+    bottom: 0;
     height: 2px;
-    
-    /* grubość podkreślenia */
+
     background-color: #000;
-    /* kolor podkreślenia */
     border-radius: 2px;
-    /* lekko zaokrąglone krawędzie */
 }
 
 .nav-tabs .nav-link:not(.active):hover::after {
@@ -1699,12 +1602,12 @@ section#wrapper {
     position: absolute;
     left: 0;
     right: 0;
-     height: 1.5px;   
-   bottom: 0;
+    height: 1.5px;
+    bottom: 0;
     height: 2px;
     background-color: #000;
-    /* podkreślenie przy hover */
     border-radius: 2px;
+
 }
 
 .product-description {
@@ -1713,73 +1616,60 @@ section#wrapper {
     font-size: 14px;
     color: #555555;
     clear: both !important;
+
 }
+
 #product-details * {
     margin-top: 20px !important;
-    line-height: 1.6;
+
     font-size: 14px;
     color: #555555;
     clear: both !important;
+
 }
 
 
 .product-description strong,
 .product-description b {
     color: #000000;
-    /* czarne wytłuszczone */
     font-weight: 700;
-    /* pogrubienie */
 }
 
-/* Pogrubienie nazwy produktu */
 .product-container .col-md-6 h1.h1 {
     font-weight: 900 !important;
-    /* bardzo pogrubiona czcionka */
     font-size: 24px;
-    /* rozmiar nagłówka */
     margin-bottom: 20px;
-    /* odstęp pod nagłówkiem */
 }
 
-/* Przesunięcie ceny nieco niżej */
 .product-container .col-md-6 .product-prices {
     margin-top: 20px !important;
 
 }
 
-/* Ukrycie krótkiego opisu produktu w górnej sekcji */
-.product-container .col-md-6 > .product-information > .product-description {
+.product-container .col-md-6>.product-information>.product-description {
     display: none !important;
 }
 
-/* Cały blok pod przyciskiem */
 .under-add-to-cart {
     margin-top: 60px;
-    /* odstęp od przycisku */
     display: block;
-    /* blok zamiast flex, żeby tekst był do lewej */
     text-align: left;
-    /* wymusza wyrównanie do lewej */
     font-size: 5px !important;
     margin-left: -520px;
-    /* usuwa przesunięcie w lewo */
 }
 
 
 
-/* Stylizacja linków pod przyciskiem Dodaj do koszyka */
 .under-add-to-cart a {
     text-decoration: none;
-    /* usuwa podkreślenie */
     color: #3D52D5;
-    /* niebieski kolor */
 }
+
 .current-price-value {
     font-size: 32px;
     font-weight: 700;
     display: inline-block;
     padding-bottom: 12px;
-    /* linia niżej */
     border-bottom: 1px solid #ccc !important;
     width: 550px;
 
@@ -1793,37 +1683,28 @@ section#wrapper {
     transform: none !important;
 }
 
-/* Ukrywa cały blok kategorii "Napoje do przygotowania" */
 .block-categories {
     display: none !important;
 }
+
 #_desktop_user_info {
     margin-right: -20px !important;
-    /* dopasuj wartość w px w zależności od potrzeby */
 }
 
-/* Przesunięcie koszyka w prawo */
 #_desktop_cart {
     margin-right: -80px !important;
-    /* dopasuj wartość w px w zależności od potrzeby */
 }
 
-.register-form input[name="optin"],
-.register-form input[name="customer_privacy"],
-.register-form label[for="optin"],
-.register-form label[for="customer_privacy"] {
-    display: none !important;
-}
-
-/* Ukryj całe grupy formularzy z tymi checkboxami */
-.register-form .form-group:has(input[name="optin"]),
-.register-form .form-group:has(input[name="customer_privacy"]) {
-    display: none !important;
+#_desktop_top_menu.menu.js-top-menu.position-static>ul.top-menu,
+#_desktop_top_menu.menu.js-top-menu.position-static>ul.top-menu>li>a {
+    font-family: "Roboto", sans-serif !important;
+    font-weight: 700 !important;
+    font-size: 13px !important;
 }
 
 #search_filters_wrapper,
 #search_filters_wrapper * {
-    color: #000000 !important;
+    color: #ffffff !important;
     text-align: left !important;
 }
 
@@ -1888,6 +1769,16 @@ section#wrapper {
     margin-bottom: 10px !important;
     color: #000 !important;
 }
+
+.page-list li.current a {
+    color: #3D52D5 !important;
+}
+
+.total-products p {
+    color: #011638 !important;
+
+}
+
 #blockEmailSubscription_displayFooterBefore form>.row>.col-xs-12>p {
     font-size: 10px !important;
     margin-left: 22px;
@@ -1917,6 +1808,32 @@ section#wrapper {
 }
 
 form[action*="controller=search"] .material-icons.search {
-    margin-left: 350px;
-    margin-top: 3px;
+    margin-left: 250px;
+    margin-top: 2px;
+}
+
+/* Stylizacja ikon w menu głównym */
+.top-menu li a i.fa {
+    margin-right: 5px;
+    /* odstęp między ikoną a nazwą kategorii */
+    font-size: 16px;
+    /* rozmiar ikony */
+    vertical-align: middle;
+    /* wyrównanie pionowe z tekstem */
+    color: #000;
+    /* kolor ikon – zmień według potrzeb */
+}
+
+/* Opcjonalnie – efekt przy hover */
+.top-menu li a:hover i.fa {
+    color: #007bff;
+    /* zmienia kolor ikony przy najechaniu */
+}
+
+/* Jeśli menu jest responsywne i chcesz zmniejszyć ikony na małych ekranach */
+@media (max-width: 768px) {
+    .top-menu li a i.fa {
+        font-size: 14px;
+        margin-right: 4px;
+    }
 }
