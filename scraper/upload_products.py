@@ -277,10 +277,12 @@ def run_import():
             data = json.load(f)
             products_to_import = data.get('products', [])
 
-            # OGRANICZENIE DO PIERWSZYCH 5 PRODUKTÓW (do testów)
-            if products_to_import:
-                products_to_import = products_to_import[:5]
-                print(f"\nTRYB TESTOWY: Importowanie tylko {len(products_to_import)} produktów")
+            # OGRANICZENIE DO PIERWSZYCH 5 PRODUKTÓW (do testów) - WYŁĄCZONE
+            # if products_to_import:
+            #     products_to_import = products_to_import[:5]
+            #     print(f"\nTRYB TESTOWY: Importowanie tylko {len(products_to_import)} produktów")
+            
+            print(f"\nImportowanie WSZYSTKICH {len(products_to_import)} produktów")
 
     except Exception as e:
         print(f"BŁĄD: Nie można wczytać danych JSON: {e}")
