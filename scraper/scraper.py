@@ -1,8 +1,5 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-Scraper KFD.pl - Wersja Finalna z Selenium i optymalizacją pod Prestashop CSV
-"""
 
 import os
 import json
@@ -57,7 +54,7 @@ class KFDScraper:
         self.lock = Lock()
         self.seen_products = set()
 
-        logger.info(f"🚀 Inicjalizacja scrapera KFD (workers: {max_workers})")
+        logger.info(f"Inicjalizacja scrapera KFD (workers: {max_workers})")
 
     def create_directories(self):
         """Tworzy strukturę katalogów"""
@@ -93,7 +90,7 @@ class KFDScraper:
             driver.implicitly_wait(10)
             return driver
         except Exception as e:
-            logger.error(f"❌ Nie można uruchomić Chrome. Sprawdź Chromedriver w PATH/ścieżce: {e}")
+            logger.error(f"Nie można uruchomić Chrome. Sprawdź Chromedriver w PATH/ścieżce: {e}")
             raise
 
     def wait_for_page_load(self, driver, timeout=30):
@@ -104,7 +101,7 @@ class KFDScraper:
             )
             time.sleep(1)
         except TimeoutException:
-            logger.warning("⚠️  Timeout - kontynuuję mimo to")
+            logger.warning("Timeout - kontynuuję mimo to")
 
     def clean_url(self, url):
         """Usuwa z linku zabronione parametry zgodnie z robots.txt KFD."""
@@ -157,18 +154,18 @@ class KFDScraper:
 
             if json_array_str:
                 data = json.loads(json_array_str)
-                logger.info("  ✓ Dane JSON-LD (Breadcrumbs) pobrane pomyślnie przez JS.")
+                logger.info("Dane JSON-LD (Breadcrumbs) pobrane pomyślnie przez JS.")
                 return data
 
         except Exception as e:
-            logger.error(f"  ❌ Błąd wykonania skryptu JS do pobrania JSON-LD: {e}")
+            logger.error(f"  Błąd wykonania skryptu JS do pobrania JSON-LD: {e}")
 
-        logger.warning("  ⚠️ Brak JSON-LD BreadcrumbList na stronie produktu.")
+        logger.warning("Brak JSON-LD BreadcrumbList na stronie produktu.")
         return None
 
     def get_product_urls_from_category(self, category_url, category_name, limit=None):
         """Pobiera listę URL produktów z kategorii KFD, obsługując paginację i filtrowanie."""
-        logger.info(f"🔍 Skanowanie: {category_name} ({category_url})")
+        logger.info(f"Skanowanie: {category_name} ({category_url})")
         driver = self.create_driver()
         product_urls = []
         page_url = category_url
@@ -177,10 +174,10 @@ class KFDScraper:
         try:
             while page_url:
                 if limit and len(product_urls) >= limit:
-                    logger.info(f"✅ Osiągnięto limit {limit} produktów. Przerywanie skanowania linków.")
+                    logger.info(f"Osiągnięto limit {limit} produktów. Przerywanie skanowania linków.")
                     break
 
-                logger.info(f"🌐 Ładowanie strony {page_count}: {page_url}")
+                logger.info(f"Ładowanie strony {page_count}: {page_url}")
                 driver.get(page_url)
                 self.wait_for_page_load(driver)
 
@@ -203,7 +200,7 @@ class KFDScraper:
                         continue
 
                 if not product_cards:
-                    logger.warning(f"  ⚠️ Brak produktów na stronie {page_count}.")
+                    logger.warning(f"Brak produktów na stronie {page_count}.")
 
                     break  # W przypadku braku produktów na pierwszej stronie
 
@@ -226,7 +223,7 @@ class KFDScraper:
                     except NoSuchElementException:
                         continue
                     except Exception as e:
-                        logger.warning(f"  ⚠️ Błąd przetwarzania karty: {e}")
+                        logger.warning(f"Błąd przetwarzania karty: {e}")
                         continue
 
                 if not page_url: break  # Limit osiągnięty
@@ -246,23 +243,23 @@ class KFDScraper:
                     if cleaned_next_url and cleaned_next_url != page_url:
                         page_url = cleaned_next_url
                         page_count += 1
-                        logger.info(f"  ↪️ Przechodzę do strony {page_count}.")
+                        logger.info(f"Przechodzę do strony {page_count}.")
                     else:
                         page_url = None  # Koniec paginacji (lub błąd czyszczenia URL)
 
                 except NoSuchElementException:
                     page_url = None  # Koniec paginacji (nie ma linku rel='next')
                 except Exception as e:
-                    logger.warning(f"  ⚠️ Błąd paginacji: {e}")
+                    logger.warning(f"Błąd paginacji: {e}")
                     page_url = None  # Zakończ w przypadku nieznanego błędu
 
         except Exception as e:
-            logger.error(f"❌ Błąd podczas skanowania kategorii: {e}")
+            logger.error(f"Błąd podczas skanowania kategorii: {e}")
         finally:
             driver.implicitly_wait(10)
             driver.quit()
 
-        logger.info(f"  ✅ Znaleziono {len(product_urls)} unikalnych URL produktów.")
+        logger.info(f"Znaleziono {len(product_urls)} unikalnych URL produktów.")
         return product_urls
 
     def extract_full_jsonld(self, driver):
@@ -289,7 +286,7 @@ class KFDScraper:
             if json_str:
                 return json.loads(json_str)
         except Exception as e:
-            logger.error(f"  ❌ Błąd wykonania skryptu JS do pobrania pełnego JSON-LD: {e}")
+            logger.error(f"Błąd wykonania skryptu JS do pobrania pełnego JSON-LD: {e}")
         return None
 
     def scrape_product_details(self, product_url, category_name):
@@ -323,13 +320,13 @@ class KFDScraper:
                 if weight_data and weight_data.get('value'):
                     # Zachowaj tylko wartość liczbową wagi
                     product_data["weight"] = re.sub(r'[^\d.]', '', str(weight_data['value']))
-                    logger.info(f"  ✓ Waga produktu: {product_data['weight']} (bez jednostek)")
+                    logger.info(f"Waga produktu: {product_data['weight']} (bez jednostek)")
 
                 # Producent z JSON-LD
                 brand_data = jsonld_data.get("brand", {})
                 if brand_data and brand_data.get('name'):
                     product_data["brand"] = brand_data["name"].strip()
-                    logger.info("  ✓ Producent produktu pobrany z JSON-LD.")
+                    logger.info("Producent produktu pobrany z JSON-LD.")
 
             # --- KROK 0b: POBIERANIE HIERARCHII Z BREADCRUMBÓW ---
             breadcrumb_elements = self.extract_categories_from_jsonld(driver)
@@ -362,9 +359,9 @@ class KFDScraper:
                 data_element = driver.find_element(By.CSS_SELECTOR, "div.js-product-details")
                 json_data_str = data_element.get_attribute('data-product')
                 product_json = json.loads(json_data_str)
-                logger.info("  ✓ Dane JSON produktu pobrane pomyślnie z data-product.")
+                logger.info("Dane JSON produktu pobrane pomyślnie z data-product.")
             except Exception as e:
-                logger.error(f"  ❌ Błąd krytyczny: Nie można pobrać/sparsować JSON (data-product): {e}")
+                logger.error(f"Błąd krytyczny: Nie można pobrać/sparsować JSON (data-product): {e}")
                 return None
 
             # --- KROK 2: EKSTRAKCJA DANYCH Z JSON (data-product) ---
@@ -387,21 +384,21 @@ class KFDScraper:
                     usage_html = item.get("content", "")
                     product_data["usage"] = BeautifulSoup(usage_html, 'html.parser').get_text(separator=' ',
                                                                                               strip=True)[:1000]
-                    logger.info("  ✓ Sposób użycia pobrany z data-product.")
+                    logger.info("Sposób użycia pobrany z data-product.")
                     break
 
             # 4. WAGA (Nadpisanie tylko jeśli data-product ma kompletną wagę)
             weight_data_product = product_json.get("weight", {})
             if weight_data_product and weight_data_product.get('value') and weight_data_product.get('unitCode'):
                 product_data["weight"] = weight_data['value']
-                logger.info(f"  ✓ Waga produktu: {product_data['weight']} (z data-product, nadpisano)")
+                logger.info(f"Waga produktu: {product_data['weight']} (z data-product, nadpisano)")
             # ELSE: Zostawiamy wartość z JSON-LD
 
             # 5. PRODUCENT (Nadpisanie tylko jeśli data-product ma kompletną markę)
             brand_data_product = product_json.get("brand", {})
             if brand_data_product and brand_data_product.get("name"):
                 product_data["brand"] = brand_data_product["name"].strip()
-                logger.info(f"  ✓ Producent produktu: {product_data['brand']} (z data-product, nadpisano)")
+                logger.info(f"Producent produktu: {product_data['brand']} (z data-product, nadpisano)")
             # ELSE: Zostawiamy wartość z JSON-LD
 
             # 6. ZDJĘCIA (Link HR z JSON)
@@ -418,19 +415,19 @@ class KFDScraper:
                     images.append(large_default_url)
 
                 product_data["images"] = images
-                logger.info(f"  ✓ Zdjęcia produktu: {product_data['images']}")
+                logger.info(f"Zdjęcia produktu: {product_data['images']}")
             except Exception as e:
-                logger.warning(f"  ⚠️ Nie udało się pobrać zdjęć: {e}")
+                logger.warning(f"Nie udało się pobrać zdjęć: {e}")
 
             # --- ZAKOŃCZENIE FUNKCJI ---
             if not product_data["name"]:
-                logger.warning("  ⚠️ Produkt odrzucony: Nazwa pusta.")
+                logger.warning("Produkt odrzucony: Nazwa pusta.")
                 return None
 
             return product_data
 
         except Exception as e:
-            logger.error(f"  ❌ Błąd krytyczny podczas scrapowania (JSON lub ogólny): {e}")
+            logger.error(f"Błąd krytyczny podczas scrapowania (JSON lub ogólny): {e}")
             import traceback
             traceback.print_exc()
             return None
@@ -470,7 +467,7 @@ class KFDScraper:
 
                 self.categories.append(cat_data)
                 url_to_id[url] = new_id
-                logger.info(f"  + Nowa kategoria z Breadcrumb (ID:{new_id}, P:{last_parent_id}): {name}")
+                logger.info(f"Nowa kategoria z Breadcrumb (ID:{new_id}, P:{last_parent_id}): {name}")
 
                 # Ustawiamy nową kategorię jako rodzica dla kolejnych elementów
                 last_parent_id = new_id
@@ -483,7 +480,7 @@ class KFDScraper:
         for category in self.categories:
             if category['parent_id'] == 0:
                 logger.warning(
-                    f"⚠️ Kategoria '{category['name']}' nie miała rodzica. Ustawiono 'KATEGORIE' jako rodzica.")
+                    f"Kategoria '{category['name']}' nie miała rodzica. Ustawiono 'KATEGORIE' jako rodzica.")
                 category['parent_id'] = 1
 
     def download_image(self, url, product_name, index, referer_url):
@@ -500,7 +497,7 @@ class KFDScraper:
         cleaned_url = self.clean_url(url)  # Używamy wyczyszczonego URL
 
         if not cleaned_url:
-            logger.warning(f"    ⚠️ URL do zdjęcia jest pusty po czyszczeniu: {url[:60]}")
+            logger.warning(f"URL do zdjęcia jest pusty po czyszczeniu: {url[:60]}")
             return None
 
         try:
@@ -509,7 +506,7 @@ class KFDScraper:
 
             if response.status_code != 200:
                 logger.warning(
-                    f"    ⚠️ BŁĄD HTTP ({response.status_code}): Serwer odrzucił żądanie dla {cleaned_url[:60]}")
+                    f"BŁĄD HTTP ({response.status_code}): Serwer odrzucił żądanie dla {cleaned_url[:60]}")
                 return None
 
             # Zmiana limitu wymiarów na 300px
@@ -531,13 +528,13 @@ class KFDScraper:
             with open(filepath, 'wb') as f:
                 f.write(response.content)
 
-            logger.info(f"    📷 {filename} ({width}x{height}px) - Zapisano.")
+            logger.info(f"Zapisano zdjęcie: {filename} ({width}x{height}px)")
 
             # ZWRACAMY TERAZ KROTKĘ (ORYGINALNY_URL, LOKALNA_NAZWA_PLIKU)
             return (cleaned_url, filename)
 
         except Exception as e:
-            logger.error(f"    ❌ Błąd krytyczny podczas zapisywania/pobierania: {e}")
+            logger.error(f"Błąd krytyczny podczas zapisywania/pobierania: {e}")
             return None
 
     def process_product_batch(self, product_urls_batch):
@@ -557,16 +554,16 @@ class KFDScraper:
                     product_data = future.result()
                     if product_data and product_data.get("name"):
                         results.append(product_data)
-                        logger.info(f"  ✓ {product_data['name']} - {product_data.get('price', 'N/A')} PLN")
+                        logger.info(f"Przetworzono: {product_data['name']} - {product_data.get('price', 'N/A')} PLN")
                 except Exception as e:
-                    logger.error(f"  ❌ {e}")
+                    logger.error(f"Błąd: {e}")
 
         return results
 
     def download_images_batch(self, products):
         """Pobiera zdjęcia, przekazując URL strony detali jako Referer."""
         total_images = sum(len(p['images']) for p in products)
-        logger.info(f"📷 Pobieranie {total_images} zdjęć...")
+        logger.info(f"Pobieranie {total_images} zdjęć...")
 
         download_tasks = []
         for product in products:
@@ -611,7 +608,7 @@ class KFDScraper:
 
     def export_to_prestashop_csv(self):
         """Eksportuje do CSV w formacie PrestaShop."""
-        logger.info("\n💾 Eksportowanie...")
+        logger.info("\nEksportowanie...")
 
         # Kategorie
         # Mapowanie ID na Nazwę dla łatwego znalezienia nazwy rodzica
@@ -639,7 +636,7 @@ class KFDScraper:
                     is_root
                 ])
 
-        logger.info(f"  ✓ Zapisano uproszczoną strukturę kategorii: {categories_file}")
+        logger.info(f"Zapisano uproszczoną strukturę kategorii: {categories_file}")
 
         # Produkty
         products_file = os.path.join(self.output_dir, "products.csv")
@@ -689,7 +686,7 @@ class KFDScraper:
                     attributes_text  # Zaktualizowane cechy
                 ])
 
-        logger.info(f"  ✓ {products_file}")
+        logger.info(f"Zapisano produkty: {products_file}")
 
         # Producenci
         brands_file = os.path.join(self.output_dir, "producenci.csv")
@@ -700,7 +697,7 @@ class KFDScraper:
             for idx, brand in enumerate(sorted(unique_brands), 1):
                 writer.writerow([idx, brand, 1])
 
-        logger.info(f"  ✓ {brands_file}")
+        logger.info(f"Zapisano producentów: {brands_file}")
 
         # JSON
         json_file = os.path.join(self.output_dir, "all_data.json")
@@ -710,7 +707,7 @@ class KFDScraper:
                 'products': self.products
             }, f, ensure_ascii=False, indent=2)
 
-        logger.info(f"  ✓ {json_file}\n")
+        logger.info(f"Zapisano JSON: {json_file}\n")
 
     def run(self, categories_limit=None, products_per_category=None, batch_size=10):
         """
@@ -720,7 +717,7 @@ class KFDScraper:
         start_time = time.time()
 
         logger.info("=" * 60)
-        logger.info("🚀 SCRAPER KFD - START")
+        logger.info("SCRAPER KFD - START")
         logger.info("=" * 60)
 
         try:
@@ -729,7 +726,7 @@ class KFDScraper:
             # pomijamy ten krok, ale sprawdzamy, czy została zainicjowana.
 
             if not self.categories:
-                logger.error("❌ Brak zainicjowanej kategorii startowej. Kończę.")
+                logger.error("Brak zainicjowanej kategorii startowej. Kończę.")
                 return
 
             categories_to_process = self.categories[:categories_limit] if categories_limit else self.categories
@@ -749,11 +746,11 @@ class KFDScraper:
                 time.sleep(1)
 
             if not all_product_urls:
-                logger.error("❌ Brak produktów do przetworzenia.")
+                logger.error("Brak produktów do przetworzenia.")
                 return
 
-            logger.info(f"\n📊 {len(all_product_urls)} produktów do przetworzenia")
-            logger.info(f"⚙️  Batch po {batch_size}\n")
+            logger.info(f"\n{len(all_product_urls)} produktów do przetworzenia")
+            logger.info(f"Batch po {batch_size}\n")
 
             # 3. Batch processing
             for i in range(0, len(all_product_urls), batch_size):
@@ -761,7 +758,7 @@ class KFDScraper:
                 batch_num = i // batch_size + 1
                 total_batches = (len(all_product_urls) + batch_size - 1) // batch_size
 
-                logger.info(f"📦 Batch {batch_num}/{total_batches}")
+                logger.info(f"Batch {batch_num}/{total_batches}")
 
                 products_data = self.process_product_batch(batch)
 
@@ -771,86 +768,36 @@ class KFDScraper:
                     with self.lock:
                         self.products.extend(products_data)
 
-                logger.info(f"  ✓ Łącznie: {len(self.products)} produktów\n")
+                logger.info(f"Łącznie: {len(self.products)} produktów\n")
 
             # 4. Export
             self.export_to_prestashop_csv()
 
             elapsed = time.time() - start_time
             logger.info("=" * 60)
-            logger.info(f"✅ ZAKOŃCZONO w {elapsed / 60:.1f} min")
-            logger.info(f"📊 Kategorie: {len(self.categories)}")
-            logger.info(f"📦 Produkty: {len(self.products)}")
-            logger.info(f"📷 Zdjęcia: {sum(len(p.get('local_images', [])) for p in self.products)}")
+            logger.info(f"ZAKOŃCZONO w {elapsed / 60:.1f} min")
+            logger.info(f"Kategorie: {len(self.categories)}")
+            logger.info(f"Produkty: {len(self.products)}")
+            logger.info(f"Zdjęcia: {sum(len(p.get('local_images', [])) for p in self.products)}")
             logger.info("=" * 60)
 
         except Exception as e:
-            logger.error(f"\n❌ BŁĄD: {e}")
+            logger.error(f"\nBŁĄD: {e}")
             import traceback
             traceback.print_exc()
-
-    def scrape_single_subcategory_test(self, category_url):
-        """Tymczasowa funkcja omijająca pobieranie kategorii, aby od razu skanować produkty."""
-
-        # Tworzymy fałszywą kategorię dla potrzeb testu i eksportu CSV
-        test_category_name = "Białko Serwatkowe"
-
-        test_category = {
-            "id": 999,
-            "name": test_category_name,
-            "url": category_url,
-            "parent_id": 1,
-            "active": 1
-        }
-
-        self.categories = [test_category]  # Resetujemy, dodając tylko jedną kategorię
-
-        # 2. Pobieramy tylko JEDEN produkt
-        all_product_urls = self.get_product_urls_from_category(
-            category_url,
-            test_category_name,
-            limit=1  # ZMIANA: Pobieramy tylko 1 URL
-        )
-
-        if not all_product_urls:
-            logger.error("❌ Brak produktów do przetworzenia.")
-            return
-
-        logger.info(f"\n📊 {len(all_product_urls)} produktów do przetworzenia z podkategorii.")
-
-        # 3. Przetwarzamy sekwencyjnie
-        batch_size = 1  # ZMIANA: Używamy batcha o rozmiarze 1
-        self.max_workers = 1  # ZMIANA: Używamy 1 workera, aby widzieć sekwencyjne logi
-
-        for i in range(0, len(all_product_urls), batch_size):
-            batch = all_product_urls[i:i + batch_size]
-            logger.info(f"📦 Przetwarzanie Batch {i // batch_size + 1}")
-
-            products_data = self.process_product_batch(batch)
-
-            if products_data:
-                self.download_images_batch(products_data)
-
-                with self.lock:
-                    self.products.extend(products_data)
-
-            logger.info(f"  ✓ Łącznie: {len(self.products)} produktów przetworzonych.")
-
-        # 4. Eksport
-        self.export_to_prestashop_csv()
 
 
 if __name__ == "__main__":
     scraper = KFDScraper(
-        max_workers=8  # Przetwarzanie wielowątkowe
+        max_workers=8  
     )
 
     # --- RĘCZNA DEFINICJA KATEGORII STARTOWEJ ---
-    # Musimy zainicjować listę kategorii jedną pozycją (aby rozpocząć pętlę w run)
+    
     TARGET_URL = "https://sklep.kfd.pl/sklep-kfd-c-2.html"
     CATEGORY_NAME = "KATEGORIE"
 
-    # Wstawiamy fałszywą kategorię, która reprezentuje stronę wejściową
+    # Wstawiamy kategorię, która reprezentuje stronę wejściową
     scraper.categories = [{
         "id": 3,
         "name": CATEGORY_NAME,
@@ -862,12 +809,11 @@ if __name__ == "__main__":
 
     logger.info("--- START PEŁNEGO SKANOWANIA Z WYDOBYCIEM HIERARCHII Z PRODUKTÓW ---")
 
-    # 1. Pomiń Krok 1 (pobieranie menu), przejdź bezpośrednio do Kroków 2/3/4
-    # Używamy ręcznie zainicjowanej listy kategorii.
+    
 
     scraper.run(
         categories_limit=1,  # Przetwarzamy tylko tę jedną, ręcznie dodaną kategorię
-        products_per_category=8,  # Pobieramy WSZYSTKIE produkty
+        products_per_category=1200,  # Ilosc produktow do pobrania calkowicie
         batch_size=8
     )
 

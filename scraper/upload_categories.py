@@ -33,7 +33,7 @@ try:
         data = json.load(f)
     
     categories = data.get('categories', [])
-    print(f"✅ Wczytano {len(categories)} kategorii z pliku JSON.")
+    print(f"Wczytano {len(categories)} kategorii z pliku JSON.")
     
 except FileNotFoundError:
     print(f"BŁĄD: Nie znaleziono pliku {JSON_FILE_PATH}.")
@@ -98,10 +98,10 @@ def create_category(category_name, parent_id, description=""):
     if response_post.status_code == 201:
         root = ET.fromstring(response_post.text)
         new_id = root.find(".//category/id").text
-        print(f"  ✓ UTWORZONO '{category_name}' (ID: {new_id}, Parent: {parent_id})")
+        print(f"UTWORZONO '{category_name}' (ID: {new_id}, Parent: {parent_id})")
         return new_id
     else:
-        print(f"  ❌ Błąd podczas tworzenia '{category_name}' (Status: {response_post.status_code})")
+        print(f"Błąd podczas tworzenia '{category_name}' (Status: {response_post.status_code})")
         print(f"     Odpowiedź: {response_post.text[:500]}")
         return None
 
@@ -111,7 +111,7 @@ def get_or_create_category(category_name, parent_id, description=""):
     existing_id = get_category_by_name_and_parent(category_name, parent_id)
     
     if existing_id:
-        print(f"  ✓ Kategoria '{category_name}' już istnieje (ID: {existing_id})")
+        print(f"Kategoria '{category_name}' już istnieje (ID: {existing_id})")
         return existing_id
     
     return create_category(category_name, parent_id, description)
@@ -155,7 +155,7 @@ def process_category_recursively(category, prestashop_parent_id, category_tree):
         for child in children:
             process_category_recursively(child, int(prestashop_id), category_tree)
     else:
-        print(f"  ❌ Nie udało się przetworzyć '{category_name}'")
+        print(f"Nie udało się przetworzyć '{category_name}'")
 
 
 # ==============================================================================
@@ -201,10 +201,10 @@ if kategorie_category:
         for root_category in other_root_categories:
             process_category_recursively(root_category, kategorie_prestashop_id, category_tree)
     else:
-        print("❌ Nie udało się utworzyć kategorii KATEGORIE")
+        print("Nie udało się utworzyć kategorii KATEGORIE")
 else:
     # Jeśli nie ma kategorii "KATEGORIE", przetwarzamy wszystko normalnie
-    print("\n⚠️ Brak kategorii 'KATEGORIE', przetwarzanie standardowe...")
+    print("\nBrak kategorii 'KATEGORIE', przetwarzanie standardowe...")
     for root_category in root_categories:
         process_category_recursively(root_category, PRESTASHOP_ROOT_ID, category_tree)
 
@@ -235,7 +235,7 @@ try:
     )
     
     if producenci_id:
-        print(f"  ✓ Kategoria PRODUCENCI utworzona (ID: {producenci_id})")
+        print(f"Kategoria PRODUCENCI utworzona (ID: {producenci_id})")
         
         # Utwórz podkategorię dla każdego producenta
         print(f"\n-> Tworzenie {len(manufacturers)} kategorii producentów...")
@@ -249,10 +249,10 @@ try:
                 # Zapisz mapowanie dla późniejszego użycia
                 category_id_map[f"manufacturer_{manufacturer_name}"] = int(manufacturer_category_id)
     else:
-        print("  ❌ Nie udało się utworzyć kategorii PRODUCENCI")
+        print("Nie udało się utworzyć kategorii PRODUCENCI")
         
 except Exception as e:
-    print(f"  ❌ Błąd podczas tworzenia kategorii producentów: {e}")
+    print(f"Błąd podczas tworzenia kategorii producentów: {e}")
 
 # ==============================================================================
 # 5. ZAPIS MAPOWANIA DO PLIKU
@@ -262,9 +262,9 @@ mapping_file = "data_kfd/category_mapping.json"
 try:
     with open(mapping_file, 'w', encoding='utf-8') as f:
         json.dump(category_id_map, f, indent=2, ensure_ascii=False)
-    print(f"\n✅ Mapowanie kategorii zapisano do: {mapping_file}")
+    print(f"\nMapowanie kategorii zapisano do: {mapping_file}")
 except Exception as e:
-    print(f"\n❌ Błąd podczas zapisywania mapowania: {e}")
+    print(f"\nBłąd podczas zapisywania mapowania: {e}")
 
 print("\n" + "="*70)
 print("ZAKOŃCZONO IMPORT KATEGORII")

@@ -66,11 +66,11 @@ def fix_product_state(product_id):
         cursor.close()
         conn.close()
         
-        print(f"  ✓ Stan produktu zaktualizowany (state=1)")
+        print(f"Stan produktu zaktualizowany (state=1)")
         return True
         
     except Exception as e:
-        print(f"  ⚠️ Błąd aktualizacji stanu: {e}")
+        print(f"Błąd aktualizacji stanu: {e}")
         return False
 
 def load_category_mapping():
@@ -93,15 +93,15 @@ def load_category_mapping():
         
         CATEGORY_ID_MAP = converted_map
         
-        print(f"✅ Wczytano mapowanie {len(CATEGORY_ID_MAP)} kategorii z pliku.")
+        print(f"Wczytano mapowanie {len(CATEGORY_ID_MAP)} kategorii z pliku.")
         return True
         
     except FileNotFoundError:
-        print(f"❌ BŁĄD: Nie znaleziono pliku {CATEGORY_MAPPING_FILE}")
+        print(f"BŁĄD: Nie znaleziono pliku {CATEGORY_MAPPING_FILE}")
         print("   Najpierw uruchom: python upload_categories.py")
         return False
     except Exception as e:
-        print(f"❌ Błąd podczas wczytywania mapowania kategorii: {e}")
+        print(f"Błąd podczas wczytywania mapowania kategorii: {e}")
         return False
 
 
@@ -118,7 +118,7 @@ def get_or_create_manufacturer_id(manufacturer_name):
     
     # Sprawdzenie w lokalnym cache
     if manufacturer_name in MANUFACTURER_CACHE:
-        print(f"  ✓ Producent '{manufacturer_name}' z cache (ID: {MANUFACTURER_CACHE[manufacturer_name]})")
+        print(f"Producent '{manufacturer_name}' z cache (ID: {MANUFACTURER_CACHE[manufacturer_name]})")
         return MANUFACTURER_CACHE[manufacturer_name]
 
     # Pobierz WSZYSTKICH producentów i sprawdź dokładnie
@@ -140,11 +140,11 @@ def get_or_create_manufacturer_id(manufacturer_name):
                     
                     # Porównanie bez względu na wielkość liter
                     if existing_name.lower() == manufacturer_name.lower():
-                        print(f"  ✓ Producent '{manufacturer_name}' już istnieje (ID: {existing_id})")
+                        print(f"Producent '{manufacturer_name}' już istnieje (ID: {existing_id})")
                         MANUFACTURER_CACHE[manufacturer_name] = existing_id
                         return existing_id
         except Exception as e:
-            print(f"  ⚠️ Błąd podczas wyszukiwania producenta: {e}")
+            print(f"Błąd podczas wyszukiwania producenta: {e}")
 
     # Tworzenie nowego producenta
     link_rewrite = sanitize_link_rewrite(manufacturer_name)
@@ -167,11 +167,11 @@ def get_or_create_manufacturer_id(manufacturer_name):
     if response_post.status_code == 201:
         root = ET.fromstring(response_post.text)
         new_id = root.find("./manufacturer/id").text
-        print(f"  ✓ Utworzono producenta '{manufacturer_name}' (ID: {new_id})")
+        print(f"Utworzono producenta '{manufacturer_name}' (ID: {new_id})")
         MANUFACTURER_CACHE[manufacturer_name] = new_id
         return new_id
     else:
-        print(f"  ❌ Błąd tworzenia producenta: {response_post.status_code}")
+        print(f"Błąd tworzenia producenta: {response_post.status_code}")
         print(f"     Odpowiedź: {response_post.text[:300]}")
         return None
 def get_category_ids_for_product(product_data):
@@ -218,12 +218,12 @@ def get_category_ids_for_product(product_data):
                         parent_prestashop_id = CATEGORY_ID_MAP[parent_json_id]
                         all_category_ids.add(str(parent_prestashop_id))
                     
-                    print(f"  ✓ Kategoria produktu: {' > '.join(category_names)}")
+                    print(f"Kategoria produktu: {' > '.join(category_names)}")
                 else:
-                    print(f"  ⚠️ Nie znaleziono kategorii '{target_category_name}' w mapowaniu")
+                    print(f"Nie znaleziono kategorii '{target_category_name}' w mapowaniu")
                     
             except Exception as e:
-                print(f"  ⚠️ Błąd podczas wyszukiwania kategorii: {e}")
+                print(f"Błąd podczas wyszukiwania kategorii: {e}")
     
     # === CZĘŚĆ 2: Kategoria producenta ===
     if brand_name:
@@ -231,14 +231,14 @@ def get_category_ids_for_product(product_data):
         if manufacturer_key in CATEGORY_ID_MAP:
             manufacturer_cat_id = CATEGORY_ID_MAP[manufacturer_key]
             all_category_ids.add(str(manufacturer_cat_id))
-            print(f"  ✓ Kategoria producenta: {brand_name}")
+            print(f"Kategoria producenta: {brand_name}")
         else:
-            print(f"  ⚠️ Nie znaleziono kategorii producenta '{brand_name}'")
+            print(f"Nie znaleziono kategorii producenta '{brand_name}'")
     
     # Jeśli nie znaleziono żadnych kategorii, użyj domyślnej
     if not all_category_ids:
         all_category_ids.add(str(DEFAULT_CATEGORY_ID))
-        print(f"  ⚠️ Używam domyślnej kategorii")
+        print(f"Używam domyślnej kategorii")
     
     return list(all_category_ids), default_category_id
 
@@ -280,10 +280,10 @@ def run_import():
             # OGRANICZENIE DO PIERWSZYCH 5 PRODUKTÓW (do testów)
             if products_to_import:
                 products_to_import = products_to_import[:5]
-                print(f"\n⚠️ TRYB TESTOWY: Importowanie tylko {len(products_to_import)} produktów")
+                print(f"\nTRYB TESTOWY: Importowanie tylko {len(products_to_import)} produktów")
 
     except Exception as e:
-        print(f"❌ BŁĄD: Nie można wczytać danych JSON: {e}")
+        print(f"BŁĄD: Nie można wczytać danych JSON: {e}")
         return
 
     imported_products_data = []
@@ -361,16 +361,16 @@ def run_import():
             try:
                 root = ET.fromstring(response.text)
                 product_id = root.find("./product/id").text
-                print(f"  ✓ Produkt dodany pomyślnie (ID: {product_id})")
+                print(f"Produkt dodany pomyślnie (ID: {product_id})")
                 
                 # Napraw stan produktu w bazie (state=1 aby był widoczny w panelu admin)
                 fix_product_state(product_id)
                 
             except Exception as e:
-                print(f"  ❌ Błąd parsowania odpowiedzi produktu: {e}")
+                print(f"Błąd parsowania odpowiedzi produktu: {e}")
                 continue
         else:
-            print(f"  ❌ Błąd dodawania produktu (Status: {response.status_code})")
+            print(f"Błąd dodawania produktu (Status: {response.status_code})")
             print(f"     Odpowiedź: {response.text[:300]}")
             continue
 
@@ -414,7 +414,7 @@ def run_import():
                     mime_type = mime_types.get(ext)
 
                     if not mime_type:
-                        print(f"  ⚠️ Nieobsługiwany format zdjęcia: {ext}")
+                        print(f"Nieobsługiwany format zdjęcia: {ext}")
                     else:
                         print(f"  → Wysyłanie zdjęcia: {os.path.basename(image_path)} ({mime_type})")
                         
@@ -431,15 +431,15 @@ def run_import():
                         if image_response.status_code in [200, 201]:
                             root_img = ET.fromstring(image_response.text)
                             image_id = root_img.find(".//image/id").text
-                            print(f"  ✓ Zdjęcie dodane pomyślnie (Image ID: {image_id})")
+                            print(f"Zdjęcie dodane pomyślnie (Image ID: {image_id})")
                         else:
-                            print(f"  ❌ Błąd dodawania zdjęcia (Status: {image_response.status_code})")
+                            print(f"Błąd dodawania zdjęcia (Status: {image_response.status_code})")
                             print(f"     Odpowiedź: {image_response.text[:300]}")
 
                 except Exception as e:
-                    print(f"  ❌ Błąd podczas przetwarzania zdjęcia: {e}")
+                    print(f"Błąd podczas przetwarzania zdjęcia: {e}")
             else:
-                print(f"  ⚠️ Nie znaleziono pliku zdjęcia: {image_filename}")
+                print(f"Nie znaleziono pliku zdjęcia: {image_filename}")
                 print(f"     Sprawdzono lokalizacje: images_converted_png, images")        # Zapisywanie danych do finalizacji
         imported_products_data.append({
             'product_id': product_id,
@@ -453,7 +453,7 @@ def run_import():
         json.dump(imported_products_data, f, indent=4, ensure_ascii=False)
 
     print(f"\n{'='*70}")
-    print(f"✅ IMPORT ZAKOŃCZONY")
+    print(f"IMPORT ZAKOŃCZONY")
     print(f"Zaimportowano: {len(imported_products_data)} produktów")
     print(f"Dane zapisano w: {OUTPUT_FILE_PATH}")
     print(f"{'='*70}")
