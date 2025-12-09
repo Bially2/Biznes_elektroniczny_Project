@@ -331,6 +331,7 @@ def run_import():
         <id_supplier>0</id_supplier>
         <weight>{safe_weight}</weight>
         <active>1</active>
+        <available_for_order>1</available_for_order>
         <id_category_default>{default_category_id}</id_category_default>
         <show_price>1</show_price>
         <reference><![CDATA[{safe_reference}]]></reference>
