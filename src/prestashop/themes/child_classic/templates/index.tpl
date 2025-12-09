@@ -43,7 +43,7 @@
                   <div class="product-card">
                       <span class="new-badge">NOWY</span>
                       <a href="{$link->getProductLink(275)}">
-                          <img src="{$link->getImageLink('product', '157', 'home_default')}" alt="KFD Deser piankowy">
+                          <img src="{$link->getImageLink('product', '275', 'home_default')}" alt="KFD Deser piankowy">
                       </a>
                       <h3><a href="{$link->getProductLink(275)}">KFD Nocto Blue Rebel 100 ml</a></h3>
                       <div class="product-prices">
@@ -67,7 +67,7 @@
                   <div class="product-card">
                    <span class="discount-badge">-16,95%</span>
                       <a href="{$link->getProductLink(8)}">
-                          <img src="{$link->getImageLink('product', '9', 'home_default')}" alt="KFD Premium Creatine">
+                          <img src="{$link->getImageLink('product', '8', 'home_default')}" alt="KFD Premium Creatine">
                       </a>
                       <h3><a href="{$link->getProductLink(8)}">KFD Premium Creatine - 500 g</a></h3>
                       <div class="product-prices">
@@ -80,7 +80,7 @@
                   <div class="product-card">
                    <span class="new-badge">NOWY</span>
                       <a href="{$link->getProductLink(10)}">
-                          <img src="{$link->getImageLink('product', '635', 'home_default')}" alt="KFD Multivitamin & Minerals">
+                          <img src="{$link->getImageLink('product', '10', 'home_default')}" alt="KFD Multivitamin & Minerals">
                       </a>
                       <h3><a href="{$link->getProductLink(10)}">KFD Multivitamin & Minerals - 24 tabletki musujące</a></h3>
                       <div class="product-prices">
@@ -91,7 +91,7 @@
 
                   <div class="product-card">
                       <a href="{$link->getProductLink(70)}">
-                          <img src="{$link->getImageLink('product', '694', 'home_default')}" alt="KFD Kisiel">
+                          <img src="{$link->getImageLink('product', '70', 'home_default')}" alt="KFD Kisiel">
                       </a>
                       <h3><a href="{$link->getProductLink(70)}">KFD Delicates Kisiel na zimno 259 g</a></h3>
                       <div class="product-prices">
@@ -102,7 +102,7 @@
 
                   <div class="product-card">
                       <a href="{$link->getProductLink(43)}">
-                          <img src="{$link->getImageLink('product', '668', 'home_default')}" alt="KFD Premium Citrulline">
+                          <img src="{$link->getImageLink('product', '43', 'home_default')}" alt="KFD Premium Citrulline">
                       </a>
                       <h3><a href="{$link->getProductLink(43)}">KFD Premium Citrulline - 400 g</a></h3>
                       <div class="product-prices">
@@ -124,7 +124,7 @@
 
                   <div class="product-card">
                       <a href="{$link->getProductLink(12)}">
-                          <img src="{$link->getImageLink('product', '637', 'home_default')}" alt="KFD Premium WPC 82 XXL">
+                          <img src="{$link->getImageLink('product', '12', 'home_default')}" alt="KFD Premium WPC 82 XXL">
                       </a>
                       <h3><a href="{$link->getProductLink(12)}">KFD Premium WPC 82 XXL - 900 g</a></h3>
                       <div class="product-prices">
@@ -135,7 +135,7 @@
 
                   <div class="product-card">
                       <a href="{$link->getProductLink(7)}">
-                          <img src="{$link->getImageLink('product', '8', 'home_default')}" alt="KFD Pure WPC 82 Instant">
+                          <img src="{$link->getImageLink('product', '7', 'home_default')}" alt="KFD Pure WPC 82 Instant">
                       </a>
                       <h3><a href="{$link->getProductLink(7)}">KFD Pure WPC 82 Instant - 700 g</a></h3>
                       <div class="product-prices">
@@ -146,7 +146,7 @@
 
                   <div class="product-card">
                       <a href="{$link->getProductLink(20)}">
-                          <img src="{$link->getImageLink('product', '17', 'home_default')}" alt="KFD REGULAR WPC 80">
+                          <img src="{$link->getImageLink('product', '20', 'home_default')}" alt="KFD REGULAR WPC 80">
                       </a>
                       <h3><a href="{$link->getProductLink(20)}">KFD REGULAR WPC 80 - 750 g</a></h3>
                       <div class="product-prices">
@@ -157,7 +157,7 @@
 
                   <div class="product-card">
                       <a href="{$link->getProductLink(32)}">
-                          <img src="{$link->getImageLink('product', '27', 'home_default')}" alt="KFD Premium WPI 90">
+                          <img src="{$link->getImageLink('product', '32', 'home_default')}" alt="KFD Premium WPI 90">
                       </a>
                       <h3><a href="{$link->getProductLink(32)}">KFD Premium WPI 90 - 700 g</a></h3>
                       <div class="product-prices">
@@ -168,7 +168,7 @@
 
                     <div class="product-card">
                       <a href="{$link->getProductLink(24)}">
-                          <img src="{$link->getImageLink('product', '21', 'home_default')}" alt="KFD Premium WPC 82">
+                          <img src="{$link->getImageLink('product', '24', 'home_default')}" alt="KFD Premium WPC 82">
                       </a>
                       <h3><a href="{$link->getProductLink(24)}">KFD Premium WPC 82 - 700 g</a></h3>
                       <div class="product-prices">
@@ -179,7 +179,7 @@
                   
                   <div class="product-card">
                       <a href="{$link->getProductLink(46)}">
-                          <img src="{$link->getImageLink('product', '671', 'home_default')}" alt="KFD Premium X-Whey">
+                          <img src="{$link->getImageLink('product', '46', 'home_default')}" alt="KFD Premium X-Whey">
                       </a>
                       <h3><a href="{$link->getProductLink(46)}">KFD Premium X-Whey - 540 g</a></h3>
                       <div class="product-prices">
@@ -200,7 +200,7 @@
                     <div class="product-card">
                    <span class="discount-badge">-16,95%</span>
                       <a href="{$link->getProductLink(8)}">
-                          <img src="{$link->getImageLink('product', '9', 'home_default')}" alt="KFD Premium Creatine">
+                          <img src="{$link->getImageLink('product', '8', 'home_default')}" alt="KFD Premium Creatine">
                       </a>
                       <h3><a href="{$link->getProductLink(8)}">KFD Premium Creatine - 500 g</a></h3>
                       <div class="product-prices">
@@ -213,7 +213,7 @@
 
                   <div class="product-card">
                       <a href="{$link->getProductLink(23)}">
-                          <img src="{$link->getImageLink('product', '20', 'home_default')}" alt="KFD Premium Creatine 250g">
+                          <img src="{$link->getImageLink('product', '23', 'home_default')}" alt="KFD Premium Creatine 250g">
                       </a>
                       <h3><a href="{$link->getProductLink(23)}">KFD Premium Creatine - 250 g</a></h3>
                       <div class="product-prices">
@@ -224,7 +224,7 @@
 
                   <div class="product-card">
                       <a href="{$link->getProductLink(545)}">
-                          <img src="{$link->getImageLink('product', '1161', 'home_default')}" alt="Megabol Creatine Alkaline">
+                          <img src="{$link->getImageLink('product', '545', 'home_default')}" alt="Megabol Creatine Alkaline">
                       </a>
                       <h3><a href="{$link->getProductLink(545)}">Megabol Creatine Alkaline 1500 120 kap.</a></h3>
                       <div class="product-prices">
@@ -235,7 +235,7 @@
 
                   <div class="product-card">
                       <a href="{$link->getProductLink(960)}">
-                          <img src="{$link->getImageLink('product', '538', 'home_default')}" alt="7 Nutrition Creatine HCL">
+                          <img src="{$link->getImageLink('product', '960', 'home_default')}" alt="7 Nutrition Creatine HCL">
                       </a>
                       <h3><a href="{$link->getProductLink(960)}">7 Nutrition Creatine HCL 350g</a></h3>
                       <div class="product-prices">
@@ -246,7 +246,7 @@
 
                   <div class="product-card">
                       <a href="{$link->getProductLink(253)}">
-                          <img src="{$link->getImageLink('product', '877', 'home_default')}" alt="Olimp Creatine Mega Caps">
+                          <img src="{$link->getImageLink('product', '253', 'home_default')}" alt="Olimp Creatine Mega Caps">
                       </a>
                       <h3><a href="{$link->getProductLink(253)}">Olimp Creatine Mega Caps - 400 kaps.</a></h3>
                       <div class="product-prices">
@@ -257,7 +257,7 @@
 
                   <div class="product-card">
                       <a href="{$link->getProductLink(649)}">
-                          <img src="{$link->getImageLink('product', '1265', 'home_default')}" alt="Bio Tech Mega Creatine">
+                          <img src="{$link->getImageLink('product', '649', 'home_default')}" alt="Bio Tech Mega Creatine">
                       </a>
                       <h3><a href="{$link->getProductLink(649)}">Bio Tech Mega Creatine - 120 kaps.</a></h3>
                       <div class="product-prices">
@@ -277,7 +277,7 @@
 
                   <div class="product-card">
                       <a href="{$link->getProductLink(6)}">
-                          <img src="{$link->getImageLink('product', '631', 'home_default')}" alt="KFD Vitapak+">
+                          <img src="{$link->getImageLink('product', '6', 'home_default')}" alt="KFD Vitapak+">
                       </a>
                       <h3><a href="{$link->getProductLink(6)}">KFD Vitapak+ 90 tabl.</a></h3>
                       <div class="product-prices">
@@ -288,7 +288,7 @@
 
                   <div class="product-card">
                       <a href="{$link->getProductLink(594)}">
-                          <img src="{$link->getImageLink('product', '321', 'home_default')}" alt="ActivLab Caffeine Power">
+                          <img src="{$link->getImageLink('product', '594', 'home_default')}" alt="ActivLab Caffeine Power">
                       </a>
                       <h3><a href="{$link->getProductLink(594)}">ActivLab Caffeine Power - 60 kaps.</a></h3>
                       <div class="product-prices">
@@ -299,7 +299,7 @@
 
                   <div class="product-card">
                       <a href="{$link->getProductLink(428)}">
-                          <img src="{$link->getImageLink('product', '1048', 'home_default')}" alt="Trec Caffeine 200 Plus">
+                          <img src="{$link->getImageLink('product', '428', 'home_default')}" alt="Trec Caffeine 200 Plus">
                       </a>
                       <h3><a href="{$link->getProductLink(428)}">Trec Caffeine 200 Plus 60 caps.</a></h3>
                       <div class="product-prices">
@@ -310,7 +310,7 @@
 
                   <div class="product-card">
                       <a href="{$link->getProductLink(218)}">
-                          <img src="{$link->getImageLink('product', '129', 'home_default')}" alt="KFD Pure Caffeine">
+                          <img src="{$link->getImageLink('product', '218', 'home_default')}" alt="KFD Pure Caffeine">
                       </a>
                       <h3><a href="{$link->getProductLink(218)}">KFD Pure Caffeine - 200 g</a></h3>
                       <div class="product-prices">
@@ -321,7 +321,7 @@
 
                   <div class="product-card">
                       <a href="{$link->getProductLink(650)}">
-                          <img src="{$link->getImageLink('product', '350', 'home_default')}" alt="OLIMP Caffeine Kick">
+                          <img src="{$link->getImageLink('product', '650', 'home_default')}" alt="OLIMP Caffeine Kick">
                       </a>
                       <h3><a href="{$link->getProductLink(650)}">OLIMP Caffeine Kick 200 mg - 60 kaps.</a></h3>
                       <div class="product-prices">
@@ -332,7 +332,7 @@
 
                   <div class="product-card">
                       <a href="{$link->getProductLink(16)}">
-                          <img src="{$link->getImageLink('product', '641', 'home_default')}" alt="KFD ZMB Comfort">
+                          <img src="{$link->getImageLink('product', '16', 'home_default')}" alt="KFD ZMB Comfort">
                       </a>
                       <h3><a href="{$link->getProductLink(16)}">KFD ZMB Comfort - 135 tabletek</a></h3>
                       <div class="product-prices">
@@ -351,7 +351,7 @@
                   
                   <div class="product-card">
                       <a href="{$link->getProductLink(17)}">
-                          <img src="{$link->getImageLink('product', '642', 'home_default')}" alt="KFD Erytrytol">
+                          <img src="{$link->getImageLink('product', '17', 'home_default')}" alt="KFD Erytrytol">
                       </a>
                       <h3><a href="{$link->getProductLink(17)}">KFD Erytrytol 1000 g</a></h3>
                       <div class="product-prices">
@@ -362,7 +362,7 @@
 
                   <div class="product-card">
                       <a href="{$link->getProductLink(325)}">
-                          <img src="{$link->getImageLink('product', '178', 'home_default')}" alt="KFD Pulchny Pankejk">
+                          <img src="{$link->getImageLink('product', '325', 'home_default')}" alt="KFD Pulchny Pankejk">
                       </a>
                       <h3><a href="{$link->getProductLink(325)}">KFD Pulchny Pankejk Proteinowy 900 g</a></h3>
                       <div class="product-prices">
@@ -373,7 +373,7 @@
 
                   <div class="product-card">
                       <a href="{$link->getProductLink(254)}">
-                          <img src="{$link->getImageLink('product', '878', 'home_default')}" alt="KFD Fit Mleczna Czekolada">
+                          <img src="{$link->getImageLink('product', '254', 'home_default')}" alt="KFD Fit Mleczna Czekolada">
                       </a>
                       <h3><a href="{$link->getProductLink(254)}">KFD Fit Mleczna Czekolada 100 g</a></h3>
                       <div class="product-prices">
@@ -384,7 +384,7 @@
 
                   <div class="product-card">
                       <a href="{$link->getProductLink(175)}">
-                          <img src="{$link->getImageLink('product', '799', 'home_default')}" alt="KFD Delicates Hazelnut">
+                          <img src="{$link->getImageLink('product', '175', 'home_default')}" alt="KFD Delicates Hazelnut">
                       </a>
                       <h3><a href="{$link->getProductLink(175)}">KFD Delicates Hazelnut & Milk 500 g</a></h3>
                       <div class="product-prices">
@@ -395,7 +395,7 @@
 
                   <div class="product-card">
                       <a href="{$link->getProductLink(71)}">
-                          <img src="{$link->getImageLink('product', '51', 'home_default')}" alt="KFD Szybki Obiadek">
+                          <img src="{$link->getImageLink('product', '71', 'home_default')}" alt="KFD Szybki Obiadek">
                       </a>
                       <h3><a href="{$link->getProductLink(71)}">KFD Szybki Obiadek - Kurczak z makaronem</a></h3>
                       <div class="product-prices">
@@ -406,7 +406,7 @@
 
                   <div class="product-card">
                       <a href="{$link->getProductLink(76)}">
-                          <img src="{$link->getImageLink('product', '53', 'home_default')}" alt="KFD Premium Sauce Karmelowy">
+                          <img src="{$link->getImageLink('product', '76', 'home_default')}" alt="KFD Premium Sauce Karmelowy">
                       </a>
                       <h3><a href="{$link->getProductLink(76)}">KFD Premium Sauce - Karmelowy 410 g</a></h3>
                       <div class="product-prices">
@@ -425,7 +425,7 @@
                   <div class="product-card">
                       <span class="new-badge">NOWY</span>
                       <a href="{$link->getProductLink(492)}">
-                          <img src="{$link->getImageLink('product', '277', 'home_default')}" alt="feel FIT Ciastka DUO">
+                          <img src="{$link->getImageLink('product', '492', 'home_default')}" alt="feel FIT Ciastka DUO">
                       </a>
                       <h3><a href="{$link->getProductLink(492)}">feel FIT Ciastka DUO Sugar Free - 176 g</a></h3>
                       <div class="product-prices">
@@ -437,7 +437,7 @@
                   <div class="product-card">
                       <span class="new-badge">NOWY</span>
                       <a href="{$link->getProductLink(370)}">
-                          <img src="{$link->getImageLink('product', '208', 'home_default')}" alt="feel FIT Ciastka ENJOY">
+                          <img src="{$link->getImageLink('product', '370', 'home_default')}" alt="feel FIT Ciastka ENJOY">
                       </a>
                       <h3><a href="{$link->getProductLink(370)}">feel FIT Ciastka ENJOY! 96 - 100 g</a></h3>
                       <div class="product-prices">
@@ -449,7 +449,7 @@
                   <div class="product-card">
                       <span class="new-badge">NOWY</span>
                       <a href="{$link->getProductLink(81)}">
-                          <img src="{$link->getImageLink('product', '56', 'home_default')}" alt="KFD Shaker różowy">
+                          <img src="{$link->getImageLink('product', '81', 'home_default')}" alt="KFD Shaker różowy">
                       </a>
                       <h3><a href="{$link->getProductLink(81)}">KFD Shaker 700 ml, różowy - You can do it</a></h3>
                       <div class="product-prices">
@@ -461,7 +461,7 @@
                   <div class="product-card">
                       <span class="new-badge">NOWY</span>
                       <a href="{$link->getProductLink(95)}">
-                          <img src="{$link->getImageLink('product', '719', 'home_default')}" alt="KFD Caffeine">
+                          <img src="{$link->getImageLink('product', '95', 'home_default')}" alt="KFD Caffeine">
                       </a>
                       <h3><a href="{$link->getProductLink(95)}">KFD Caffeine - 100 kapsułek (200 mg)</a></h3>
                       <div class="product-prices">
@@ -473,7 +473,7 @@
                   <div class="product-card">
                       <span class="new-badge">NOWY</span>
                       <a href="{$link->getProductLink(284)}">
-                          <img src="{$link->getImageLink('product', '162', 'home_default')}" alt="Ostrovit Flavour Drops">
+                          <img src="{$link->getImageLink('product', '284', 'home_default')}" alt="Ostrovit Flavour Drops">
                       </a>
                       <h3><a href="{$link->getProductLink(284)}">Ostrovit Flavour Drops - 30 ml</a></h3>
                       <div class="product-prices">
@@ -485,7 +485,7 @@
                   <div class="product-card">
                       <span class="new-badge">NOWY</span>
                       <a href="{$link->getProductLink(849)}">
-                          <img src="{$link->getImageLink('product', '1459', 'home_default')}" alt="Bio Tech USA Vitamin D3">
+                          <img src="{$link->getImageLink('product', '849', 'home_default')}" alt="Bio Tech USA Vitamin D3">
                       </a>
                       <h3><a href="{$link->getProductLink(849)}">Bio Tech USA Vitamin D3 - 60 kaps.</a></h3>
                       <div class="product-prices">

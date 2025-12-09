@@ -36,20 +36,21 @@
             {l s='Add to cart' d='Shop.Theme.Actions'}
           </button>
 
-          <!-- NOWY NAPIS POD PRZYCISKIEM -->
+        
           <div class="under-add-to-cart">
     <p>
-        <img src="/img/sklep-stacjonarny.svg" class="under-icon" >
-        <a href="/sklep-stacjonarny">Sprawdź dostępność w sklepie stacjonarnym</a>
+   
+
+        <a href="https://localhost:8443/index.php?controller=stores">Sprawdź dostępność w sklepie stacjonarnym</a>
     </p>
     <p>
-        <img src="/assets/images/car.png" class="under-icon" >
+    
         Darmowa dostawa na terenie Polski przy przedpłacie nawet już od 99 zł
     </p>
     <p>
-        <img src="/themes/classic/assets/img/pack.svg" class="under-icon">
+      
         Zamówienia są pakowane 7 dni w tygodniu - 
-        <a href="/sklep-kfd-metody-i-koszty-dostawy-i-26.html">Metody &amp; Koszty Dostawy</a>
+        <a href="https://localhost:8443/index.php?id_cms=1&controller=cms">Metody &amp; Koszty Dostawy</a>
     </p>
 </div>
 

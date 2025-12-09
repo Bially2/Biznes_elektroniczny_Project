@@ -6,7 +6,7 @@
   </div>
 </div>
 
-{* Obrazek pod newsletterem *}
+
 <div class="footer-image container text-center">
   <img src="/themes/child_classic/assets/images/banerek.png" 
        alt="Banerek promocyjny" 

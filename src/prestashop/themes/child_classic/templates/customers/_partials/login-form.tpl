@@ -35,7 +35,7 @@
 
   </form>
 
-  {** Nowy blok „Załóż konto” **}
+
   <div class="no-account">
       <span>Możesz również założyć konto:</span>
       <a href="{$urls.pages.authentication}?create_account=1" data-link-action="display-register-form">

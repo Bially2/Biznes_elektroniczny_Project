@@ -10,7 +10,7 @@
     <div class="container">
       <div class="row hidden-sm-down" style="display: flex; align-items: center; justify-content: space-between;">
 
-        <!-- Logo -->
+   
         <div id="_desktop_logo">
           {if $shop.logo_details}
             {if $page.page_name == 'index'}
@@ -21,10 +21,7 @@
           {/if}
         </div>
 
-        <!-- Pasek wyszukiwania -->
         
-
-        <!-- Hook logowanie i koszyk -->
         <div class="header-right" style="display: flex; gap: 15px; align-items: center;">
           {hook h='displayNav1'}
           {hook h='displayNav2'}
@@ -32,7 +29,6 @@
 
       </div>
 
-      <!-- Mobile -->
       <div class="row hidden-md-up text-sm-center mobile">
         <div class="float-xs-left" id="menu-icon">
           <i class="material-icons d-inline">&#xE5D2;</i>

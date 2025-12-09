@@ -1,6 +1,6 @@
 
 document.addEventListener("DOMContentLoaded", function () {
-    // Pobieramy wszystkie produkty
+
     const products = document.querySelectorAll(".product-miniature");
 
     products.forEach(product => {
@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const price = product.querySelector(".product-price-and-shipping");
 
         if (quickView && price) {
-            // Przenosimy szybki podgląd bezpośrednio pod cenę
+
             price.insertAdjacentElement("afterend", quickView);
         }
     });
@@ -17,12 +17,11 @@ window.addEventListener('scroll', function () {
     const headerTop = document.querySelector('.header-top');
     const scrollY = window.scrollY;
 
-    // jeśli nie ma placeholdera, tworzymy go
     if (!headerTop.nextElementSibling || !headerTop.nextElementSibling.classList.contains('header-placeholder')) {
         const placeholder = document.createElement('div');
         placeholder.className = 'header-placeholder';
         placeholder.style.height = headerTop.offsetHeight + 'px';
-        placeholder.style.display = 'none'; // domyślnie ukryty
+        placeholder.style.display = 'none';
         headerTop.after(placeholder);
     }
 
@@ -30,44 +29,43 @@ window.addEventListener('scroll', function () {
 
     if (scrollY > 90) {
         headerTop.classList.add('fixed');
-        placeholder.style.display = 'block'; // wstawiamy przestrzeń
+        placeholder.style.display = 'block';
     } else {
         headerTop.classList.remove('fixed');
         placeholder.style.display = 'none';
     }
 });
 
-// ===== NAVBAR SUBMENU HOVER FIX - Opóźnienie znikania submenu =====
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const menuItems = document.querySelectorAll('#_desktop_top_menu.menu.js-top-menu.position-static>ul.top-menu>li');
-    
+
     menuItems.forEach(item => {
         let hideTimeout;
         const submenu = item.querySelector('.sub-menu');
-        
+
         if (!submenu) return;
-        
-        // Najazd na element menu
-        item.addEventListener('mouseenter', function() {
+
+
+        item.addEventListener('mouseenter', function () {
             clearTimeout(hideTimeout);
             submenu.style.display = 'block';
         });
-        
-        // Zjazd z elementu menu
-        item.addEventListener('mouseleave', function() {
+
+
+        item.addEventListener('mouseleave', function () {
             hideTimeout = setTimeout(() => {
                 submenu.style.display = 'none';
-            }, 800); // 800ms opóźnienia przed zniknięciem
+            }, 800);
         });
-        
-        // Najazd na submenu
-        submenu.addEventListener('mouseenter', function() {
+
+
+        submenu.addEventListener('mouseenter', function () {
             clearTimeout(hideTimeout);
             submenu.style.display = 'block';
         });
-        
-        // Zjazd z submenu
-        submenu.addEventListener('mouseleave', function() {
+
+
+        submenu.addEventListener('mouseleave', function () {
             hideTimeout = setTimeout(() => {
                 submenu.style.display = 'none';
             }, 800);
