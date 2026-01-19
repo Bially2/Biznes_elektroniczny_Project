@@ -1,1 +1,4 @@
 prestashop/mysql
+./prestashop/var/cache
+./prestashop/var/logs
+./prestashop/themes/*/assets/cache/
