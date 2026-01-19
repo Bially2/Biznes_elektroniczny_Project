@@ -19,5 +19,6 @@ return array(
         'locale' => 'pl',
         'cookie_key' => 'PrestaShopCookieKey123456789',
         'cookie_iv' => 'PrestaShopCookieIV',
+        'new_cookie_key' => 'def000005572a66817d89d9385bf4736c3cbf6105345e1374e605238c96d05aaf7669c5aec9cdde4a5592eee39627b7aa6633ad5e317b6cda6e36375b251282d1689b62e',
     ),
 );
